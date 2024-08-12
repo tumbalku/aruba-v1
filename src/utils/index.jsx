@@ -2,14 +2,26 @@ import axios from "axios";
 import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// const devURL = "http://localhost:8080/api/v1";
+
+// export const customFetch = axios.create({
+//   baseURL: devURL,
+//   headers: {
+//     "Content-Type": "application/json",
+//     Accept: "application/json",
+//     // "ngrok-skip-browser-warning": true,
+//   },
+// });
+const prodURL = import.meta.env.VITE_SPRING_API_URL;
 const devURL = "http://localhost:8080/api/v1";
 
+console.log(prodURL);
 export const customFetch = axios.create({
-  baseURL: devURL,
+  baseURL: prodURL + "/api/v1",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    // "ngrok-skip-browser-warning": true,
+    "ngrok-skip-browser-warning": true,
   },
 });
 
