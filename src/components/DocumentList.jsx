@@ -48,7 +48,7 @@ const DocumentList = () => {
       {documents.map(({ id, fileSize, fileType, filename, uploadedAt }) => (
         <div
           key={id}
-          className="flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
+          className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
         >
           <div className="flex justify-items-center items-center">
             <img

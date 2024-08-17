@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { HomeLayout } from "./layout";
+import { HomeLayout, ProfileLayout } from "./layout";
 import { ErrorElement } from "./components";
 import { store } from "./store";
 import {
@@ -8,7 +8,6 @@ import {
   Exp,
   About,
   Letter,
-  Contact,
   Documents,
   Maintenance,
   CreateCuti,
@@ -24,6 +23,7 @@ import {
   KGBDetail,
   UploadDocument,
   DocumentDetail,
+  ChangePassword,
 } from "./pages";
 import { LoginRequireRoutes } from "./routes";
 
@@ -85,11 +85,6 @@ const router = createBrowserRouter([
         path: "letters/kgb",
         element: <KGBDetail />,
         loader: kgbDetailLoader,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
         errorElement: <ErrorElement />,
       },
       {
@@ -161,11 +156,22 @@ const router = createBrowserRouter([
         ],
         errorElement: <ErrorElement />,
       },
-
       {
         path: "profile",
-        element: <Profile />,
-        errorElement: <ErrorElement />,
+        element: <ProfileLayout />,
+        children: [
+          {
+            index: true,
+            element: <Profile />,
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "password",
+            element: <ChangePassword />,
+            errorElement: <ErrorElement />,
+          },
+        ],
+        errorElement: <Error />,
       },
     ],
   },

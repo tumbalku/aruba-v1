@@ -65,7 +65,7 @@ const UploadDocument = () => {
   };
 
   return (
-    <div className="bg-slate-200 p-4 rounded-md shadow-md">
+    <div className="bg-base-300 p-4 rounded-md shadow-md">
       <Form method="post" encType="multipart/form-data">
         <FormInput
           size="input-sm"

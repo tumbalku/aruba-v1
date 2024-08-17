@@ -15,9 +15,34 @@ import { toast } from "react-toastify";
 const prodURL = import.meta.env.VITE_SPRING_API_URL;
 const devURL = "http://localhost:8080/api/v1";
 
-console.log(prodURL);
+export const getImage = async (imageName) => {
+  try {
+    const apiUrl = prodURL + "/api/v1/image/" + imageName;
+
+    const response = await axios.get(apiUrl, {
+      responseType: "arraybuffer",
+      headers: { "ngrok-skip-browser-warning": true },
+    });
+
+    const base64String = btoa(
+      new Uint8Array(response.data).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ""
+      )
+    );
+
+    const imageUrl = `data:${response.headers["content-type"]};base64,${base64String}`;
+
+    return imageUrl;
+  } catch (error) {
+    console.error("Error fetching image:", error);
+    throw error;
+  }
+};
+
 export const customFetch = axios.create({
   baseURL: prodURL + "/api/v1",
+  // baseURL: devURL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

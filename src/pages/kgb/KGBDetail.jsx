@@ -3,6 +3,7 @@ import DocumentList from "../../components/DocumentList";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
 import { redirect } from "react-router-dom";
+import { SearchOnly } from "../../components";
 
 export const loader = async ({ request }) => {
   const params = Object.fromEntries([
@@ -29,7 +30,7 @@ export const loader = async ({ request }) => {
 const KGBDetail = () => {
   return (
     <div>
-      <h3>KGB detail</h3>
+      <SearchOnly name="filename" link="/letters/kgb" />
       <DocumentList />
     </div>
   );

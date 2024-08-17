@@ -25,3 +25,8 @@ export { default as UpdateSingleUser } from "./UpdateSingleUser";
 export { default as CreateSingleUser } from "./CreateSingleUser";
 export { default as PrevLinks } from "./PrevLinks";
 export { default as FileInput } from "./FileInput";
+export { default as UnmodifiedField } from "./input-v2/UnmodifiedField";
+export { default as InputField } from "./input-v2/InputField";
+
+// commponent v2
+export { default as SectionInfo } from "./SectionInfo";

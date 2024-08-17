@@ -7,18 +7,30 @@ import profile from "/image/single.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, toggleTheme } from "../features/user/userSlice";
 import UserLinks from "./UserLinks";
-import { customFetch } from "../utils";
+import { customFetch, getImage } from "../utils";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   // selector
   const user = useSelector((state) => state.userState.user);
   const theme = useSelector((state) => state.userState.theme);
+  const [avatarImage, setAvatarImage] = useState("");
   const isDarkTheme = theme === "nigth";
   const navigate = useNavigate();
   // dispatch
   const dispatch = useDispatch();
   function handleTheme() {
     dispatch(toggleTheme());
+  }
+
+  async function getAvatar() {
+    try {
+      const response = await getImage(user.avatar);
+      console.log(response);
+      setAvatarImage(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // function
@@ -37,6 +49,16 @@ const Navbar = () => {
     navigate("/");
     dispatch(logoutUser());
   };
+
+  useEffect(() => {
+    if (user) {
+      if (user.avatar) {
+        if (!user.avatar.startsWith("blob:")) {
+          getAvatar();
+        }
+      }
+    }
+  }, []);
 
   return (
     <nav className="bg-base-300">
@@ -90,10 +112,10 @@ const Navbar = () => {
               <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <img
                   src={
-                    user.profile
-                      ? user.profile.startsWith("blob:")
-                        ? user.profile
-                        : profileImage
+                    user.avatar
+                      ? user.avatar.startsWith("blob:")
+                        ? user.avatar
+                        : avatarImage
                       : profile
                   }
                   alt="profile"

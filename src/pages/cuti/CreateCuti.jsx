@@ -113,8 +113,8 @@ const CreateCuti = () => {
   };
 
   return (
-    <Form method="POST">
-      <div className="grid grid-cols-4 gap-5 bg-base-300 p-10 rounded-lg">
+    <Form method="POST" className="bg-base-300 p-10 rounded-lg">
+      <div className="grid grid-cols-4 gap-5 ">
         <div className="col-span-4 md:col-span-2">
           <FormInput name="userNIP" label="Masukan NIP" size="input-sm" />
         </div>
@@ -171,7 +171,6 @@ const CreateCuti = () => {
             size="checkbox-sm"
           />
         </div>
-
         <div className="col-span-4">
           <div className="form-control mb-6">
             <label htmlFor="tembusan" className="label">
@@ -240,13 +239,9 @@ const CreateCuti = () => {
             placeholder="Berikan keterangan mengapa cuti diajukan"
           />
         </div>
-        <div className="col-span-4 md:col-span-1 md:col-end-5">
-          <SubmitButton
-            color="btn-success"
-            size="btn-block"
-            text="Ajukan Cuti"
-          />
-        </div>
+      </div>
+      <div className="text-center md:text-right mt-5">
+        <SubmitButton color="btn-primary" size="btn-sm" text="Ajukan Cuti" />
       </div>
     </Form>
   );

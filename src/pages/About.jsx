@@ -5,7 +5,7 @@ const About = () => {
         <h1 className="text-4xl sm:text-6xl font-bold leading-none -tracking-tight">
           Apa itu
         </h1>
-        <div className="stats bg-primary shadow">
+        <div className="stats primary-color shadow">
           <div className="stat">
             <div className="stat-title text-primary-content text-4xl font-bold tracking-widest">
               ARUBA

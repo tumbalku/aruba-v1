@@ -7,6 +7,33 @@
     @apply mx-auto max-w-6xl px-8;
   }
 }
-* {
-  border: 1px solid red;
+body {
+  /* border: 1px solid red; */
+  padding-bottom: 3000px;
+}
+
+.primary-color {
+  background: linear-gradient(to right, rgb(217, 66, 192), rgb(99, 23, 195));
+}
+.secondary-color {
+  background: linear-gradient(
+    to right bottom,
+    #ed39fa,
+    #a776ff,
+    #5793ff,
+    #00a5ff,
+    #12aeeb
+  );
+}
+.btn-primary {
+  background: linear-gradient(to right, rgb(217, 66, 192), rgb(99, 23, 195));
+  border: none; /* Menghapus border default jika perlu */
+  color: white; /* Menambahkan warna teks */
+
+  transition: background 0.9s ease-in-out, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, rgb(201, 40, 174), rgb(95, 16, 190));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan */
 }

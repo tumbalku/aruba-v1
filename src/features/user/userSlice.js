@@ -49,6 +49,22 @@ const userSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("roles", JSON.stringify(roles));
     },
+    updateUser: (state, action) => {
+      const { email } = action.payload;
+
+      if (state.user) {
+        state.user.email = email;
+        localStorage.setItem("user", JSON.stringify(state.user));
+      }
+    },
+    updateUserProfile: (state, action) => {
+      const { avatar } = action.payload;
+      console.log(avatar);
+      if (state.user) {
+        state.user.avatar = avatar;
+        localStorage.setItem("user", JSON.stringify(state.user));
+      }
+    },
     toggleTheme: (state) => {
       const { dracula, light } = themes;
       state.theme = state.theme === dracula ? light : dracula;
@@ -58,6 +74,12 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginUser, toggleTheme, logoutUser } = userSlice.actions;
+export const {
+  loginUser,
+  toggleTheme,
+  logoutUser,
+  updateUser,
+  updateUserProfile,
+} = userSlice.actions;
 
 export default userSlice.reducer;

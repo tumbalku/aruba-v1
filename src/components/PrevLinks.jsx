@@ -4,7 +4,7 @@ const PrevLinks = () => {
   const location = useLocation();
   const paths = location.pathname
     .split("/")
-    .filter((path) => path && path !== "edit");
+    .filter((path) => path && path !== "edit" && path !== "password");
 
   const pathNames = {
     "": "Beranda",
