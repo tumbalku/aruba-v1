@@ -62,3 +62,62 @@ export const forUsers = [
 ];
 
 // icons
+
+export const gologanPPPK = [
+  { name: "Golologan I" },
+  { name: "Golologan II" },
+  { name: "Golologan III" },
+  { name: "Golologan IV" },
+  { name: "Golologan V" },
+  { name: "Golologan VI" },
+  { name: "Golologan VII" },
+  { name: "Golologan VIII" },
+  { name: "Golologan X" },
+  { name: "Golologan XI" },
+  { name: "Golologan XII" },
+  { name: "Golologan XIII" },
+  { name: "Golologan XIV" },
+  { name: "Golologan XV" },
+  { name: "Golologan XVI" },
+  { name: "Golologan XVII" },
+];
+
+export const pangkat = [
+  { name: "JURU MUDA" },
+  { name: "JURU MUDA TK I" },
+  { name: "JURU" },
+  { name: "JURU TK I" },
+  { name: "PENGATUR MUDA" },
+  { name: "PENGATUR MUDA TK I" },
+  { name: "PENGATUR" },
+  { name: "PENGATUR TK I" },
+  { name: "PENATA MUDA" },
+  { name: "PENATA MUDA TK I" },
+  { name: "PENATA" },
+  { name: "PENATA TK I" },
+  { name: "PEMBINA MUDA UTAMA" },
+  { name: "PEMBINA MUDA MADYA" },
+  { name: "PEMBINA UTAMA" },
+  { name: "PEMBINA" },
+  { name: "PEMBINA TK I" },
+];
+
+export const gologanPNS = [
+  { name: "I/a" },
+  { name: "I/b" },
+  { name: "I/c" },
+  { name: "I/d" },
+  { name: "II/a" },
+  { name: "II/b" },
+  { name: "II/c" },
+  { name: "II/d" },
+  { name: "III/a" },
+  { name: "III/b" },
+  { name: "III/c" },
+  { name: "III/d" },
+  { name: "IV/a" },
+  { name: "IV/b" },
+  { name: "IV/c" },
+  { name: "IV/d" },
+  { name: "IV/e" },
+];

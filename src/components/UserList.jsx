@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Link,
@@ -7,10 +7,11 @@ import {
   useNavigate,
 } from "react-router-dom";
 import profile from "/image/single.png";
-import { customFetch, translateGender } from "../utils";
+import { customFetch, getImage, translateGender } from "../utils";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
 import { toast } from "react-toastify";
+import SectionTitle from "./SectionTitle";
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const UserList = () => {
   const { roles, user } = useSelector((state) => state.userState);
   const { users: initialUsers } = useLoaderData();
   const [users, setUsers] = useState(initialUsers);
+  const [userImages, setUserImages] = useState({});
 
   const isAdmin = roles.includes("ADMIN");
 
@@ -44,7 +46,42 @@ const UserList = () => {
       console.log(error);
     }
   }
-  console.log(users);
+
+  // getImage
+  async function getAvatar(avatar) {
+    try {
+      const response = await getImage(avatar);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (users.length < 1) {
+    return <SectionTitle text="Kami tidak menemukan hasil pencarian anda" />;
+  }
+
+  useEffect(() => {
+    const fetchUserImages = async () => {
+      const images = {};
+
+      for (const person of users) {
+        const { avatar, id } = person;
+        if (avatar) {
+          try {
+            const imageUrl = await getAvatar(avatar);
+            images[id] = imageUrl;
+          } catch (error) {
+            console.log(`Error fetching avatar for ${id}: ${error.message}`);
+          }
+        }
+      }
+      setUserImages(images);
+    };
+
+    fetchUserImages();
+  }, []);
+
   return (
     <div className="overflow-x-auto mt-8">
       <table className="table">
@@ -69,11 +106,8 @@ const UserList = () => {
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
                         <div className="mask mask-squircle w-12 h-12">
-                          {/* <img
-                            src={userImages[id] || profile}
-                            alt={name}
-                          /> */}
-                          <img src={profile} alt={name} />
+                          <img src={userImages[id] || profile} alt={name} />
+                          {/* <img src={profile} alt={name} /> */}
                         </div>
                       </div>
                       <div>

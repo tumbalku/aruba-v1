@@ -38,22 +38,21 @@ export const action =
     const message = `
       *Permohonan Izin Cuti ${type}*
 
-      Saya yang bertanda tangan di bawah ini:
+      Bahwa yang bertanda tangan di bawah ini:
 
       *Nama*: ${user.name}
       *NIP*: ${user.id}
-      _email_: ${email}
   
-      Dengan ini mengajukan permohonan cuti untuk keperluan berikut:
+      Dengan ini telah mengajukan permohonan cuti untuk keperluan berikut:
 
       _Alasan_: ${reason}
 
       *Tanggal Mulai*: ${dateStart}
       *Tanggal Selesai*: ${dateEnd}
 
-      Demikian permohonan ini saya ajukan, atas perhatian dan kebijaksanaannya saya ucapkan terima kasih.
+      Demikian permohonan ini diajukan, atas perhatian dan kebijaksanaannya kami ucapkan terima kasih.
 
-      Hormat saya,
+      Hormat kami,
       ${user.nama}
     `.trim();
 
@@ -61,7 +60,6 @@ export const action =
       message
     )}`;
 
-    console.log(data);
     try {
       const response = await customFetch.post("/cuti/make", data, {
         headers: {
@@ -79,6 +77,7 @@ export const action =
       }
     }
   };
+
 const CreateCuti = () => {
   const date = new Date().toISOString().split("T")[0];
   const [name, setName] = useState("");

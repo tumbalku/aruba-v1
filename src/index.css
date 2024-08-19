@@ -7,9 +7,8 @@
     @apply mx-auto max-w-6xl px-8;
   }
 }
-body {
+* {
   /* border: 1px solid red; */
-  padding-bottom: 3000px;
 }
 
 .primary-color {

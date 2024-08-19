@@ -139,7 +139,7 @@ const Navbar = () => {
           ) : (
             <NavLink
               to="/login"
-              className="btn btn-outline border-2 btn-primary btn-sm rounded-2xl ml-4 px-5 tracking-wider"
+              className="btn btn-primary btn-sm rounded-2xl ml-4 px-5 tracking-wider "
             >
               Masuk
             </NavLink>
