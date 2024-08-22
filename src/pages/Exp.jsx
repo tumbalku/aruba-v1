@@ -1,12 +1,41 @@
 import React from "react";
 import profile from "/image/single.png";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { InputField, UnmodifiedField } from "../components";
+import { InputField, UnmodifiedField, UserCutiReportList } from "../components";
+import { customFetch } from "../utils";
+import { toast } from "react-toastify";
+import { redirect } from "react-router-dom";
+export const loader =
+  (store) =>
+  async ({ request }) => {
+    const user = store.getState().userState.user;
+    const params = Object.fromEntries([
+      ...new URL(request.url).searchParams.entries(),
+    ]);
+
+    try {
+      const response = await customFetch.get("/users/search", {
+        params,
+        headers: {
+          "X-API-TOKEN": `${user.token}`,
+        },
+      });
+
+      return {
+        users: response.data.data,
+        pagination: response.data.pagination,
+      };
+    } catch (error) {
+      console.log(error);
+      toast.warn("Terjadi error!");
+      return redirect("/login");
+    }
+  };
 const Exp = () => {
   return (
-    <>
-      <h1>Hola</h1>
-    </>
+    <div>
+      <UserCutiReportList />
+    </div>
   );
 };
 export default Exp;

@@ -20,6 +20,7 @@ export { default as StatusBadge } from "./StatusBadge";
 export { default as Hero } from "./Hero";
 export { default as SearchOnly } from "./SearchOnly";
 export { default as UserList } from "./UserList";
+export { default as UserCutiReportList } from "./UserCutiReportList";
 export { default as PaginationContainer } from "./PaginationContainer";
 export { default as UpdateSingleUser } from "./UpdateSingleUser";
 export { default as CreateSingleUser } from "./CreateSingleUser";
