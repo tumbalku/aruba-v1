@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 import { CreateSingleUser } from "../../components";
 import { redirect } from "react-router-dom";
+import { ranks, genders } from "../../data";
 export const loader = async () => {
   try {
     const response = await customFetch.get("/addresses");
@@ -25,26 +26,23 @@ export const action =
     const data = Object.fromEntries(formData);
 
     const user = store.getState().userState.user;
+    const selectedRank = ranks.find((item) => item.name === data.rank);
+    const selectedGender = genders.find(
+      (item) => item.name === data.jenisKelamin
+    );
 
-    const { group, rank, position, workUnit, ...rest } = data;
-    const cs = {
-      group: group === "-" ? null : group,
-      rank: rank === "-" ? null : rank,
-      position: position === "-" ? null : position,
-      workUnit: workUnit === "-" ? null : workUnit,
-      ...rest,
-    };
+    if (selectedRank) {
+      data.golongan = selectedRank.golongan;
+      data.pangkat = selectedRank.name;
+    }
+    data.gender = selectedGender.desc;
 
     try {
-      const response = await customFetch.post(
-        `/users`,
-        { ...rest, cs },
-        {
-          headers: {
-            "X-API-TOKEN": user.token,
-          },
-        }
-      );
+      const response = await customFetch.post(`/users`, data, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
 
       toast.success(response.data.message || "Berhasil!");
       return redirect("/users");

@@ -21,6 +21,7 @@ const UserList = () => {
   const [users, setUsers] = useState(initialUsers);
   const [userImages, setUserImages] = useState({});
 
+  console.log(users);
   const isAdmin = roles.includes("ADMIN");
 
   async function handleDelete(id) {
@@ -90,7 +91,7 @@ const UserList = () => {
           <tr className="text-center">
             <th>Nama</th>
             <th>Jenis Kelamin</th>
-            <th>Peran</th>
+            {/* <th>Peran</th> */}
             <th>Status</th>
             <th>Aksi</th>
           </tr>
@@ -121,7 +122,7 @@ const UserList = () => {
                       {translateGender(gender)}
                     </p>
                   </td>
-                  <td>
+                  {/* <td>
                     <div className="flex flex-col gap-y-1 items-center">
                       {roles.map((role) => {
                         return (
@@ -134,7 +135,7 @@ const UserList = () => {
                         );
                       })}
                     </div>
-                  </td>
+                  </td> */}
                   <td className="text-center ">
                     {status ? (
                       <div className="badge badge-success">Aktif</div>

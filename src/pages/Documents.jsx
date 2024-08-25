@@ -12,7 +12,7 @@ export const loader = async ({ request }) => {
   ]);
 
   try {
-    const response = await customFetch.get("/documents", {
+    const response = await customFetch.get("/letter", {
       params,
     });
 
@@ -23,7 +23,8 @@ export const loader = async ({ request }) => {
   } catch (error) {
     console.log(error);
     toast.warn("Terjadi error!");
-    return redirect("/login");
+    // return redirect("/login");
+    return null;
   }
 };
 const Documents = () => {

@@ -5,30 +5,20 @@ import SelectInputForId from "./SelectInputForId";
 
 import { Form, useLoaderData } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
-import { gologanPNS, gologanPPPK, pangkat } from "../data";
+import { gologanPPPK, ranks, genders } from "../data";
 import { useState } from "react";
 const CreateSingleUser = () => {
   const [isPegawai, setIsPegawai] = useState(true);
+  const [isBlud, setIsBlud] = useState(true);
 
   const handleCheckboxChange = (event) => {
     setIsPegawai(event.target.checked);
   };
 
-  const gender = [
-    { id: 1, name: "MALE" },
-    { id: 2, name: "FEMALE" },
-  ];
-  const address = [
-    { id: 1, name: "Kendari" },
-    { id: 2, name: "Wakatobi" },
-    { id: 3, name: "Raha" },
-  ];
-
   const { addresses } = useLoaderData();
   return (
     <Form method="POST" className="bg-base-200 rounded-md px-8 py-4 shadow-lg">
       <div className="grid gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 items-end ">
-        <FormInput name="id" label="NIP" size="input-sm" type="text" />
         <FormInput
           name="username"
           label="Username"
@@ -48,9 +38,9 @@ const CreateSingleUser = () => {
 
         <SelectInput
           label="Jenis Kelamin"
-          name="gender"
-          list={gender}
-          defaultValue={gender[0]}
+          name="jenisKelamin"
+          list={genders}
+          defaultValue={genders[0]}
           size="select-sm"
         />
 
@@ -64,17 +54,10 @@ const CreateSingleUser = () => {
         {isPegawai ? (
           <>
             <SelectInput
-              label="Gologan"
-              name="group"
-              list={gologanPNS}
-              defaultValue={gologanPNS[0].name}
-              size="select-sm"
-            />
-            <SelectInput
               label="Pangkat"
               name="rank"
-              list={pangkat}
-              defaultValue={pangkat[0].name}
+              list={ranks}
+              defaultValue={ranks[0].name}
               size="select-sm"
             />
             <FormInput
@@ -83,10 +66,11 @@ const CreateSingleUser = () => {
               size="input-sm"
               type="text"
             />
+            <FormInput name="nip" label="NIP" size="input-sm" type="text" />
           </>
         ) : (
           <SelectInput
-            label="Gologan"
+            label="Golongan"
             name="group"
             list={gologanPPPK}
             defaultValue={gologanPPPK[0].name}

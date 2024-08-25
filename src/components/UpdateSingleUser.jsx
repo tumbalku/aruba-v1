@@ -5,46 +5,49 @@ import SelectInputForId from "./SelectInputForId";
 
 import { Form, useLoaderData } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
+import { genders } from "../data";
 
 const UpdateSingleUser = () => {
-  const genderList = [
-    { id: 1, name: "MALE" },
-    { id: 2, name: "FEMALE" },
-  ];
-
   const { addresses, userDetail } = useLoaderData();
   const {
     id,
+    nip,
     name,
     email,
     phone,
     gender,
+    username,
     address,
     status,
-    civilServant,
+    pangkat,
+    golongan,
+    position,
+    workUnit,
     roles,
     createdAt,
     updatedAt,
   } = userDetail;
-  const {
-    group = "",
-    rank = "",
-    position = "",
-    workUnit = "",
-  } = civilServant || {};
+  const selectedGender = genders.find((item) => item.desc === gender);
+  console.log(selectedGender);
 
+  console.log(userDetail);
   return (
     <Form method="POST" className="bg-base-200 rounded-md px-8 py-4 shadow-lg">
       <div className="grid gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 items-end ">
         <FormInput
-          name="id"
+          name="nip"
           label="NIP"
           size="input-sm"
           type="text"
-          defaultValue={id}
-          disabled={true}
+          defaultValue={nip}
         />
-
+        <FormInput
+          name="username"
+          label="Username"
+          size="input-sm"
+          type="text"
+          defaultValue={username}
+        />
         <FormInput
           name="name"
           label="Name"
@@ -59,19 +62,21 @@ const UpdateSingleUser = () => {
           type="text"
           defaultValue={phone}
         />
+
         <FormInput
-          name="rank"
+          name="pangkat"
           label="Pangkat"
           size="input-sm"
           type="text"
-          defaultValue={rank}
+          defaultValue={pangkat}
         />
         <FormInput
-          name="group"
+          name="golongan"
           label="Golongan"
           size="input-sm"
           type="text"
-          defaultValue={group}
+          disabled
+          defaultValue={golongan}
         />
         <FormInput
           name="workUnit"
@@ -105,9 +110,9 @@ const UpdateSingleUser = () => {
 
         <SelectInput
           label="Jenis Kelamin"
-          name="gender"
-          list={genderList}
-          defaultValue={gender}
+          name="jenisKelamin"
+          list={genders}
+          defaultValue={selectedGender.name}
           size="select-sm"
         />
       </div>

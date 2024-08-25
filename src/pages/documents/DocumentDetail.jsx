@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 
 export const loader = async ({ params }) => {
   try {
-    const response = await customFetch.get(`documents/${params.id}`);
+    const response = await customFetch.get(`letter/${params.id}`);
     console.log(response);
     return { documentDetail: response.data.data };
   } catch (error) {
@@ -33,15 +33,11 @@ export const action =
     const user = store.getState().userState.user;
 
     try {
-      const response = await customFetch.patch(
-        `/documents/${params.id}`,
-        data,
-        {
-          headers: {
-            "X-API-TOKEN": user.token,
-          },
-        }
-      );
+      const response = await customFetch.patch(`/letter/${params.id}`, data, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
 
       toast.success(response.data.message || "Berhasil melalukan update");
       return null;
@@ -54,15 +50,17 @@ export const action =
       return null;
     }
   };
+
 const DocumentDetail = () => {
   const { documentDetail } = useLoaderData();
   const { user } = useSelector((state) => state.userState);
 
+  console.log(documentDetail);
   const navigate = useNavigate();
 
   const handleDownload = async (id, name) => {
     try {
-      const response = await customFetch.get(`documents/download/${id}`, {
+      const response = await customFetch.get(`letter/download/${id}`, {
         responseType: "blob",
       });
       console.log(response);
@@ -87,7 +85,7 @@ const DocumentDetail = () => {
   };
   async function handleDelete(id) {
     try {
-      const response = await customFetch.delete(`/documents/${id}`, {
+      const response = await customFetch.delete(`/letter/${id}`, {
         headers: {
           "X-API-TOKEN": `${user.token}`,
         },
@@ -102,24 +100,57 @@ const DocumentDetail = () => {
     }
   }
 
-  const { id, docType, fileSize, fileType, filename, uploadedAt, updatedAt } =
-    documentDetail;
+  const {
+    id,
+    type,
+    size,
+    fileType,
+    name,
+    uploadedAt,
+    updatedAt,
+    expiredAt,
+    user: owner,
+  } = documentDetail;
+  const { name: ownerName, nip, phone, workUnit } = owner;
+
+  const handelWa = () => {
+    const message = `
+      *Kepada Yth:*
+
+      ${ownerName}
+      ${nip}
+
+  
+      Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada ${expiredAt} . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
+      
+      Detail SIP:
+      •	Nomor SIP: 29 14 62 21 9 3175286
+      •	Tanggal Kadaluarsa: ${expiredAt}
+    `.trim();
+
+    const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(urlToWa, "_blank");
+  };
+
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
       <div className="flex items-center justify-center p-2 border rounded-md bg-base-200">
         <img
           src={fileTypeIcons[fileType].url}
-          alt={filename}
+          alt={name}
           className="w-24 h-24"
         />
         <div className=" ml-1 ">
           <p className="font-semibold truncate text-xs sm:text-base w-36">
-            {filename}
+            {name}
           </p>
           <div className="mt-8 flex space-x-1">
             <button
               className="btn btn-xs md:btn-sm btn-success"
-              onClick={() => handleDownload(id, filename)}
+              onClick={() => handleDownload(id, name)}
             >
               <GoDownload />
               Download
@@ -142,30 +173,73 @@ const DocumentDetail = () => {
               size="md:input-sm input-xs "
               labelSize="text-xs"
               type="text"
-              label="Name"
-              name="filename"
-              defaultValue={filename}
+              label="Owner"
+              name="owner"
+              disabled
+              defaultValue={ownerName}
             />
-
-            <SelectInput
-              label="Jenis Dokumen"
-              size="md:select-sm select-xs"
-              labelSize="text-xs"
-              list={docTypes}
-              name="docType"
-              defaultValue={docType}
-            />
-            <div className="md:col-span-2">
+            {nip ? (
               <FormInput
-                size="md:input-sm input-xs  "
+                size="md:input-sm input-xs "
                 labelSize="text-xs"
                 type="text"
-                label="Size"
-                name="fileSize"
-                disabled={true}
-                defaultValue={formatFileSize(fileSize)}
+                label="NIP"
+                name="nip"
+                disabled
+                defaultValue={nip}
+              />
+            ) : null}
+            {phone ? (
+              <FormInput
+                size="md:input-sm input-xs "
+                labelSize="text-xs"
+                type="text"
+                label="No. Hp"
+                name="phone"
+                disabled
+                defaultValue={phone}
+              />
+            ) : null}
+            {workUnit ? (
+              <FormInput
+                size="md:input-sm input-xs "
+                labelSize="text-xs"
+                type="text"
+                label="Unit Kerja"
+                name="workUnit"
+                disabled
+                defaultValue={workUnit}
+              />
+            ) : null}
+
+            <div className="md:col-span-2">
+              <FormInput
+                size="md:input-sm input-xs "
+                labelSize="text-xs"
+                type="text"
+                label="File name"
+                name="name"
+                defaultValue={name}
+              />
+
+              <SelectInput
+                label="Jenis Dokumen"
+                size="md:select-sm select-xs"
+                labelSize="text-xs"
+                list={docTypes}
+                name="type"
+                defaultValue={type}
               />
             </div>
+            <FormInput
+              size="md:input-sm input-xs  "
+              labelSize="text-xs"
+              type="text"
+              label="Size"
+              name="size"
+              disabled={true}
+              defaultValue={formatFileSize(size)}
+            />
             <FormInput
               size="md:input-sm input-xs "
               labelSize="text-xs"
@@ -184,9 +258,23 @@ const DocumentDetail = () => {
               disabled={true}
               defaultValue={convertDateArrayToString(updatedAt)}
             />
+            <FormInput
+              size="md:input-sm input-xs "
+              labelSize="text-xs"
+              type="text"
+              label="Expired at"
+              name="expiredAt"
+              disabled={true}
+              defaultValue={convertDateArrayToString(expiredAt)}
+            />
           </div>
           <div className="text-right mt-5">
             <SubmitButton color="btn-primary" size="btn-sm" text="Update" />
+          </div>
+          <div>
+            <button className="btn btn-primary" onClick={handelWa}>
+              Send We
+            </button>
           </div>
         </Form>
       </div>

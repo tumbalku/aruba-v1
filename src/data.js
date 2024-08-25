@@ -3,25 +3,30 @@ import excel from "/icons/excel.svg";
 import word from "/icons/word.svg";
 import ppt from "/icons/ppt.svg";
 
+export const genders = [
+  { id: 1, name: "Pria", desc: "MALE" },
+  { id: 2, name: "Wanita", desc: "FEMALE" },
+];
+
 export const fileTypeIcons = {
   "application/pdf": {
     url: pdf,
-    type: "PDF",
+    docType: "PDF",
     ext: ".pdf",
   },
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
     url: excel,
-    type: "XLS",
+    docType: "XLS",
     ext: ".xlsx",
   },
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
     url: word,
-    type: "DOC",
+    docType: "DOC",
     ext: ".docx",
   },
   "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
     url: ppt,
-    type: "PPT",
+    docType: "PPT",
     ext: ".pptx",
   },
 };
@@ -82,42 +87,42 @@ export const gologanPPPK = [
   { name: "Golologan XVII" },
 ];
 
-export const pangkat = [
-  { name: "JURU MUDA" },
-  { name: "JURU MUDA TK I" },
-  { name: "JURU" },
-  { name: "JURU TK I" },
-  { name: "PENGATUR MUDA" },
-  { name: "PENGATUR MUDA TK I" },
-  { name: "PENGATUR" },
-  { name: "PENGATUR TK I" },
-  { name: "PENATA MUDA" },
-  { name: "PENATA MUDA TK I" },
-  { name: "PENATA" },
-  { name: "PENATA TK I" },
-  { name: "PEMBINA MUDA UTAMA" },
-  { name: "PEMBINA MUDA MADYA" },
-  { name: "PEMBINA UTAMA" },
-  { name: "PEMBINA" },
-  { name: "PEMBINA TK I" },
+export const ranks = [
+  { name: "JURU MUDA", golongan: "I/a" },
+  { name: "JURU MUDA TK I", golongan: "I/b" },
+  { name: "JURU", golongan: "I/c" },
+  { name: "JURU TK I", golongan: "I/d" },
+  { name: "PENGATUR MUDA", golongan: "II/a" },
+  { name: "PENGATUR MUDA TK I", golongan: "II/b" },
+  { name: "PENGATUR", golongan: "II/c" },
+  { name: "PENGATUR TK I", golongan: "II/d" },
+  { name: "PENATA MUDA", golongan: "III/a" },
+  { name: "PENATA MUDA TK I", golongan: "III/b" },
+  { name: "PENATA", golongan: "III/c" },
+  { name: "PENATA TK I", golongan: "III/d" },
+  { name: "PEMBINA", golongan: "IV/a" },
+  { name: "PEMBINA TK I", golongan: "IV/b" },
+  { name: "PEMBINA UTAMA MUDA", golongan: "IV/c" },
+  { name: "PEMBINA UTAMA MADYA", golongan: "IV/d" },
+  { name: "PEMBINA UTAMA", golongan: "IV/e" },
 ];
 
 export const gologanPNS = [
-  { name: "I/a" },
-  { name: "I/b" },
-  { name: "I/c" },
-  { name: "I/d" },
-  { name: "II/a" },
-  { name: "II/b" },
-  { name: "II/c" },
-  { name: "II/d" },
-  { name: "III/a" },
-  { name: "III/b" },
-  { name: "III/c" },
-  { name: "III/d" },
-  { name: "IV/a" },
-  { name: "IV/b" },
-  { name: "IV/c" },
-  { name: "IV/d" },
-  { name: "IV/e" },
+  { golongan: "I/a" },
+  { golongan: "I/b" },
+  { golongan: "I/c" },
+  { golongan: "I/d" },
+  { golongan: "II/a" },
+  { golongan: "II/b" },
+  { golongan: "II/c" },
+  { golongan: "II/d" },
+  { golongan: "III/a" },
+  { golongan: "III/b" },
+  { golongan: "III/c" },
+  { golongan: "III/d" },
+  { golongan: "IV/a" },
+  { golongan: "IV/b" },
+  { golongan: "IV/c" },
+  { golongan: "IV/d" },
+  { golongan: "IV/e" },
 ];

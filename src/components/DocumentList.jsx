@@ -43,9 +43,10 @@ const DocumentList = () => {
       console.error("Download failed:", error);
     }
   };
+  console.log(documents);
   return (
     <div>
-      {documents.map(({ id, fileSize, fileType, filename, uploadedAt }) => (
+      {documents.map(({ id, size, fileType, name, uploadedAt, expiredAt }) => (
         <div
           key={id}
           className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
@@ -53,36 +54,43 @@ const DocumentList = () => {
           <div className="flex justify-items-center items-center">
             <img
               src={fileTypeIcons[fileType].url}
-              alt={filename}
+              alt={name}
               className="w-24 h-24"
             />
-            <div className="ml-2 md:ml-5 sm:w-96 w-32">
+            <div className="ml-2 md:ml-5 md:w-72 w-full ">
               <p className="font-semibold truncate text-xs sm:text-base">
-                {filename}
+                {name}
               </p>
 
-              <p className="mb-5 text-xs font-semibold badge badge-primary">
-                {formatFileSize(fileSize)}
+              <p className="mb-5 font-semibold badge badge-primary badge-xs md:badge-sm">
+                {formatFileSize(size)}
               </p>
+              <div className="hidden md:flex gap-2 flex-col">
+                {expiredAt ? (
+                  <p className="text-xs opacity-70">
+                    Expried At: {convertDateArrayToString(expiredAt)}
+                  </p>
+                ) : null}
 
-              <p className="text-xs opacity-70">
-                Created At: {convertDateArrayToString(uploadedAt)}
-              </p>
+                <p className="text-xs opacity-70">
+                  Created At: {convertDateArrayToString(uploadedAt)}
+                </p>
+              </div>
             </div>
           </div>
-          <div className="hidden md:flex justify-items-center items-center">
+          <div className="hidden sm:flex justify-items-center items-center">
             <p className="text-xs font-semibold badge badge-ghost opacity-70">
-              Type: {fileTypeIcons[fileType].type}
+              Type: {fileTypeIcons[fileType].docType}
             </p>
             <p className="text-xs font-semibold badge badge-ghost opacity-70">
-              Raw Size: {fileSize} bytes
+              Raw Size: {size} bytes
             </p>
           </div>
           <div className="mr-2 sm:mr-5 -mt-16">
             {!isADMIN ? (
               <button
                 className="btn btn-xs btn-success"
-                onClick={() => handleDownload(id, filename)}
+                onClick={() => handleDownload(id, name)}
               >
                 <GoDownload />
                 <span className="hidden md:flex">Download</span>

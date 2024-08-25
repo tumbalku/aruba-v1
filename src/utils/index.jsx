@@ -17,7 +17,7 @@ const devURL = "http://localhost:8080/api/v1";
 
 export const getImage = async (imageName) => {
   try {
-    const apiUrl = prodURL + "/api/v1/image/" + imageName;
+    const apiUrl = prodURL + "/api/v1/file/image/" + imageName;
 
     const response = await axios.get(apiUrl, {
       responseType: "arraybuffer",
