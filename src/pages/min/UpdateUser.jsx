@@ -43,6 +43,7 @@ export const action =
       const data = Object.fromEntries(formData);
       const user = store.getState().userState.user;
 
+      console.log(data);
       const selectedGender = genders.find(
         (item) => item.name === data.jenisKelamin
       );

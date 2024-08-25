@@ -51,6 +51,9 @@ export const customFetch = axios.create({
 });
 
 export function convertDateArrayToString(dateArray) {
+  if (!dateArray) {
+    return null;
+  }
   const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
 
   // Opsi untuk memformat tanggal dengan bahasa Indonesia

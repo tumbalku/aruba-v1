@@ -28,7 +28,6 @@ const UpdateSingleUser = () => {
     updatedAt,
   } = userDetail;
   const selectedGender = genders.find((item) => item.desc === gender);
-  console.log(selectedGender);
 
   console.log(userDetail);
   return (
@@ -93,7 +92,7 @@ const UpdateSingleUser = () => {
           defaultValue={position}
         />
 
-        <SelectInputForId
+        <SelectInput
           label="Alamat"
           name="address"
           list={addresses}

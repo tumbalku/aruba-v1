@@ -5,6 +5,7 @@ import { redirect, useNavigate } from "react-router-dom";
 import { docTypes } from "../../data";
 import { Form } from "react-router-dom";
 import {
+  DateInput,
   FileInput,
   FormInput,
   SelectInput,
@@ -15,10 +16,16 @@ export const action =
   (store) =>
   async ({ request }) => {
     const formData = await request.formData();
+    const user = store.getState().userState.user;
+
+    const userNip = formData.get("nip") || user.id;
+    formData.set("nip", userNip);
+    console.log(formData);
     try {
-      const response = await customFetch.post("/documents/upload", formData, {
+      const response = await customFetch.post("/letter/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          "X-API-TOKEN": user.token,
         },
       });
 
@@ -36,6 +43,8 @@ const UploadDocument = () => {
     file: null,
     details: {
       name: "",
+      num: "",
+      nip: "",
       docType: "SIP",
     },
   });
@@ -63,7 +72,7 @@ const UploadDocument = () => {
       }));
     }
   };
-
+  const date = new Date().toISOString().split("T")[0];
   return (
     <div className="bg-base-300 p-4 rounded-md shadow-md">
       <Form method="post" encType="multipart/form-data">
@@ -73,6 +82,28 @@ const UploadDocument = () => {
           label="Name"
           name="name"
           defaultValue={form.details.name}
+          onChange={handleInputChange}
+        />
+        <FormInput
+          size="input-sm"
+          type="text"
+          label="Nomor"
+          name="num"
+          defaultValue={form.details.num}
+          onChange={handleInputChange}
+        />
+        <DateInput
+          label="Tanggal Expired"
+          name="expiredAt"
+          size="date-sm"
+          defaultValue={date}
+        />
+        <FormInput
+          size="input-sm"
+          type="text"
+          label="NIP"
+          name="nip"
+          defaultValue={form.details.nip}
           onChange={handleInputChange}
         />
         <div className="grid grid-cols-2 gap-5">

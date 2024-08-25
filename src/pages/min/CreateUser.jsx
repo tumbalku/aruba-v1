@@ -27,6 +27,7 @@ export const action =
 
     const user = store.getState().userState.user;
     const selectedRank = ranks.find((item) => item.name === data.rank);
+
     const selectedGender = genders.find(
       (item) => item.name === data.jenisKelamin
     );
@@ -37,6 +38,7 @@ export const action =
     }
     data.gender = selectedGender.desc;
 
+    console.log(data);
     try {
       const response = await customFetch.post(`/users`, data, {
         headers: {
@@ -48,6 +50,7 @@ export const action =
       return redirect("/users");
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
       return null;
     }
   };
