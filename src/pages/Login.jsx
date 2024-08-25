@@ -40,13 +40,13 @@ const Login = () => {
           type="text"
           label="username"
           name="username"
-          defaultValue="admin123"
+          defaultValue="0687fa03-be0b-4672-92e3-c0ab74b87a80"
         />
         <FormInput
           type="password"
           label="password"
           name="password"
-          defaultValue="rahasia"
+          defaultValue="0687fa03-be0b-4672-92e3-c0ab74b87a80"
         />
         <div className="mt-4">
           <SubmitButton text="Masuk" size="btn-block" color="btn-primary" />

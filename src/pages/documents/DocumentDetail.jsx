@@ -121,11 +121,13 @@ const DocumentDetail = () => {
       ${nip}
 
   
-      Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada ${expiredAt} . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
+      Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada ${convertDateArrayToString(
+        expiredAt
+      )} . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
       
       Detail SIP:
       •	Nomor SIP: 29 14 62 21 9 3175286
-      •	Tanggal Kadaluarsa: ${expiredAt}
+      •	Tanggal Kadaluarsa: ${convertDateArrayToString(expiredAt)}
     `.trim();
 
     const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
