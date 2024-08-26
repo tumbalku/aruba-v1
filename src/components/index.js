@@ -18,6 +18,7 @@ export { default as UserLinks } from "./UserLinks";
 export { default as SectionTitle } from "./SectionTitle";
 export { default as StatusBadge } from "./StatusBadge";
 export { default as Hero } from "./Hero";
+export { default as Kop } from "./Kop";
 export { default as SearchOnly } from "./SearchOnly";
 export { default as UserList } from "./UserList";
 export { default as UserCutiReportList } from "./UserCutiReportList";

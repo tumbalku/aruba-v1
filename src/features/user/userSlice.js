@@ -50,10 +50,12 @@ const userSlice = createSlice({
       localStorage.setItem("roles", JSON.stringify(roles));
     },
     updateUser: (state, action) => {
-      const { email } = action.payload;
+      const { email, phone, username } = action.payload;
 
       if (state.user) {
         state.user.email = email;
+        state.user.phone = phone;
+        state.user.username = username;
         localStorage.setItem("user", JSON.stringify(state.user));
       }
     },

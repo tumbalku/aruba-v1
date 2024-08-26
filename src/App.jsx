@@ -35,6 +35,8 @@ import { action as usersCreateAction } from "./pages/min/CreateUser";
 import { action as usersUpdateAction } from "./pages/min/UpdateUser";
 import { action as uploadDocumentAction } from "./pages/documents/UploadDocument";
 import { action as updateDocumentAction } from "./pages/documents/DocumentDetail";
+import { action as passwordAction } from "./pages/ChangePassword";
+import { action as profileAction } from "./pages/Profile";
 
 // loader
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
@@ -49,7 +51,7 @@ import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail
 import { loader as kgbDetailLoader } from "./pages/kgb/KGBDetail";
 
 // exp
-import { loader as expLoader } from "./pages/Exp";
+// import { loader as expLoader } from "./pages/Exp";
 
 const router = createBrowserRouter([
   {
@@ -94,7 +96,7 @@ const router = createBrowserRouter([
         path: "exp",
         element: <Exp />,
         errorElement: <ErrorElement />,
-        loader: expLoader(store),
+        // loader: expLoader(store),
       },
       {
         element: <LoginRequireRoutes />,
@@ -168,11 +170,13 @@ const router = createBrowserRouter([
             index: true,
             element: <Profile />,
             errorElement: <ErrorElement />,
+            action: profileAction(store),
           },
           {
             path: "password",
             element: <ChangePassword />,
             errorElement: <ErrorElement />,
+            action: passwordAction(store),
           },
         ],
         errorElement: <Error />,

@@ -4,11 +4,11 @@ import { Link, Outlet } from "react-router-dom";
 const ProfileLayout = () => {
   return (
     <div className="grid grid-cols-12">
-      <div className="col-span-full sm:col-span-4 md:col-span-2 secondary-color p-5 flex sm:flex-col sm:space-y-2 justify-between sm:justify-normal">
-        <Link to="/profile" className="btn btn-xs sm:btn-sm">
+      <div className="col-span-full sm:col-span-4 md:col-span-2 secondary-color p-5 flex sm:flex-col gap-2">
+        <Link to="/profile" className="btn medium-btn">
           General
         </Link>
-        <Link to="password" className="btn btn-xs sm:btn-sm">
+        <Link to="password" className="btn medium-btn">
           Ubah Password
         </Link>
       </div>

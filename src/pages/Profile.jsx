@@ -1,12 +1,36 @@
 import profile from "/image/single.png";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit } from "react-icons/ai";
 import { InputField, SectionInfo, UnmodifiedField } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { customFetch, getImage, translateGender } from "../utils";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { updateUserProfile } from "../features/user/userSlice";
+import { updateUser, updateUserProfile } from "../features/user/userSlice";
+import { Form, redirect } from "react-router-dom";
 
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const user = store.getState().userState.user;
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await customFetch.patch("/users/info", data, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
+
+      toast.success(response.data.message || "Success");
+      store.dispatch(updateUser(data));
+      return null;
+    } catch (error) {
+      toast.error(error.response.data.message || "Terjadi error");
+
+      return null;
+    }
+  };
 const Profile = () => {
   const user = useSelector((state) => state.userState.user);
   const dispatch = useDispatch();
@@ -14,6 +38,8 @@ const Profile = () => {
   const [avatarImage, setAvatarImage] = useState("");
   const {
     id,
+    username,
+    nip,
     name,
     email,
     phone,
@@ -21,10 +47,7 @@ const Profile = () => {
     address,
     avatar,
     status,
-    token,
-    civilServant,
-    createdAt,
-    updatedAt,
+    workUnit,
   } = user;
 
   const handleExecute = async () => {
@@ -96,7 +119,7 @@ const Profile = () => {
             onChange={handleExecute}
           />
           <button
-            className="btn btn-xs sm:btn-sm btn-primary"
+            className="small-btn btn-primary"
             onClick={() => fileRef.current.click()}
           >
             Upload
@@ -104,28 +127,46 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="text-right mb-8">
-        <button className="btn btn-xs sm:btn-sm btn-primary mb-1">
-          <AiOutlineEdit className="w-5 h-5" />
-          Update
-        </button>
-      </div>
-      <div className="grid lg:grid-cols-2 gap-4">
-        <UnmodifiedField value={name} label="Nama" />
-        <UnmodifiedField value={id} label="NIP" />
+      <Form method="POST">
+        <div className="grid lg:grid-cols-2 gap-4">
+          <InputField
+            label="username"
+            type="text"
+            value={username ? username : ""}
+            name="username"
+          />
+          <UnmodifiedField value={name} label="Nama" />
+          {nip ? <UnmodifiedField value={nip} label="NIP" /> : null}
 
-        <InputField label="Email" type="email" value={email} name="email" />
-        <InputField label="No. Hp" type="text" value={phone} name="phone" />
+          <InputField
+            label="Email"
+            type="email"
+            value={email ? email : ""}
+            name="email"
+          />
+          <InputField
+            label="No. Hp"
+            type="text"
+            value={phone ? phone : ""}
+            name="phone"
+          />
 
-        <UnmodifiedField
-          value={translateGender(gender)}
-          label="Jenis Kelamin"
-        />
-        <UnmodifiedField value={status} label="Status Kepegawaian" />
-        <div className="lg:col-span-2">
+          <UnmodifiedField
+            value={translateGender(gender)}
+            label="Jenis Kelamin"
+          />
+          <UnmodifiedField value={status} label="Status Kepegawaian" />
+
           <UnmodifiedField value={address} label="Alamat" />
+          <UnmodifiedField value={workUnit} label="Unit kerja" />
         </div>
-      </div>
+        <div className="text-right my-4">
+          <button type="submit" className="small-btn btn-primary mb-1">
+            <AiOutlineEdit className="w-5 h-5" />
+            Update
+          </button>
+        </div>
+      </Form>
     </>
   );
 };

@@ -6,6 +6,12 @@
   .align-element {
     @apply mx-auto max-w-6xl px-8;
   }
+  .small-btn {
+    @apply btn btn-xs sm:btn-sm;
+  }
+  .medium-btn {
+    @apply btn btn-sm md:btn-md;
+  }
 }
 * {
   /* border: 1px solid red; */
