@@ -26,7 +26,7 @@ const Navbar = () => {
   async function getAvatar() {
     try {
       const response = await getImage(user.avatar);
-      console.log(response);
+
       setAvatarImage(response);
     } catch (error) {
       console.log(error);
@@ -41,7 +41,6 @@ const Navbar = () => {
           "X-API-TOKEN": user.token,
         },
       });
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

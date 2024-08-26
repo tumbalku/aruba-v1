@@ -126,3 +126,38 @@ export const gologanPNS = [
   { golongan: "IV/d" },
   { golongan: "IV/e" },
 ];
+
+export const years = Array.from({ length: 71 }, (_, i) => ({
+  name: (2020 + i).toString(),
+}));
+
+const toRoman = (num) => {
+  const romanNumerals = [
+    ["M", 1000],
+    ["CM", 900],
+    ["D", 500],
+    ["CD", 400],
+    ["C", 100],
+    ["XC", 90],
+    ["L", 50],
+    ["XL", 40],
+    ["X", 10],
+    ["IX", 9],
+    ["V", 5],
+    ["IV", 4],
+    ["I", 1],
+  ];
+
+  let result = "";
+  for (const [roman, value] of romanNumerals) {
+    while (num >= value) {
+      result += roman;
+      num -= value;
+    }
+  }
+  return result;
+};
+
+export const romawis = Array.from({ length: 300 }, (_, i) => ({
+  name: toRoman(i + 1),
+}));

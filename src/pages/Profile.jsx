@@ -96,7 +96,11 @@ const Profile = () => {
 
   return (
     <>
-      <SectionInfo title="General" info="Manajemen informasi akun anda" />
+      <SectionInfo
+        title="General"
+        info="Manajemen informasi akun anda"
+        border
+      />
       <div className="my-5">
         <p className="text-xs mb-2 text-center">Profile picture</p>
         <div className="flex items-center justify-center space-x-4">

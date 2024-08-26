@@ -9,6 +9,7 @@ import { LuUpload } from "react-icons/lu";
 import { fileTypeIcons } from "../data";
 import { GoDownload } from "react-icons/go";
 import { useSelector } from "react-redux";
+import noFile from "/icons/no.svg";
 
 const DocumentList = () => {
   const { roles } = useSelector((state) => state.userState);
@@ -21,7 +22,7 @@ const DocumentList = () => {
   const { documents } = useLoaderData();
   const handleDownload = async (id, name) => {
     try {
-      const response = await customFetch.get(`documents/download/${id}`, {
+      const response = await customFetch.get(`letter/download/${id}`, {
         responseType: "blob",
       });
 
@@ -52,20 +53,28 @@ const DocumentList = () => {
           className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
         >
           <div className="flex justify-items-center items-center">
-            <img
-              src={fileTypeIcons[fileType].url}
-              alt={name}
-              className="w-24 h-24"
-            />
+            {!fileType ? (
+              <img
+                src={fileTypeIcons[fileType].url}
+                alt={name}
+                className="w-24 h-24"
+              />
+            ) : (
+              <img src={noFile} alt={name} className="w-24 h-24" />
+            )}
+
             <div className="ml-2 md:ml-5 md:w-72 w-full ">
               <p className="font-semibold truncate text-xs sm:text-base">
                 {name}
               </p>
 
-              <p className="mb-5 font-semibold badge badge-primary badge-xs md:badge-sm">
-                {formatFileSize(size)}
-              </p>
-              <div className="hidden md:flex gap-2 flex-col">
+              {!size ? (
+                <p className="mb-5 font-semibold badge badge-primary badge-xs md:badge-sm">
+                  {formatFileSize(size)}
+                </p>
+              ) : null}
+
+              <div className="hidden md:flex gap-2 flex-col mt-2">
                 {expiredAt ? (
                   <p className="text-xs opacity-70">
                     Expried At: {convertDateArrayToString(expiredAt)}
@@ -78,14 +87,17 @@ const DocumentList = () => {
               </div>
             </div>
           </div>
-          <div className="hidden sm:flex justify-items-center items-center">
-            <p className="text-xs font-semibold badge badge-ghost opacity-70">
-              Type: {fileTypeIcons[fileType].docType}
-            </p>
-            <p className="text-xs font-semibold badge badge-ghost opacity-70">
-              Raw Size: {size} bytes
-            </p>
-          </div>
+          {!fileType ? (
+            <div className="hidden sm:flex justify-items-center items-center">
+              <p className="text-xs font-semibold badge badge-ghost opacity-70">
+                Type: {fileTypeIcons[fileType].docType}
+              </p>
+              <p className="text-xs font-semibold badge badge-ghost opacity-70">
+                Raw Size: {size} bytes
+              </p>
+            </div>
+          ) : null}
+
           <div className="mr-2 sm:mr-5 -mt-16">
             {!isADMIN ? (
               <button

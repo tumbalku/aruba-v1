@@ -1,10 +1,14 @@
 import React from "react";
 
-const UnmodifiedField = ({ label, value }) => {
+const UnmodifiedField = ({ label, value, border }) => {
   return (
     <div>
-      <p className="text-xs mb-1">{label}</p>
-      <p className="p-2 border rounded-lg border-b-slate-300 text-slate-500  text-sm shadow-lg">
+      <p className="text-xs capitalize p-2">{label}</p>
+      <p
+        className={`p-2 ${
+          border ? "border  border-b-slate-300" : ""
+        } rounded-lg text-slate-500  text-sm shadow-md truncate`}
+      >
         {value ? value : "-"}
       </p>
     </div>

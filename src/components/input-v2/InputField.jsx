@@ -9,7 +9,7 @@ const InputField = ({
 }) => {
   return (
     <div>
-      <p className="text-xs mb-1 capitalize ">{label}</p>
+      <p className="text-xs capitalize p-2">{label}</p>
       <input
         type={type}
         name={name}

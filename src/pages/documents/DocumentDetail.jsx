@@ -7,11 +7,19 @@ import {
 } from "../../utils";
 import { toast } from "react-toastify";
 import { docTypes, fileTypeIcons } from "../../data";
-import { FormInput, SelectInput, SubmitButton } from "../../components";
+import {
+  FormInput,
+  SectionInfo,
+  SelectInput,
+  SubmitButton,
+  UnmodifiedField,
+} from "../../components";
+import noFile from "/icons/no.svg";
 
 import { GoDownload } from "react-icons/go";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { FaWhatsapp } from "react-icons/fa6";
 
 export const loader = async ({ params }) => {
   try {
@@ -140,23 +148,30 @@ const DocumentDetail = () => {
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
       <div className="flex items-center justify-center p-2 border rounded-md bg-base-200">
-        <img
-          src={fileTypeIcons[fileType].url}
-          alt={name}
-          className="w-24 h-24"
-        />
+        {!fileType ? (
+          <img
+            src={fileTypeIcons[fileType].url}
+            alt={name}
+            className="w-24 h-24"
+          />
+        ) : (
+          <img src={noFile} alt={name} className="w-24 h-24" />
+        )}
         <div className=" ml-1 ">
           <p className="font-semibold truncate text-xs sm:text-base w-36">
             {name}
           </p>
-          <div className="mt-8 flex space-x-1">
-            <button
-              className="btn btn-xs md:btn-sm btn-success"
-              onClick={() => handleDownload(id, name)}
-            >
-              <GoDownload />
-              Download
-            </button>
+          <div className="mt-4 flex space-x-1">
+            {!fileType ? (
+              <button
+                className="btn btn-xs md:btn-sm btn-success"
+                onClick={() => handleDownload(id, name)}
+              >
+                <GoDownload />
+                Download
+              </button>
+            ) : null}
+
             <button
               className="btn btn-xs md:btn-sm btn-error "
               onClick={() => handleDelete(id)}
@@ -167,52 +182,28 @@ const DocumentDetail = () => {
           </div>
         </div>
       </div>
-      <div className="md:col-span-2 md:row-span-3 p-2 border rounded-md bg-base-200">
-        <h2 className="md:text-2xl font-semibold mb-4">Document Detail</h2>
+      <div className="md:col-span-2 md:row-span-3 p-4 border rounded-md bg-base-200 ">
+        <div className="flex flex-col sm:flex-row justify-between lg:items-end">
+          <SectionInfo
+            title="Detail dokumen"
+            info="Manajemen informasi akun anda"
+          />
+
+          <button
+            className="btn btn-xs md:btn-sm btn-success"
+            onClick={handelWa}
+          >
+            <FaWhatsapp />
+            Kirim
+          </button>
+        </div>
         <Form method="post">
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-            <FormInput
-              size="md:input-sm input-xs "
-              labelSize="text-xs"
-              type="text"
-              label="Owner"
-              name="owner"
-              disabled
-              defaultValue={ownerName}
-            />
-            {nip ? (
-              <FormInput
-                size="md:input-sm input-xs "
-                labelSize="text-xs"
-                type="text"
-                label="NIP"
-                name="nip"
-                disabled
-                defaultValue={nip}
-              />
-            ) : null}
-            {phone ? (
-              <FormInput
-                size="md:input-sm input-xs "
-                labelSize="text-xs"
-                type="text"
-                label="No. Hp"
-                name="phone"
-                disabled
-                defaultValue={phone}
-              />
-            ) : null}
-            {workUnit ? (
-              <FormInput
-                size="md:input-sm input-xs "
-                labelSize="text-xs"
-                type="text"
-                label="Unit Kerja"
-                name="workUnit"
-                disabled
-                defaultValue={workUnit}
-              />
-            ) : null}
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-2 mt-8">
+            <UnmodifiedField value={ownerName} label="Pemilik" />
+            <UnmodifiedField value={nip} label="NIP" />
+            <UnmodifiedField value={phone} label="No. Hp" />
+
+            <UnmodifiedField value={workUnit} label="Unit Kerja" />
 
             <div className="md:col-span-2">
               <FormInput
@@ -233,50 +224,24 @@ const DocumentDetail = () => {
                 defaultValue={type}
               />
             </div>
-            <FormInput
-              size="md:input-sm input-xs  "
-              labelSize="text-xs"
-              type="text"
-              label="Size"
-              name="size"
-              disabled={true}
-              defaultValue={formatFileSize(size)}
+            {!fileType ? (
+              <UnmodifiedField value={size} label="Ukuran file" />
+            ) : null}
+            <UnmodifiedField
+              value={convertDateArrayToString(uploadedAt)}
+              label="Dibuat pada"
             />
-            <FormInput
-              size="md:input-sm input-xs "
-              labelSize="text-xs"
-              type="text"
-              label="uploaded at"
-              name="uploadedAt"
-              disabled={true}
-              defaultValue={convertDateArrayToString(uploadedAt)}
+            <UnmodifiedField
+              value={convertDateArrayToString(updatedAt)}
+              label="Diperbaruhi pada"
             />
-            <FormInput
-              size="md:input-sm input-xs "
-              labelSize="text-xs"
-              type="text"
-              label="Updated at"
-              name="updatedAt"
-              disabled={true}
-              defaultValue={convertDateArrayToString(updatedAt)}
-            />
-            <FormInput
-              size="md:input-sm input-xs "
-              labelSize="text-xs"
-              type="text"
-              label="Expired at"
-              name="expiredAt"
-              disabled={true}
-              defaultValue={convertDateArrayToString(expiredAt)}
+            <UnmodifiedField
+              value={convertDateArrayToString(expiredAt)}
+              label="Berakhir pada"
             />
           </div>
           <div className="text-right mt-5">
             <SubmitButton color="btn-primary" size="btn-sm" text="Update" />
-          </div>
-          <div>
-            <button className="btn btn-primary" onClick={handelWa}>
-              Send We
-            </button>
           </div>
         </Form>
       </div>

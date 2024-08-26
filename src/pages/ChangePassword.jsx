@@ -33,6 +33,7 @@ const ChangePassword = () => {
       <SectionInfo
         title="Ubah Password"
         info="Silahkan membuat password baru untuk menjaga keamanan akun"
+        border
       />
       <Form method="POST" className="space-y-4 my-5">
         <InputField

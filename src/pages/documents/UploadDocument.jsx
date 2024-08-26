@@ -31,11 +31,11 @@ export const action =
 
       console.log(response);
       toast.success("Success upload file");
-      return "ok";
+      return redirect("/documents");
     } catch (error) {
       console.error(error);
       toast.warn("Terjadi error!");
-      return redirect("/documents");
+      return null;
     }
   };
 const UploadDocument = () => {

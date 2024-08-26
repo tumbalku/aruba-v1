@@ -51,7 +51,8 @@ import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail
 import { loader as kgbDetailLoader } from "./pages/kgb/KGBDetail";
 
 // exp
-// import { loader as expLoader } from "./pages/Exp";
+import { loader as expLoader } from "./pages/Exp";
+import { action as expAction } from "./pages/Exp";
 
 const router = createBrowserRouter([
   {
@@ -96,7 +97,8 @@ const router = createBrowserRouter([
         path: "exp",
         element: <Exp />,
         errorElement: <ErrorElement />,
-        // loader: expLoader(store),
+        loader: expLoader(store),
+        action: expAction(store),
       },
       {
         element: <LoginRequireRoutes />,

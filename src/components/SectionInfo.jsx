@@ -1,8 +1,8 @@
 import React from "react";
 
-const SectionInfo = ({ title, info }) => {
+const SectionInfo = ({ title, info, border }) => {
   return (
-    <div className="border-b border-b-slate-300 pb-5">
+    <div className={`${border ? "border-b border-b-slate-300" : ""} pb-5`}>
       <h1 className="text-2xl">{title}</h1>
       <p className="text-xs text-slate-500">{info}</p>
     </div>
