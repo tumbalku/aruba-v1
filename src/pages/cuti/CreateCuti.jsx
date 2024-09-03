@@ -1,21 +1,18 @@
-import { Form, redirect } from "react-router-dom";
+import { Form, redirect, useLoaderData } from "react-router-dom";
 import {
   DateInput,
   FormCheckbox,
-  FormCheckboxWithOnChange,
   FormInput,
-  FormTextArea,
-  PrevLinks,
   SelectInput,
-  SelectInputForEmail,
+  SelectInputForId,
   SubmitButton,
 } from "../../components";
-import { cutiType, forUsers } from "../../data";
 import { toast } from "react-toastify";
-import { customFetch, isAuthenticate } from "../../utils";
+import { customFetch, daysBetween } from "../../utils";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
+import { signedBy } from "../../data";
 export const action =
   (store) =>
   async ({ request }) => {
@@ -24,51 +21,63 @@ export const action =
 
     const user = store.getState().userState.user;
 
-    const authCheck = isAuthenticate(user);
-    if (authCheck !== true) {
-      return authCheck;
+    data.people = JSON.parse(data.tembusan);
+    data.kopData = JSON.parse(data.kopData || "{}");
+    console.log(data);
+
+    function formatPhoneNumber(phone) {
+      if (!phone) return null;
+      if (phone.startsWith("08")) {
+        return phone.replace(/^0/, "62");
+      }
+
+      if (phone.startsWith("62")) {
+        return phone;
+      }
+
+      toast.error("Whatsapp harus diawali 62.. atau 08..");
+      return "invalid";
     }
 
-    const tembusan = JSON.parse(data.tembusan);
+    const { dateStart, dateEnd } = data;
+    const dateCount = daysBetween(dateStart, dateEnd);
+    console.log(dateCount);
+    // const message = `
+    //     *Permohonan ${kopName}*
 
-    data.tembusan = tembusan;
-    data.isPegawai = data.isPegawai === "on";
-    const { type, email, dateStart, dateEnd, reason } = data;
+    // Kepada Yth. Pimpinan SDM
 
-    const message = `
-      *Permohonan Izin Cuti ${type}*
+    // Nama       : *${userName}*
+    // Unit Kerja : *${workUnit}*
 
-      Bahwa yang bertanda tangan di bawah ini:
+    // Pegawai dengan nama di atas bermaksud mengajukan cuti *${kopName}* selama *${dateCount}* hari, mulai tanggal *${dateStart}* hingga *${dateEnd}*.
 
-      *Nama*: ${user.name}
-      *NIP*: ${user.id}
-  
-      Dengan ini telah mengajukan permohonan cuti untuk keperluan berikut:
+    // Demikian permohonan ini diajukan. Atas perhatian dan kebijaksanaannya, kami ucapkan terima kasih.
 
-      _Alasan_: ${reason}
+    // Hormat saya,
 
-      *Tanggal Mulai*: ${dateStart}
-      *Tanggal Selesai*: ${dateEnd}
+    // *${userName}*
+    // `.trim();
 
-      Demikian permohonan ini diajukan, atas perhatian dan kebijaksanaannya kami ucapkan terima kasih.
+    const hp = formatPhoneNumber(data.phone);
+    if (hp === "invalid") {
+      return null;
+    }
 
-      Hormat kami,
-      ${user.nama}
-    `.trim();
-
-    const urlToWa = `https://wa.me/${data.phone}?text=${encodeURIComponent(
-      message
-    )}`;
+    const message = `ini pesan`.trim();
+    const urlToWa = `https://wa.me/${hp}?text=${encodeURIComponent(message)}`;
 
     try {
-      const response = await customFetch.post("/cuti/make", data, {
+      const response = await customFetch.post("/cuti", data, {
         headers: {
           "X-API-TOKEN": user.token,
         },
       });
-
-      toast.success(response.data.message || "Permintaan anda sedang diproses");
-      window.open(urlToWa, "_blank");
+      console.log(response.data.message);
+      toast.success(response.data.message || "Berhasil membuat cuti");
+      if (hp) {
+        window.open(urlToWa, "_blank");
+      }
       return null;
     } catch (error) {
       if (error) {
@@ -77,24 +86,44 @@ export const action =
       }
     }
   };
+export const loader = (store) => async () => {
+  const user = store.getState().userState.user;
 
+  try {
+    const response = await customFetch.get("/kops", {
+      headers: {
+        "X-API-TOKEN": `${user.token}`,
+      },
+    });
+
+    return {
+      kops: response.data.data,
+    };
+  } catch (error) {
+    console.log(error);
+    toast.warn("Terjadi error!");
+    return null;
+  }
+};
 const CreateCuti = () => {
   const date = new Date().toISOString().split("T")[0];
   const [name, setName] = useState("");
   const [tembusan, setTembusan] = useState([]);
+  const [isWa, setIsWa] = useState(false);
+  // const [isCurrentWa, setIsCurrentWa] = useState(false);
+
+  const { kops } = useLoaderData();
 
   const handleAdd = (e) => {
     e.preventDefault();
 
-    // if no value, do nothing
     if (!name) return;
-    // if value, setup new user and add to current users
+
     const fakeId = Date.now();
-    // const newUser = { id: fakeId, name: name };
+
     const newTembusan = { id: fakeId, name };
     const updateTembusan = [...tembusan, newTembusan];
     setTembusan(updateTembusan);
-    // set back to empty
     setName("");
   };
 
@@ -103,41 +132,51 @@ const CreateCuti = () => {
     setTembusan(updateTembusan);
   };
 
-  const [selectedCuti, setSelectedCuti] = useState(cutiType[3]); // Default value
-
-  const handleCutiChange = (e) => {
-    const selectedName = e.target.value;
-    const selected = cutiType.find((cuti) => cuti.name === selectedName);
-    setSelectedCuti(selected);
+  const handleCheckboxChange = (event) => {
+    setIsWa(event.target.checked);
   };
 
+  // useEffect(() => {
+  //   if (!isWa) {
+  //     setIsCurrentWa(false);
+  //   }
+  // }, [isWa]);
+
+  console.log(kops);
+  const [kopData, setKopData] = useState(kops[0]);
+  const handleKopChange = (event) => {
+    const selectedKop = kops.find(
+      (kop) => kop.id === parseInt(event.target.value)
+    );
+    setKopData(selectedKop || {});
+  };
   return (
-    <Form method="POST" className="bg-base-300 p-10 rounded-lg">
+    <Form method="POST">
       <div className="grid grid-cols-4 gap-5 ">
         <div className="col-span-4 md:col-span-2">
-          <FormInput name="userNIP" label="Masukan NIP" size="input-sm" />
+          <FormInput name="user" label="User ID" size="input-sm" />
         </div>
         <div className="col-span-4 md:col-span-2">
-          <SelectInput
-            label="Jenis Cuti"
-            name="type"
-            list={cutiType}
-            defaultValue={cutiType[3].name}
-            onChange={handleCutiChange}
+          <SelectInputForId
+            name="kop"
+            list={kops}
+            defaultValue={kops[0].name}
             size="select-sm"
+            extFun={handleKopChange}
+            label="Type"
           />
+          <input type="hidden" name="kopData" value={JSON.stringify(kopData)} />
+        </div>
 
-          <input type="hidden" name="name" value={selectedCuti.desc} />
-          <input type="hidden" name="unicode" value={selectedCuti.unicode} />
+        <div className="col-span-4 md:col-span-2">
+          <FormInput name="number" label="nomor" size="input-sm" />
         </div>
         <div className="col-span-4 md:col-span-2">
-          <FormInput name="phone" label="Whatsapp" size="input-sm" />
-        </div>
-        <div className="col-span-4 md:col-span-2">
-          <FormInput name="num" label="nomor" size="input-sm" />
-        </div>
-        <div className="col-span-4 md:col-span-2">
-          <FormInput name="romawi" label="romawi" size="input-sm" />
+          <FormInput
+            name="address"
+            label="Alamat selama cuti"
+            size="input-sm"
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
           <DateInput
@@ -155,29 +194,37 @@ const CreateCuti = () => {
             defaultValue={date}
           />
         </div>
+
         <div className="col-span-4 md:col-span-2">
-          <FormInput
-            name="address"
-            label="Alamat selama cuti"
-            size="input-sm"
+          <SelectInput
+            label="Akan ditandatanganni oleh:"
+            list={signedBy}
+            name="signedBy"
+            size="select-sm"
           />
         </div>
         <div className="col-span-4 md:col-span-2">
           <FormCheckbox
-            defaultChecked={true}
-            label="pegawai"
-            name="isPegawai"
+            defaultChecked={isWa}
+            label="Sent to"
+            name="isWa"
             size="checkbox-sm"
+            onChange={handleCheckboxChange}
           />
         </div>
+        {isWa && (
+          <div className="col-span-4 md:col-span-2">
+            <FormInput name="phone" label="Whatsapp" size="input-sm" />
+          </div>
+        )}
         <div className="col-span-4">
           <div className="form-control mb-6">
             <label htmlFor="tembusan" className="label">
               <span className="label-text capitalize ">tembusan</span>
             </label>
 
-            <div className="grid grid-cols-12 gap-2">
-              <div className="col-span-10">
+            <div className="flex gap-2">
+              <div className="flex-1">
                 <input
                   type="text"
                   className="input input-bordered input-sm w-full"
@@ -187,7 +234,7 @@ const CreateCuti = () => {
                   placeholder="Tambahkan tembusan"
                 />
               </div>
-              <div className="col-span-2 text-center">
+              <div className="w-fit text-right">
                 <button
                   type="button"
                   className="btn btn-primary btn-sm"
@@ -230,17 +277,9 @@ const CreateCuti = () => {
             value={JSON.stringify(tembusan.map((t) => t.name))}
           />
         </div>
-        <div className="col-span-4">
-          <FormTextArea
-            label="Alasan cuti"
-            size="textarea-sm h-32"
-            name="reason"
-            placeholder="Berikan keterangan mengapa cuti diajukan"
-          />
-        </div>
       </div>
       <div className="text-center md:text-right mt-5">
-        <SubmitButton color="btn-primary" size="btn-sm" text="Ajukan Cuti" />
+        <SubmitButton color="btn-primary" size="btn-sm" text="Buat Cuti" />
       </div>
     </Form>
   );

@@ -1,4 +1,11 @@
-const FormCheckbox = ({ name, label, defaultChecked, onChange, size }) => {
+const FormCheckbox = ({
+  name,
+  label,
+  defaultChecked,
+  onChange,
+  size,
+  disabled,
+}) => {
   return (
     <div className="form-control items-center">
       <label htmlFor={name} className="label cursor-pointer">
@@ -10,6 +17,7 @@ const FormCheckbox = ({ name, label, defaultChecked, onChange, size }) => {
         defaultChecked={defaultChecked}
         className={`checkbox checkbox-primary ${size}`}
         onChange={onChange}
+        disabled={disabled}
       />
     </div>
   );

@@ -2,13 +2,13 @@ const StatusBadge = ({ status }) => {
   let badgeClass = "badge ";
 
   switch (status) {
-    case "PENDING":
+    case "Belum mulai":
       badgeClass += "badge-info";
       break;
-    case "APPROVED":
+    case "Sedang cuti":
       badgeClass += "badge-success";
       break;
-    case "REJECTED":
+    case "Sudah selesai":
       badgeClass += "badge-error";
       break;
     default:

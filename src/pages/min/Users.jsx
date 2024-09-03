@@ -1,8 +1,13 @@
 import React from "react";
-import { PaginationContainer, SearchOnly, UserList } from "../../components";
+import {
+  Loading,
+  PaginationContainer,
+  SearchOnly,
+  UserList,
+} from "../../components";
 
 import { toast } from "react-toastify";
-import { Link, redirect } from "react-router-dom";
+import { Link, redirect, useNavigation } from "react-router-dom";
 import { customFetch } from "../../utils";
 import { useSelector } from "react-redux";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
@@ -35,8 +40,10 @@ export const loader =
   };
 const Users = () => {
   const roles = useSelector((state) => state.userState.roles);
-
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
   const isAdmin = roles.includes("ADMIN");
+
   return (
     <section>
       {isAdmin && (
@@ -49,7 +56,8 @@ const Users = () => {
       )}
 
       <SearchOnly name="identity" link="/users" />
-      <UserList />
+      {isLoading ? <Loading /> : <UserList />}
+
       <PaginationContainer />
     </section>
   );

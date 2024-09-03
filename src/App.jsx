@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { HomeLayout, ProfileLayout } from "./layout";
+import { FeatureLayout, HomeLayout } from "./layout";
 import { ErrorElement } from "./components";
 import { store } from "./store";
 import {
@@ -24,6 +24,12 @@ import {
   UploadDocument,
   DocumentDetail,
   ChangePassword,
+  Sip,
+  Kop,
+  CutiReport,
+  Posts,
+  PostReport,
+  PostCreate,
 } from "./pages";
 import { LoginRequireRoutes } from "./routes";
 
@@ -42,6 +48,8 @@ import { action as profileAction } from "./pages/Profile";
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
 import { loader as cutiDecisionLoader } from "./pages/cuti/CutiDecision";
+import { loader as createCutiLoader } from "./pages/cuti/CreateCuti";
+import { loader as cutiReportLoader } from "./pages/cuti/CutiReport";
 import { loader as usersLoader } from "./pages/min/Users";
 import { loader as usersCreateLoader } from "./pages/min/CreateUser";
 import { loader as usersDetailLoader } from "./pages/min/UserDetail";
@@ -49,10 +57,17 @@ import { loader as usersUpdateLoader } from "./pages/min/UpdateUser";
 import { loader as documentsLoader } from "./pages/Documents";
 import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail";
 import { loader as kgbDetailLoader } from "./pages/kgb/KGBDetail";
+import { loader as sipLoader } from "./pages/sip/Sip";
+import { loader as kopLoader } from "./pages/Kop";
+import { action as kopAction } from "./pages/Kop";
 
 // exp
-import { loader as expLoader } from "./pages/Exp";
-import { action as expAction } from "./pages/Exp";
+import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
+import { action as expAction } from "./pages/cuti/EditCuti";
+import { First, links, Second } from "./pages/exp";
+import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
+// import { action as expAction } from "./pages/Exp";
+// import { action as expAction } from "./pages/Exp";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +81,28 @@ const router = createBrowserRouter([
         errorElement: <ErrorElement />,
       },
       {
+        path: "posts",
+        element: <FeatureLayout links={postsLinks} />,
+        errorElement: <ErrorElement />,
+        children: [
+          {
+            index: true,
+            element: <Posts />,
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "create",
+            element: <PostCreate />,
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "report",
+            element: <PostReport />,
+            errorElement: <ErrorElement />,
+          },
+        ],
+      },
+      {
         path: "about",
         element: <About />,
         errorElement: <ErrorElement />,
@@ -76,26 +113,37 @@ const router = createBrowserRouter([
         errorElement: <ErrorElement />,
       },
       {
-        path: "letters/cuti",
-        element: <CreateCuti />,
-        action: createCutiAction(store),
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "letters/cuti/:id",
-        element: <CutiDetail />,
-        loader: cutiDetailLoader,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "letters/kgb",
+        path: "kgb",
         element: <KGBDetail />,
         loader: kgbDetailLoader,
         errorElement: <ErrorElement />,
       },
       {
+        path: "sip",
+        element: <Sip />,
+        loader: sipLoader,
+        errorElement: <ErrorElement />,
+      },
+      {
         path: "exp",
-        element: <Exp />,
+        element: <FeatureLayout links={links} />,
+        errorElement: <ErrorElement />,
+        children: [
+          {
+            index: true,
+            element: <First />,
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "second",
+            element: <Second />,
+            errorElement: <ErrorElement />,
+          },
+        ],
+      },
+      {
+        path: "exp/:id",
+        element: <EditCuti />,
         errorElement: <ErrorElement />,
         loader: expLoader(store),
         action: expAction(store),
@@ -103,6 +151,46 @@ const router = createBrowserRouter([
       {
         element: <LoginRequireRoutes />,
         children: [
+          {
+            path: "cuti",
+            element: <FeatureLayout links={cutiLinks} />,
+            children: [
+              {
+                index: true,
+                element: <CreateCuti />,
+                errorElement: <ErrorElement />,
+                action: createCutiAction(store),
+                loader: createCutiLoader(store),
+              },
+              {
+                path: "kop",
+                element: <Kop />,
+                errorElement: <ErrorElement />,
+                loader: kopLoader(store),
+                action: kopAction(store),
+              },
+              {
+                path: "report",
+                element: <CutiReport />,
+                errorElement: <ErrorElement />,
+                loader: cutiReportLoader(store),
+              },
+              {
+                path: "detail/:id",
+                element: <CutiDetail />,
+                loader: cutiDetailLoader,
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "edit/:id",
+                element: <EditCuti />,
+                errorElement: <ErrorElement />,
+                loader: expLoader(store),
+                action: expAction(store),
+              },
+            ],
+            errorElement: <Error />,
+          },
           {
             path: "my-cuti",
             element: <MyCuti />,
@@ -166,7 +254,7 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <ProfileLayout />,
+        element: <FeatureLayout links={profileLinks} />,
         children: [
           {
             index: true,

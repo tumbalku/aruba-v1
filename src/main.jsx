@@ -6,6 +6,7 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store.js";
 import { ToastContainer } from "react-toastify";
+import "react-quill/dist/quill.snow.css"; // Impor stylesheet tema Quill
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>

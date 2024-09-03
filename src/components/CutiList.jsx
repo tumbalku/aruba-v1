@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import SectionTitle from "./SectionTitle";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { checkCutiStatus } from "../data";
 
 const CutiList = () => {
   const { cutis: initialCutis } = useLoaderData();
@@ -55,15 +56,18 @@ const CutiList = () => {
           <tbody>
             {cutis.length > 0 &&
               cutis.map((cuti, index) => {
-                const { id, type, status } = cuti;
-                const name = cuti.user.name;
+                const { id, kop, status, user, dateStart, dateEnd } = cuti;
+                const name = user.name;
+                const type = kop.name;
                 return (
                   <tr key={id}>
                     <th>{index + 1}</th>
                     <td>{name}</td>
                     <td>{type}</td>
                     <td>
-                      <StatusBadge status={status} />
+                      <StatusBadge
+                        status={checkCutiStatus(dateStart, dateEnd)}
+                      />
                     </td>
                     <td className="flex space-x-2">
                       {status !== "PENDING" && (

@@ -2,10 +2,8 @@ import React from "react";
 import InputField from "./input-v2/InputField";
 import { years, romawis } from "../data";
 import SelectInput from "./SelectInput";
-import { toast } from "react-toastify";
-import { customFetch } from "../utils";
 import { Form } from "react-router-dom";
-const Kop = ({ name, romawi, year, id, nomor }) => {
+const KopData = ({ name, romawi, year, id, nomor }) => {
   return (
     <div className="px-4 py-6 bg-base-200 rounded-lg hover:shadow-xl transition duration-500">
       <h1 className="text-center lg:text-2xl text-lg  font-semibold mb-4">
@@ -51,4 +49,4 @@ const Kop = ({ name, romawi, year, id, nomor }) => {
   );
 };
 
-export default Kop;
+export default KopData;

@@ -6,14 +6,19 @@ import { Card } from "../components";
 
 const Letter = () => {
   return (
-    <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-      <Card title="Cuti" color="bg-purple-400" url="/letters/cuti">
+    <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <Card title="Cuti" color="bg-purple-400" url="/cuti">
         <LiaFileMedicalAltSolid className="w-14 h-14 text-black" />
       </Card>
-      <Card title="SIP" color="bg-yellow-400 text-black" maintenance>
+      <Card title="SIP" color="bg-yellow-400 text-black" url="/sip">
         <GiSoapExperiment className="w-14 h-14" />
       </Card>
-      <Card title="KGB" color="bg-emerald-400 text-black" url="/letters/kgb">
+      <Card
+        title="KGB"
+        color="bg-emerald-400 text-black"
+        url="/letters/kgb"
+        maintenance
+      >
         <FaMoneyBillTrendUp className="w-14 h-14" />
       </Card>
       <Card title="SPMT " color="bg-orange-400 text-black" maintenance>

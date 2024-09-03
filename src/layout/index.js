@@ -1,2 +1,2 @@
 export { default as HomeLayout } from "./HomeLayout";
-export { default as ProfileLayout } from "./ProfileLayout";
+export { default as FeatureLayout } from "./FeatureLayout";

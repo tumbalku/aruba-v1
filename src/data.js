@@ -31,19 +31,6 @@ export const fileTypeIcons = {
   },
 };
 
-export const cutiType = [
-  { id: 1, name: "BESAR", desc: "cuti besar", unicode: "852" },
-  { id: 2, name: "SAKIT", desc: "cuti sakit", unicode: "853" },
-  {
-    id: 3,
-    name: "KARENA_ALASAN_PENTING",
-    desc: "cuti karena alasan penting",
-    unicode: "857",
-  },
-  { id: 4, name: "BERSALIN", desc: "cuti bersalin", unicode: "854" },
-  { id: 5, name: "TAHUNAN", desc: "cuti tahunan", unicode: "851" },
-];
-
 export const cutiStatus = [
   { name: "APPROVED" },
   { name: "PENDING" },
@@ -57,16 +44,11 @@ export const docTypes = [
   { name: "AKREDITASI" },
 ];
 
-export const forUsers = [
-  // { id: 1, name: "Ajib", email: "hamsya836@gmail.com" },
-  { id: 1, name: "Ajib", email: "tumbalku00000@gmail.com" },
-  { id: 2, name: "Bilal", email: "meaku00000@gmail.com" },
-  { id: 3, name: "Apon", email: "muhammadarsilalhabsy@gmail.com" },
-  { id: 4, name: "Zait", email: "muhamadarsilalhabsy@gmail.com" },
-  { id: 5, name: "Adam", email: "tarxvftargz@gmail.com" },
+export const signedBy = [
+  { name: "Direktur" },
+  { name: "Wakil Direktur" },
+  { name: "PLH" },
 ];
-
-// icons
 
 export const gologanPPPK = [
   { name: "Golologan I" },
@@ -161,3 +143,17 @@ const toRoman = (num) => {
 export const romawis = Array.from({ length: 300 }, (_, i) => ({
   name: toRoman(i + 1),
 }));
+
+export const checkCutiStatus = (dateStart, dateEnd) => {
+  const startDate = new Date(dateStart[0], dateStart[1] - 1, dateStart[2]);
+  const endDate = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2]);
+  const today = new Date();
+
+  if (today > endDate) {
+    return "Sudah selesai";
+  } else if (today >= startDate && today <= endDate) {
+    return "Sedang cuti";
+  } else {
+    return "Belum mulai";
+  }
+};

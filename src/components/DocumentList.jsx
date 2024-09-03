@@ -44,7 +44,7 @@ const DocumentList = () => {
       console.error("Download failed:", error);
     }
   };
-  console.log(documents);
+
   return (
     <div>
       {documents.map(({ id, size, fileType, name, uploadedAt, expiredAt }) => (
@@ -53,7 +53,7 @@ const DocumentList = () => {
           className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
         >
           <div className="flex justify-items-center items-center">
-            {!fileType ? (
+            {fileType ? (
               <img
                 src={fileTypeIcons[fileType].url}
                 alt={name}
@@ -68,18 +68,18 @@ const DocumentList = () => {
                 {name}
               </p>
 
-              {!size ? (
+              {size ? (
                 <p className="mb-5 font-semibold badge badge-primary badge-xs md:badge-sm">
                   {formatFileSize(size)}
                 </p>
               ) : null}
 
               <div className="hidden md:flex gap-2 flex-col mt-2">
-                {expiredAt ? (
+                {expiredAt && (
                   <p className="text-xs opacity-70">
                     Expried At: {convertDateArrayToString(expiredAt)}
                   </p>
-                ) : null}
+                )}
 
                 <p className="text-xs opacity-70">
                   Created At: {convertDateArrayToString(uploadedAt)}
@@ -87,7 +87,7 @@ const DocumentList = () => {
               </div>
             </div>
           </div>
-          {!fileType ? (
+          {fileType && (
             <div className="hidden sm:flex justify-items-center items-center">
               <p className="text-xs font-semibold badge badge-ghost opacity-70">
                 Type: {fileTypeIcons[fileType].docType}
@@ -96,7 +96,7 @@ const DocumentList = () => {
                 Raw Size: {size} bytes
               </p>
             </div>
-          ) : null}
+          )}
 
           <div className="mr-2 sm:mr-5 -mt-16">
             {!isADMIN ? (

@@ -1,11 +1,4 @@
-const SelectInputForId = ({
-  label,
-  name,
-  list,
-  defaultValue,
-  size,
-  extFun = () => {},
-}) => {
+const SelectInputForIdByType = ({ label, name, list, defaultValue, size }) => {
   return (
     <div className="form-control">
       <label htmlFor={name} className="label">
@@ -16,7 +9,6 @@ const SelectInputForId = ({
         id={name}
         className={`select select-bordered ${size}`}
         defaultValue={defaultValue}
-        onChange={extFun}
       >
         {list.map((item, index) => {
           return (
@@ -30,4 +22,4 @@ const SelectInputForId = ({
   );
 };
 
-export default SelectInputForId;
+export default SelectInputForIdByType;

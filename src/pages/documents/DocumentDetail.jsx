@@ -148,7 +148,7 @@ const DocumentDetail = () => {
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
       <div className="flex items-center justify-center p-2 border rounded-md bg-base-200">
-        {!fileType ? (
+        {fileType ? (
           <img
             src={fileTypeIcons[fileType].url}
             alt={name}
@@ -162,7 +162,7 @@ const DocumentDetail = () => {
             {name}
           </p>
           <div className="mt-4 flex space-x-1">
-            {!fileType ? (
+            {fileType && (
               <button
                 className="btn btn-xs md:btn-sm btn-success"
                 onClick={() => handleDownload(id, name)}
@@ -170,7 +170,7 @@ const DocumentDetail = () => {
                 <GoDownload />
                 Download
               </button>
-            ) : null}
+            )}
 
             <button
               className="btn btn-xs md:btn-sm btn-error "

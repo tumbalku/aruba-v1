@@ -5,7 +5,7 @@ import {
   customFetch,
   translateGender,
 } from "../../utils";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import {
   FormInput,
   FormTextArea,
@@ -27,31 +27,21 @@ export const loader = async ({ params }) => {
 };
 const CutiDetail = () => {
   const { cutiDetail } = useLoaderData();
-  const {
-    user,
-    id: cutiId,
-    confirmDate,
-    type,
-    status,
-    message,
-    reason,
-    dateStart,
-    dateEnd,
-  } = cutiDetail;
-  const { name, id: userId, email, gender, phone, address } = user;
-  const bos = "UCUP";
-  const pegawai = useSelector((state) => state.userState.user);
-  const { id } = useParams();
+  console.log(cutiDetail);
+  const { user } = useSelector((state) => state.userState);
+
+  const { dateStart, dateEnd, id, kop, number, user: owner } = cutiDetail;
+
   const [isDisabled, setIsDisabled] = useState(false);
 
-  console.log(pegawai);
+  console.log(user);
   const handleDownload = async () => {
     setIsDisabled(true);
     try {
       const response = await customFetch(`/cuti/download/${id}`, {
         responseType: "blob",
         headers: {
-          "X-API-TOKEN": pegawai.token,
+          "X-API-TOKEN": user.token,
         },
       });
 
@@ -81,168 +71,115 @@ const CutiDetail = () => {
   };
 
   return (
-    <section className="bg-base-300 p-8 rounded-lg ">
-      {pegawai && status === "APPROVED" && (
-        <div className="flex md:justify-end">
-          <button
-            className="btn btn-outline btn-secondary btn-sm"
-            onClick={handleDownload}
-            disabled={isDisabled}
-          >
-            <span>Export </span>
-            <FaFilePdf className="text-error" />
-          </button>
-        </div>
-      )}
+    <>
+      <div className="flex md:justify-end">
+        <button
+          className="btn btn-outline btn-secondary btn-sm"
+          onClick={handleDownload}
+          disabled={isDisabled}
+        >
+          <span>Export </span>
+          <FaFilePdf className="text-error" />
+        </button>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-4 mt-8">
-        <div className="md:col-span-2">
-          <div className="flex flex-col items-center justify-center space-y-5 mb-5">
-            <div>
-              <StatusBadge status={status} />
-            </div>
-            {status === "REJECTED" && (
-              <div>
-                <p className="text-xs">
-                  {convertDateArrayToString(confirmDate)} - dari {bos}
-                </p>
-              </div>
-            )}
-          </div>
-          {pegawai && (
-            <FormTextArea
-              defaultValue={message}
+        <div className="md:col-span-2"></div>
+
+        <>
+          {/* Cuti */}
+          <div className="md:order-2 order-1">
+            <h1 className="font-semibold text-sm pb-5 text-center">
+              Detail Cuti
+            </h1>
+            <FormInput
+              label="ID"
               disabled={true}
-              label="Pesan"
-              name="message"
-              size="textarea-sm h-32"
+              defaultValue={id}
+              name="ID"
+              size="input-sm"
+              type="text"
             />
-          )}
-        </div>
-        {status === "APPROVED" && (
-          <>
-            {/* Cuti */}
-            <div className="md:order-2 order-1">
-              <h1 className="font-semibold text-sm pb-5 text-center">
-                Detail Cuti
-              </h1>
+            <FormInput
+              label="Jenis Cuti"
+              disabled={true}
+              defaultValue={kop.name}
+              name="type"
+              size="input-sm"
+              type="text"
+            />
+            <div className="grid grid-cols-2 gap-2">
               <FormInput
-                label="ID"
+                label="Dari tanggal"
                 disabled={true}
-                defaultValue={cutiId}
-                name="ID"
-                size="input-sm"
-                type="text"
-              />
-              <FormInput
-                label="Jenis Cuti"
-                disabled={true}
-                defaultValue={type}
+                defaultValue={convertDateArrayToString(dateStart)}
                 name="type"
                 size="input-sm"
                 type="text"
               />
-              <div className="grid grid-cols-2 gap-2">
-                <FormInput
-                  label="Dari tanggal"
-                  disabled={true}
-                  defaultValue={convertDateArrayToString(dateStart)}
-                  name="type"
-                  size="input-sm"
-                  type="text"
-                />
-                <FormInput
-                  label="Sampai tanggal"
-                  disabled={true}
-                  defaultValue={convertDateArrayToString(dateEnd)}
-                  name="type"
-                  size="input-sm"
-                  type="text"
-                />
-              </div>
               <FormInput
-                label="Dikonfirmasi Tanggal"
+                label="Sampai tanggal"
                 disabled={true}
-                defaultValue={convertDateArrayToString(confirmDate)}
+                defaultValue={convertDateArrayToString(dateEnd)}
                 name="type"
                 size="input-sm"
                 type="text"
               />
-              {pegawai && (
-                <FormTextArea
-                  defaultValue={reason}
-                  disabled={true}
-                  label="Alasan mengajukan"
-                  name="reason"
-                  size="textarea-sm h-32"
-                />
-              )}
             </div>
+          </div>
 
-            {/* Pegawai */}
-            <div className="md:order-1 order-2">
-              <h1 className="font-semibold text-sm pb-5 text-center">
-                Detail Pegawai
-              </h1>
+          {/* Pegawai */}
+          <div className="md:order-1 order-2">
+            <h1 className="font-semibold text-sm pb-5 text-center">
+              Detail Pegawai
+            </h1>
 
-              <FormInput
-                label="NIP"
-                disabled={true}
-                defaultValue={userId}
-                name="userId"
-                size="input-sm"
-                type="text"
-              />
-              <FormInput
-                label="Nama Pegawai"
-                disabled={true}
-                defaultValue={name}
-                name="name"
-                size="input-sm"
-                type="text"
-              />
-              <FormInput
-                label="Jenis Kelamin"
-                disabled={true}
-                defaultValue={translateGender(gender)}
-                name="gender"
-                size="input-sm"
-                type="text"
-              />
-              {pegawai && (
-                <>
-                  <FormInput
-                    label="No. HP"
-                    disabled={true}
-                    defaultValue={phone}
-                    name="phone"
-                    size="input-sm"
-                    type="text"
-                  />
-                  <FormInput
-                    label="Email"
-                    disabled={true}
-                    defaultValue={email}
-                    name="type"
-                    size="input-sm"
-                    type="text"
-                  />
-                </>
-              )}
+            <FormInput
+              label="NIP"
+              disabled={true}
+              defaultValue={owner.nip}
+              name="userId"
+              size="input-sm"
+              type="text"
+            />
+            <FormInput
+              label="Nama Pegawai"
+              disabled={true}
+              defaultValue={owner.name}
+              name="name"
+              size="input-sm"
+              type="text"
+            />
 
-              <FormInput
-                label="Alamat"
-                disabled={true}
-                defaultValue={address}
-                name="address"
-                size="input-sm"
-                type="text"
-              />
-            </div>
-          </>
-        )}
+            <FormInput
+              label="No. HP"
+              disabled={true}
+              defaultValue={owner.phone}
+              name="phone"
+              size="input-sm"
+              type="text"
+            />
+            <FormInput
+              label="Email"
+              disabled={true}
+              defaultValue={owner.email}
+              name="type"
+              size="input-sm"
+              type="text"
+            />
+
+            <FormInput
+              label="Alamat"
+              disabled={true}
+              defaultValue={owner.address}
+              name="address"
+              size="input-sm"
+              type="text"
+            />
+          </div>
+        </>
       </div>
-    </section>
+    </>
   );
 };
 

@@ -1,6 +1,31 @@
 import axios from "axios";
 import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
+import moment from "moment";
+
+export const arrayToDate = (date) => {
+  if (!date) {
+    return null;
+  }
+  return moment([date[0], date[1] - 1, date[2]]).format("YYYY-MM-DD");
+};
+
+export function daysBetween(dateStart, dateEnd) {
+  const start = moment(dateStart);
+  const end = moment(dateEnd);
+
+  const diffInDays = end.diff(start, "days");
+
+  return diffInDays;
+}
+export function calculateDaysBetween(startArray, endArray) {
+  // Konversi array menjadi objek moment dengan memperbaiki bulan (bulan dimulai dari 0)
+  const startDate = moment([startArray[0], startArray[1] - 1, startArray[2]]);
+  const endDate = moment([endArray[0], endArray[1] - 1, endArray[2]]);
+
+  // Menghitung selisih hari antara dua tanggal
+  return endDate.diff(startDate, "days");
+}
 
 // const devURL = "http://localhost:8080/api/v1";
 
@@ -49,6 +74,18 @@ export const customFetch = axios.create({
     "ngrok-skip-browser-warning": true,
   },
 });
+
+export function dateToFormat(dateArray) {
+  if (!dateArray) {
+    return null;
+  }
+  const [year, month, day] = dateArray;
+  // Menambahkan padding 0 jika month atau day kurang dari 10
+  return `${String(day).padStart(2, "0")}/${String(month).padStart(
+    2,
+    "0"
+  )}/${year}`;
+}
 
 export function convertDateArrayToString(dateArray) {
   if (!dateArray) {

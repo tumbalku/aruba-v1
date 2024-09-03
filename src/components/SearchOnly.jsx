@@ -1,9 +1,35 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useLocation, useSubmit } from "react-router-dom";
 import FormInput from "./FormInput";
 
 const SearchOnly = ({ name, link }) => {
+  const location = useLocation();
+  const submit = useSubmit();
+
+  // Mengubah search string menjadi objek params
+  const currentParams = new URLSearchParams(location.search);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    // Menggabungkan parameter lama dengan parameter baru
+    formData.forEach((value, key) => {
+      if (value) {
+        currentParams.set(key, value); // Set atau update nilai baru
+      } else {
+        currentParams.delete(key); // Hapus jika kosong
+      }
+    });
+
+    // Submit dengan parameter yang sudah digabungkan
+    submit(`?${currentParams.toString()}`, { method: "get" });
+  };
+
   return (
-    <Form className="bg-base-200 grid sm:grid-cols-2 gap-y-4 sm:gap-x-4 rounded-md px-8 py-4 sm:items-center shadow-lg">
+    <Form
+      className="grid sm:grid-cols-2 gap-y-4 sm:gap-x-4 rounded-md sm:items-center"
+      onSubmit={handleSearchSubmit}
+    >
       {/* INPUT SEARCH*/}
       <FormInput
         name={name}

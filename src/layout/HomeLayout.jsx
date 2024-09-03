@@ -4,19 +4,19 @@ import { useSelector } from "react-redux";
 
 const HomeLayout = () => {
   const navigation = useNavigation();
-
   const isLoading = navigation.state === "loading";
+
   return (
     <>
       <Navbar />
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loading />
-      ) : (
-        <section className="align-element py-20 font-poppins">
-          <PrevLinks />
-          <Outlet />
-        </section>
-      )}
+      ) : ( */}
+      <section className="align-element py-20 font-poppins">
+        <PrevLinks />
+        <Outlet />
+      </section>
+      {/* )} */}
     </>
   );
 };

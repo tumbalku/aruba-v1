@@ -31,6 +31,7 @@ export const action =
       return null;
     }
   };
+
 const Profile = () => {
   const user = useSelector((state) => state.userState.user);
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const Profile = () => {
       const response = await customFetch.patch("/users/avatar", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-API-TOKEN": token,
+          "X-API-TOKEN": user.token,
         },
       });
       console.log(response);
@@ -75,6 +76,7 @@ const Profile = () => {
       const msg =
         error.response?.data?.message || "Something error with your input";
       toast.error(msg);
+      console.log(error);
     }
   };
 

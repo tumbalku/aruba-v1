@@ -7,40 +7,45 @@ import {
   useNavigate,
 } from "react-router-dom";
 import profile from "/image/single.png";
-import { customFetch, getImage, translateGender } from "../utils";
+import {
+  calculateDaysBetween,
+  customFetch,
+  dateToFormat,
+  getImage,
+  translateGender,
+} from "../utils";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
 import { toast } from "react-toastify";
 import SectionTitle from "./SectionTitle";
+import { checkCutiStatus } from "../data";
+import StatusBadge from "./StatusBadge";
 
 const UserCutiReportList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { roles, user } = useSelector((state) => state.userState);
-  const { users: initialUsers } = useLoaderData();
-  const [users, setUsers] = useState(initialUsers);
-  const [userImages, setUserImages] = useState({});
+  const { cuti } = useLoaderData();
 
-  // const isAdmin = roles.includes("ADMIN");
-  const isAdmin = true;
+  const [cutis, setCutis] = useState(cuti);
+  const [userImages, setUserImages] = useState({});
+  console.log(cutis);
+
+  const isAdmin = roles.includes("ADMIN");
 
   async function handleDelete(id) {
     try {
-      const response = await customFetch.delete(`/users/${id}`, {
+      const response = await customFetch.delete(`/cuti/${id}`, {
         headers: {
           "X-API-TOKEN": `${user.token}`,
         },
       });
-      const msg = response.data.message;
-      toast.success(msg || "Success delete");
-      console.log(location.search);
-      setUsers(users.filter((user) => user.id !== id));
-      const queryParams = new URLSearchParams(location.search);
-      if (queryParams.has("identity")) {
-        navigate("/users");
-      }
 
+      toast.success(response?.data?.message || "Success delete");
+
+      setCutis(cutis.filter((cuti) => cuti.id !== id));
       console.log(response);
+      return null;
     } catch (error) {
       const msg = error.response.data.message;
       toast.error(msg || "Something error with the operation");
@@ -58,16 +63,11 @@ const UserCutiReportList = () => {
     }
   }
 
-  if (users.length < 1) {
-    return <SectionTitle text="Kami tidak menemukan hasil pencarian anda" />;
-  }
-
   useEffect(() => {
     const fetchUserImages = async () => {
       const images = {};
-
-      for (const person of users) {
-        const { avatar, id } = person;
+      for (const person of cutis) {
+        const { avatar, id } = person.user;
         if (avatar) {
           try {
             const imageUrl = await getAvatar(avatar);
@@ -83,9 +83,13 @@ const UserCutiReportList = () => {
     fetchUserImages();
   }, []);
 
+  if (cutis.length < 1) {
+    return <SectionTitle text="Kami tidak menemukan hasil pencarian anda" />;
+  }
+
   return (
     <div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-12 mb-8">
         <table className="table table-xs">
           <thead>
             <tr className="text-center">
@@ -101,58 +105,70 @@ const UserCutiReportList = () => {
             </tr>
           </thead>
           <tbody className="whitespace-nowrap text-center">
-            <tr>
-              <th>1</th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-10 w-10 md:h-12 md:w-12">
-                      <img
-                        src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                        alt="Avatar Tailwind CSS Component"
+            {cutis.map(
+              ({ dateStart, dateEnd, id, kop, number, user: owner }) => {
+                return (
+                  <tr key={id}>
+                    <th>{number}</th>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-10 w-10 md:h-12 md:w-12">
+                            <img
+                              src={userImages[owner.id] || profile}
+                              alt={owner.name}
+                            />
+                          </div>
+                        </div>
+                        <div className="text-left">
+                          <div className="font-bold">{owner.name}</div>
+                          <div className="text-xs opacity-50">
+                            {owner.nip || owner.phone || owner.email}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{kop.name}</td>
+                    <td>{owner.workUnit}</td>
+                    <td>{dateToFormat(dateStart)}</td>
+                    <td>{dateToFormat(dateEnd)}</td>
+                    <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                    <td>
+                      <StatusBadge
+                        status={checkCutiStatus(dateStart, dateEnd)}
                       />
-                    </div>
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold">Bilal</div>
-                    <div className="text-xs opacity-50">Kendari</div>
-                  </div>
-                </div>
-              </td>
-              <td>Littel, Schaden and Vandervort</td>
-              <td>Littel, Schaden and Vandervort</td>
-              <td>12/16/2020</td>
-              <td>12/16/2021</td>
-              <td>10</td>
-              <td>
-                <div className="badge badge-success text-xs">Berlangsung</div>
-              </td>
-              <td>
-                <div className="flex justify-evenly gap-1">
-                  {/* <Link to={`${id}`} className="btn btn-info btn-xs"> */}
-                  <Link className="btn btn-info btn-xs">
-                    <HiOutlineDocumentSearch />
-                  </Link>
-                  {isAdmin && (
-                    <>
-                      <Link
-                        // to={`edit/${id}`}
-                        className="btn btn-warning btn-xs"
-                      >
-                        <AiOutlineEdit />
-                      </Link>
+                    </td>
+                    <td>
+                      <div className="flex justify-evenly gap-1">
+                        <Link
+                          to={`/cuti/detail/${id}`}
+                          className="btn btn-info btn-xs"
+                        >
+                          <HiOutlineDocumentSearch />
+                        </Link>
+                        {isAdmin && (
+                          <>
+                            <Link
+                              to={`/cuti/edit/${id}`}
+                              className="btn btn-warning btn-xs"
+                            >
+                              <AiOutlineEdit />
+                            </Link>
 
-                      <button
-                        // onClick={() => handleDelete(id)}
-                        className="btn btn-error btn-xs"
-                      >
-                        <AiOutlineDelete />
-                      </button>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
+                            <button
+                              onClick={() => handleDelete(id)}
+                              className="btn btn-error btn-xs"
+                            >
+                              <AiOutlineDelete />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              }
+            )}
           </tbody>
         </table>
       </div>
