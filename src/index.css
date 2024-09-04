@@ -15,6 +15,14 @@
   .small-text {
     @apply text-xs md:text-sm;
   }
+  .ql-container {
+    @apply bg-white text-black; /* Pastikan background dan text tidak ter-reset */
+  }
+
+  .ql-editor {
+    @apply prose prose-sm; /* Menggunakan utility prose dari Tailwind */
+    min-height: 400px; /* Sesuaikan dengan kebutuhan */
+  }
 }
 * {
   /* border: 1px solid red; */
@@ -44,4 +52,13 @@
 .btn-primary:hover {
   background: linear-gradient(to right, rgb(201, 40, 174), rgb(95, 16, 190));
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan */
+}
+
+.quill * {
+  @apply prose; /* Atau tambahkan style yang mirip */
+}
+
+.ql-editor {
+  line-height: 1.6 !important; /* Contoh untuk line height */
+  font-family: inherit !important; /* Pastikan menggunakan font yang sama */
 }

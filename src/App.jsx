@@ -30,6 +30,7 @@ import {
   Posts,
   PostReport,
   PostCreate,
+  PostDetail,
 } from "./pages";
 import { LoginRequireRoutes } from "./routes";
 
@@ -43,8 +44,11 @@ import { action as uploadDocumentAction } from "./pages/documents/UploadDocument
 import { action as updateDocumentAction } from "./pages/documents/DocumentDetail";
 import { action as passwordAction } from "./pages/ChangePassword";
 import { action as profileAction } from "./pages/Profile";
+import { action as postAction } from "./pages/posts/PostCreate";
 
 // loader
+import { loader as postsLoader } from "./pages/posts/Posts";
+import { loader as postDetailLoader } from "./pages/posts/PostDetail";
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
 import { loader as cutiDecisionLoader } from "./pages/cuti/CutiDecision";
@@ -88,11 +92,19 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Posts />,
+            loader: postsLoader,
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: ":id",
+            element: <PostDetail />,
+            loader: postDetailLoader,
             errorElement: <ErrorElement />,
           },
           {
             path: "create",
             element: <PostCreate />,
+            action: postAction(store),
             errorElement: <ErrorElement />,
           },
           {

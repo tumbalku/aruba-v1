@@ -3,6 +3,10 @@ import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 
+export const getText = (html) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent;
+};
 export const arrayToDate = (date) => {
   if (!date) {
     return null;

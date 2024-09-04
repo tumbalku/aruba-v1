@@ -1,8 +1,16 @@
-const FileInput = ({ label, name, size, disabled, color, onChange }) => {
+const FileInput = ({
+  label,
+  name,
+  size,
+  labelSize,
+  disabled,
+  color,
+  onChange,
+}) => {
   return (
     <div className="form-control">
       <label className="label">
-        <span className="label-text capitalize">
+        <span className={`label-text capitalize ${labelSize}`}>
           {label ? label : "Document"}
         </span>
       </label>
