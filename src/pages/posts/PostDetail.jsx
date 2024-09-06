@@ -19,13 +19,20 @@ export const loader = async ({ params }) => {
 };
 const PostDetail = () => {
   const { post } = useLoaderData();
+  // const cleanHTML = DOMPurify.sanitize(post.content, {
+  //   ADD_TAGS: ["iframe"],
+  //   ADD_ATTR: ["allowfullscreen", "frameborder", "src", "class"],
+  // });
   return (
     <div>
       <h1>title</h1>
       <div
         className="prose"
         dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(post.content),
+          __html: DOMPurify.sanitize(post.content, {
+            ADD_TAGS: ["iframe"],
+            ADD_ATTR: ["allowfullscreen", "frameborder", "src", "class"],
+          }),
         }}
       ></div>
     </div>

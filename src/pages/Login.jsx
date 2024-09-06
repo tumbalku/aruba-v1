@@ -3,6 +3,7 @@ import { Form, redirect, useSearchParams } from "react-router-dom";
 import { customFetch } from "../utils";
 import { toast } from "react-toastify";
 import { loginUser } from "../features/user/userSlice";
+import { errorHandle } from "../utils/exception";
 
 export const action =
   (store) =>
@@ -19,10 +20,7 @@ export const action =
       toast.success("Logged in successfully");
       return redirect(redirectTo);
     } catch (error) {
-      const errorMessage =
-        error?.response?.data?.message || "please double check you credential";
-      toast.error(errorMessage);
-      return null;
+      return errorHandle(error);
     }
   };
 const Login = () => {

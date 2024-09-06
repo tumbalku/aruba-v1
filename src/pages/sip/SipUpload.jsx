@@ -9,6 +9,7 @@ import {
   FormInput,
   SubmitButton,
 } from "../../components";
+import { errorHandle } from "../../utils/exception";
 
 export const action =
   (store) =>
@@ -33,8 +34,7 @@ export const action =
       toast.success("Success upload file");
       return redirect("/sip");
     } catch (error) {
-      toast.error(error.response.data.message);
-      return null;
+      return errorHandle(error);
     }
   };
 const SipUpload = () => {
