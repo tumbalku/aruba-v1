@@ -27,11 +27,11 @@ const PostDetail = () => {
     <div>
       <h1>title</h1>
       <div
-        className="prose"
+        className="prose w-full max-w-none leading-relaxed content"
         dangerouslySetInnerHTML={{
           __html: DOMPurify.sanitize(post.content, {
             ADD_TAGS: ["iframe"],
-            ADD_ATTR: ["allowfullscreen", "frameborder", "src", "class"],
+            ADD_ATTR: ["allowfullscreen", "frameborder", "src", "className"],
           }),
         }}
       ></div>

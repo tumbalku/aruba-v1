@@ -15,14 +15,6 @@
   .small-text {
     @apply text-xs md:text-sm;
   }
-  .ql-container {
-    @apply bg-white text-black; /* Pastikan background dan text tidak ter-reset */
-  }
-
-  .ql-editor {
-    @apply prose prose-sm; /* Menggunakan utility prose dari Tailwind */
-    min-height: 400px; /* Sesuaikan dengan kebutuhan */
-  }
 }
 * {
   /* border: 1px solid red; */
@@ -54,11 +46,45 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan */
 }
 
-.quill * {
-  @apply prose; /* Atau tambahkan style yang mirip */
+.ql-align-center {
+  text-align: center;
 }
 
-.ql-editor {
-  line-height: 1.6 !important; /* Contoh untuk line height */
-  font-family: inherit !important; /* Pastikan menggunakan font yang sama */
+.ql-align-right {
+  text-align: right;
+}
+
+.ql-size-huge {
+  font-size: 2rem;
+}
+.ql-size-large {
+  font-size: 1.5rem;
+}
+
+.content img {
+  width: 100px;
+  height: 100px;
+}
+
+.content img {
+  margin: 0 auto;
+  width: 450px;
+  height: 300px;
+  object-fit: cover;
+  /* position: absolute; */
+}
+
+/* .ql_video {
+  margin: 0 auto;
+  width: 450px;
+  height: 300px;
+  display: block;
+} */
+
+.content iframe {
+  width: 450px;
+  height: 300px;
+  border: none;
+  margin: 0 auto;
+  display: block;
 }

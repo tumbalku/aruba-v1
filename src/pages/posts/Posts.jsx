@@ -1,5 +1,5 @@
 import React from "react";
-import { Post } from "../../components";
+import { PaginationContainer, Post } from "../../components";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
 import { useLoaderData } from "react-router-dom";
@@ -10,6 +10,7 @@ export const loader = async ({ request }) => {
     console.log(response);
     return {
       posts: response.data.data,
+      pagination: response.data.pagination,
     };
   } catch (error) {
     console.log(error);
@@ -21,11 +22,14 @@ const Posts = () => {
   const { posts } = useLoaderData();
 
   return (
-    <div className="flex flex-col gap-24">
-      {posts.map((post) => {
-        return <Post post={post} />;
-      })}
-    </div>
+    <>
+      <div className="flex flex-col gap-24">
+        {posts.map((post) => {
+          return <Post post={post} />;
+        })}
+      </div>
+      <PaginationContainer />
+    </>
   );
 };
 

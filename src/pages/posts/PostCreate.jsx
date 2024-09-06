@@ -97,15 +97,15 @@ const PostCreate = () => {
 
           <div>
             <p className="text-xs capitalize p-2">Content</p>
-            <div className="h-[500px] bg-white overflow-hidden">
+            <div className={`h-[500px] overflow-y-scroll`}>
               <ReactQuill
                 theme="snow"
                 value={value}
                 onChange={setValue}
                 modules={modules}
                 formats={formats}
-                placeholder="Tambahkan informasi bagi para pembaca..."
-                className="h-full  text-black prose"
+                placeholder="..."
+                className="h-full w-full"
               />
               <input type="hidden" name="content" value={value} />
             </div>
