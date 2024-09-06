@@ -88,90 +88,84 @@ const UserCutiReportList = () => {
   }
 
   return (
-    <div>
-      <div className="overflow-x-auto mt-12 mb-8">
-        <table className="table table-xs">
-          <thead>
-            <tr className="text-center">
-              <th className="text-left">No</th>
-              <th className="text-left">Nama</th>
-              <th>Tipe</th>
-              <th>Unit Kerja</th>
-              <th>Dari Tanggal</th>
-              <th>Sampai Tanggal</th>
-              <th>Total Hari</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className="whitespace-nowrap text-center">
-            {cutis.map(
-              ({ dateStart, dateEnd, id, kop, number, user: owner }) => {
-                return (
-                  <tr key={id}>
-                    <th>{number}</th>
-                    <td>
-                      <div className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-10 w-10 md:h-12 md:w-12">
-                            <img
-                              src={userImages[owner.id] || profile}
-                              alt={owner.name}
-                            />
-                          </div>
-                        </div>
-                        <div className="text-left">
-                          <div className="font-bold">{owner.name}</div>
-                          <div className="text-xs opacity-50">
-                            {owner.nip || owner.phone || owner.email}
-                          </div>
-                        </div>
+    <div className="overflow-x-auto mt-12 mb-8">
+      <table className="table table-xs">
+        <thead>
+          <tr className="text-center">
+            <th className="text-left">No</th>
+            <th className="text-left">Nama</th>
+            <th>Tipe</th>
+            <th>Unit Kerja</th>
+            <th>Dari Tanggal</th>
+            <th>Sampai Tanggal</th>
+            <th>Total Hari</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody className="whitespace-nowrap text-center">
+          {cutis.map(({ dateStart, dateEnd, id, kop, number, user: owner }) => {
+            return (
+              <tr key={id}>
+                <th>{number}</th>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-10 w-10 md:h-12 md:w-12">
+                        <img
+                          src={userImages[owner.id] || profile}
+                          alt={owner.name}
+                        />
                       </div>
-                    </td>
-                    <td>{kop.name}</td>
-                    <td>{owner.workUnit}</td>
-                    <td>{dateToFormat(dateStart)}</td>
-                    <td>{dateToFormat(dateEnd)}</td>
-                    <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
-                    <td>
-                      <StatusBadge
-                        status={checkCutiStatus(dateStart, dateEnd)}
-                      />
-                    </td>
-                    <td>
-                      <div className="flex justify-evenly gap-1">
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold">{owner.name}</div>
+                      <div className="text-xs opacity-50">
+                        {owner.nip || owner.phone || owner.email}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>{kop.name}</td>
+                <td>{owner.workUnit}</td>
+                <td>{dateToFormat(dateStart)}</td>
+                <td>{dateToFormat(dateEnd)}</td>
+                <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                <td>
+                  <StatusBadge status={checkCutiStatus(dateStart, dateEnd)} />
+                </td>
+                <td>
+                  <div className="flex justify-evenly gap-1">
+                    <Link
+                      to={`/cuti/detail/${id}`}
+                      className="btn btn-info btn-xs"
+                    >
+                      <HiOutlineDocumentSearch />
+                    </Link>
+                    {isAdmin && (
+                      <>
                         <Link
-                          to={`/cuti/detail/${id}`}
-                          className="btn btn-info btn-xs"
+                          to={`/cuti/edit/${id}`}
+                          className="btn btn-warning btn-xs"
                         >
-                          <HiOutlineDocumentSearch />
+                          <AiOutlineEdit />
                         </Link>
-                        {isAdmin && (
-                          <>
-                            <Link
-                              to={`/cuti/edit/${id}`}
-                              className="btn btn-warning btn-xs"
-                            >
-                              <AiOutlineEdit />
-                            </Link>
 
-                            <button
-                              onClick={() => handleDelete(id)}
-                              className="btn btn-error btn-xs"
-                            >
-                              <AiOutlineDelete />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }
-            )}
-          </tbody>
-        </table>
-      </div>
+                        <button
+                          onClick={() => handleDelete(id)}
+                          className="btn btn-error btn-xs"
+                        >
+                          <AiOutlineDelete />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

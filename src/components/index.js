@@ -30,7 +30,7 @@ export { default as PrevLinks } from "./PrevLinks";
 export { default as FileInput } from "./FileInput";
 export { default as UnmodifiedField } from "./input-v2/UnmodifiedField";
 export { default as InputField } from "./input-v2/InputField";
-
+export { default as SipList } from "./SipList";
 // commponent v2
 export { default as SectionInfo } from "./SectionInfo";
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { LuUpload } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { PaginationContainer, SearchOnly } from "../../components";
-import DocumentList from "../../components/DocumentList";
+import { PaginationContainer, SearchOnly, SipList } from "../../components";
+
 import { toast } from "react-toastify";
 import { customFetch } from "../../utils";
 
@@ -32,14 +32,14 @@ const Sip = () => {
   return (
     <div>
       <div className="flex justify-center sm:justify-end sm:mr-8 my-8">
-        <Link to="upload" className="btn btn-sm btn-primary">
+        <Link to="/sip/upload" className="btn btn-sm btn-primary">
           <span>Upload</span>
           <LuUpload className="w-4 h-4" />
         </Link>
       </div>
-      <SearchOnly name="filename" link="/letters/sip" />
-      <DocumentList />
-      {/* <PaginationContainer /> */}
+      <SearchOnly name="filename" link="/sip" />
+      <SipList />
+      <PaginationContainer />
     </div>
   );
 };

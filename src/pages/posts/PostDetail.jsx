@@ -22,12 +22,12 @@ const PostDetail = () => {
   return (
     <div>
       <h1>title</h1>
-      <p
+      <div
         className="prose"
         dangerouslySetInnerHTML={{
           __html: DOMPurify.sanitize(post.content),
         }}
-      ></p>
+      ></div>
     </div>
   );
 };

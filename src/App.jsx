@@ -31,6 +31,7 @@ import {
   PostReport,
   PostCreate,
   PostDetail,
+  SipUpload,
 } from "./pages";
 import { LoginRequireRoutes } from "./routes";
 
@@ -45,6 +46,10 @@ import { action as updateDocumentAction } from "./pages/documents/DocumentDetail
 import { action as passwordAction } from "./pages/ChangePassword";
 import { action as profileAction } from "./pages/Profile";
 import { action as postAction } from "./pages/posts/PostCreate";
+import { action as kopAction } from "./pages/Kop";
+import { action as expAction } from "./pages/cuti/EditCuti";
+import { action as sipUploadAction } from "./pages/sip/SipUpload";
+import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 
 // loader
 import { loader as postsLoader } from "./pages/posts/Posts";
@@ -62,12 +67,11 @@ import { loader as documentsLoader } from "./pages/Documents";
 import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail";
 import { loader as kgbDetailLoader } from "./pages/kgb/KGBDetail";
 import { loader as sipLoader } from "./pages/sip/Sip";
+import { loader as sipDetailLoader } from "./pages/sip/SipDetail";
 import { loader as kopLoader } from "./pages/Kop";
-import { action as kopAction } from "./pages/Kop";
 
 // exp
 import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
-import { action as expAction } from "./pages/cuti/EditCuti";
 import { First, links, Second } from "./pages/exp";
 import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
 // import { action as expAction } from "./pages/Exp";
@@ -135,6 +139,19 @@ const router = createBrowserRouter([
         element: <Sip />,
         loader: sipLoader,
         errorElement: <ErrorElement />,
+      },
+      {
+        path: "sip/upload",
+        element: <SipUpload />,
+        action: sipUploadAction(store),
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: "sip/:id",
+        element: <SipDetail />,
+        errorElement: <ErrorElement />,
+        loader: sipDetailLoader,
+        action: sipDetailAction(store),
       },
       {
         path: "exp",

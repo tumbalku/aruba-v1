@@ -29,6 +29,8 @@ export { default as DocumentDetail } from "./documents/DocumentDetail";
 
 // sip
 export { default as Sip } from "./sip/Sip";
+export { default as SipUpload } from "./sip/SipUpload";
+export { default as SipDetail } from "./sip/SipDetail";
 
 // posts
 export { default as Posts } from "./posts/Posts";
