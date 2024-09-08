@@ -13,7 +13,6 @@ import {
   SelectInput,
   SubmitButton,
   UnmodifiedField,
-  UserInfoDetail,
 } from "../../components";
 import noFile from "/icons/no.svg";
 
@@ -21,11 +20,10 @@ import { GoDownload } from "react-icons/go";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { FaWhatsapp } from "react-icons/fa6";
-import Second from "../exp/Second";
 
 export const loader = async ({ params }) => {
   try {
-    const response = await customFetch.get(`sip/${params.id}`);
+    const response = await customFetch.get(`letter/${params.id}`);
     console.log(response);
     return { documentDetail: response.data.data };
   } catch (error) {
@@ -120,7 +118,6 @@ const SipDetail = () => {
     uploadedAt,
     updatedAt,
     expiredAt,
-    reports,
     user: owner,
   } = documentDetail;
   const { name: ownerName, nip, phone, workUnit } = owner;
@@ -200,45 +197,45 @@ const SipDetail = () => {
             Kirim
           </button>
         </div>
-        <UserInfoDetail {...owner} />
-
         <Form method="post">
-          <div className="grid md:grid-cols-2 gap-2 mt-8">
-            <FormInput
-              size="md:input-sm input-xs "
-              labelSize="text-xs"
-              type="text"
-              label="File name"
-              name="name"
-              defaultValue={name}
-            />
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-2 mt-8">
+            <UnmodifiedField value={ownerName} label="Pemilik" />
+            <UnmodifiedField value={nip} label="NIP" />
+            <UnmodifiedField value={phone} label="No. Hp" />
 
-            {fileType && (
-              <UnmodifiedField
-                value={formatFileSize(size)}
-                label="Ukuran file"
+            <UnmodifiedField value={workUnit} label="Unit Kerja" />
+
+            <div className="md:col-span-2">
+              <FormInput
+                size="md:input-sm input-xs "
+                labelSize="text-xs"
+                type="text"
+                label="File name"
+                name="name"
+                defaultValue={name}
               />
-            )}
-            <div className="grid grid-cols-1 md:grid-cols-3 col-span-2">
-              <UnmodifiedField
-                value={convertDateArrayToString(uploadedAt)}
-                label="Dibuat pada"
-              />
-              <UnmodifiedField
-                value={convertDateArrayToString(updatedAt)}
-                label="Diperbaruhi pada"
-              />
-              <UnmodifiedField
-                value={convertDateArrayToString(expiredAt)}
-                label="Berakhir pada"
-              />
+              <UnmodifiedField value={type} label="Jenis Dokumen" />
             </div>
+            {!fileType ? (
+              <UnmodifiedField value={size} label="Ukuran file" />
+            ) : null}
+            <UnmodifiedField
+              value={convertDateArrayToString(uploadedAt)}
+              label="Dibuat pada"
+            />
+            <UnmodifiedField
+              value={convertDateArrayToString(updatedAt)}
+              label="Diperbaruhi pada"
+            />
+            <UnmodifiedField
+              value={convertDateArrayToString(expiredAt)}
+              label="Berakhir pada"
+            />
           </div>
           <div className="text-right mt-5">
             <SubmitButton color="btn-primary" size="btn-sm" text="Update" />
           </div>
         </Form>
-        <Second reports={reports} />
       </div>
     </div>
   );

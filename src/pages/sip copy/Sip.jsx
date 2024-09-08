@@ -11,8 +11,9 @@ export const loader = async ({ request }) => {
     ...new URL(request.url).searchParams.entries(),
   ]);
 
+  params.type = "SIP";
   try {
-    const response = await customFetch.get("/sip", {
+    const response = await customFetch.get("/letter", {
       params,
     });
     console.log(response);

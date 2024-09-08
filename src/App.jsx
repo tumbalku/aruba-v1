@@ -52,6 +52,7 @@ import { action as sipUploadAction } from "./pages/sip/SipUpload";
 import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 
 // loader
+import { loader as loginLoader } from "./pages/Login";
 import { loader as postsLoader } from "./pages/posts/Posts";
 import { loader as postDetailLoader } from "./pages/posts/PostDetail";
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
@@ -69,11 +70,16 @@ import { loader as kgbDetailLoader } from "./pages/kgb/KGBDetail";
 import { loader as sipLoader } from "./pages/sip/Sip";
 import { loader as sipDetailLoader } from "./pages/sip/SipDetail";
 import { loader as kopLoader } from "./pages/Kop";
+import { loader as newsContainerLoader } from "./pages/news/NewsContainer";
+import { loader as newsDetailLoader } from "./pages/news/NewsDetail";
 
 // exp
 import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
 import { First, links, Second } from "./pages/exp";
 import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
+import NewsContainer from "./pages/news/NewsContainer";
+import NewsLayout from "./layout/NewsLayout";
+import NewsDetail from "./pages/news/NewsDetail";
 // import { action as expAction } from "./pages/Exp";
 // import { action as expAction } from "./pages/Exp";
 
@@ -87,6 +93,25 @@ const router = createBrowserRouter([
         index: true,
         element: <Landing />,
         errorElement: <ErrorElement />,
+      },
+      {
+        path: "news",
+        element: <NewsLayout />,
+        errorElement: <ErrorElement />,
+        children: [
+          {
+            index: true,
+            element: <NewsContainer />,
+            errorElement: <ErrorElement />,
+            loader: newsContainerLoader,
+          },
+          {
+            path: ":id",
+            element: <NewsDetail />,
+            errorElement: <ErrorElement />,
+            loader: newsDetailLoader,
+          },
+        ],
       },
       {
         path: "posts",
@@ -306,6 +331,7 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />,
     errorElement: <Error />,
+    loader: loginLoader(store),
     action: loginAction(store),
   },
 ]);

@@ -2,7 +2,10 @@ import React from "react";
 
 import DOMPurify from "dompurify";
 import { customFetch } from "../../utils";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { errorHandle } from "../../utils/exception";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get("/posts/" + params.id);
@@ -19,12 +22,35 @@ export const loader = async ({ params }) => {
 };
 const PostDetail = () => {
   const { post } = useLoaderData();
-  // const cleanHTML = DOMPurify.sanitize(post.content, {
-  //   ADD_TAGS: ["iframe"],
-  //   ADD_ATTR: ["allowfullscreen", "frameborder", "src", "class"],
-  // });
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.userState.user);
+
+  async function handleDelete() {
+    try {
+      const response = await customFetch.delete("/posts/" + post.id, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
+
+      toast.success(response.data.message);
+      navigate("/posts");
+    } catch (error) {
+      return errorHandle(error);
+    }
+  }
+
   return (
     <div>
+      <div className="flex flex-row gap-2 justify-end">
+        <Link className="btn btn-xs md:btn-sm btn-info">Edit</Link>
+        <button
+          className="btn btn-xs md:btn-sm btn-error"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      </div>
       <h1>title</h1>
       <div
         className="prose w-full max-w-none leading-relaxed content"

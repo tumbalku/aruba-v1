@@ -1,10 +1,17 @@
 import { FormInput, SubmitButton } from "../components";
-import { Form, redirect, useSearchParams } from "react-router-dom";
+import { Form, Link, redirect, useSearchParams } from "react-router-dom";
 import { customFetch } from "../utils";
 import { toast } from "react-toastify";
 import { loginUser } from "../features/user/userSlice";
 import { errorHandle } from "../utils/exception";
 
+export const loader = (store) => () => {
+  const user = store.getState().userState.user;
+  if (user) {
+    return redirect("/");
+  }
+  return null;
+};
 export const action =
   (store) =>
   async ({ request }) => {
@@ -48,6 +55,9 @@ const Login = () => {
         />
         <div className="mt-4">
           <SubmitButton text="Masuk" size="btn-block" color="btn-primary" />
+          <Link to="/" className="btn btn-block btn-secondary mt-2">
+            Kembali
+          </Link>
         </div>
       </Form>
     </section>

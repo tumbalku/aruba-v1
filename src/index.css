@@ -53,6 +53,9 @@
 .ql-align-right {
   text-align: right;
 }
+.ql-align-justify {
+  text-align: justify;
+}
 
 .ql-size-huge {
   font-size: 2rem;
@@ -82,9 +85,15 @@
 } */
 
 .content iframe {
-  width: 450px;
+  width: 100%;
   height: 300px;
   border: none;
   margin: 0 auto;
   display: block;
+}
+
+@media (min-width: 768px) {
+  .content iframe {
+    width: 70%;
+  }
 }
