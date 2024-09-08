@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getImage } from "../../utils";
 import profile from "/image/single.png";
 import logo from "/image/sultra.png";
+import { getImage } from "../utils";
 
-const First = ({ name, nip, workUnit, id, address, avatar }) => {
+const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
   const [avatarImage, setAvatarImage] = useState("");
   async function getAvatar() {
     try {
@@ -20,11 +20,11 @@ const First = ({ name, nip, workUnit, id, address, avatar }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between gap-2 items-center">
+      <div className="flex justify-between gap-1 items-center">
         <img
           src={logo}
           alt=""
-          className="w-10 h-10 object-cover rounded-full"
+          className="w-14 h-14 object-cover rounded-full"
         />
 
         <div className="flex-1 flex flex-col md:flex-row justify-between items-center">
@@ -52,7 +52,7 @@ const First = ({ name, nip, workUnit, id, address, avatar }) => {
             )}
 
             <tr>
-              <th className="text-left">Name</th>
+              <th className="text-left">Nama</th>
               <td className="px-2">:</td>
               <td>{name}</td>
             </tr>
@@ -78,4 +78,4 @@ const First = ({ name, nip, workUnit, id, address, avatar }) => {
   );
 };
 
-export default First;
+export default UserInfoDetail;

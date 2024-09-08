@@ -72,7 +72,7 @@ const CutiList = () => {
                     <td className="flex space-x-2">
                       {status !== "PENDING" && (
                         <Link
-                          to={`/letters/cuti/${id}`}
+                          to={`/cuti/${id}`}
                           className="btn btn-outline btn-sm btn-info"
                         >
                           <HiOutlineDocumentSearch />

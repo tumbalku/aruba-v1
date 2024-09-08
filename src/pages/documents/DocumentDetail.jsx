@@ -20,6 +20,7 @@ import { GoDownload } from "react-icons/go";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { FaWhatsapp } from "react-icons/fa6";
+import First from "../exp/First";
 
 export const loader = async ({ params }) => {
   try {
@@ -120,7 +121,7 @@ const DocumentDetail = () => {
     expiredAt,
     user: owner,
   } = documentDetail;
-  const { name: ownerName, nip, phone, workUnit } = owner;
+  const { name: ownerName, nip, phone } = owner;
 
   const handelWa = () => {
     const message = `
@@ -147,7 +148,7 @@ const DocumentDetail = () => {
 
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
-      <div className="flex items-center justify-center p-2 border rounded-md bg-base-200">
+      <div className="flex items-center justify-center p-2 border rounded-md bg-base-200 h-fit">
         {fileType ? (
           <img
             src={fileTypeIcons[fileType].url}
@@ -161,7 +162,7 @@ const DocumentDetail = () => {
           <p className="font-semibold truncate text-xs sm:text-base w-36">
             {name}
           </p>
-          <div className="mt-4 flex space-x-1">
+          <div className="mt-4 flex md:flex-col lg:flex-row gap-1">
             {fileType && (
               <button
                 className="btn btn-xs md:btn-sm btn-success"
@@ -197,14 +198,11 @@ const DocumentDetail = () => {
             Kirim
           </button>
         </div>
+        <div>
+          <First {...owner} />
+        </div>
         <Form method="post">
           <div className="grid md:grid-cols-2 grid-cols-1 gap-2 mt-8">
-            <UnmodifiedField value={ownerName} label="Pemilik" />
-            <UnmodifiedField value={nip} label="NIP" />
-            <UnmodifiedField value={phone} label="No. Hp" />
-
-            <UnmodifiedField value={workUnit} label="Unit Kerja" />
-
             <div className="md:col-span-2">
               <FormInput
                 size="md:input-sm input-xs "

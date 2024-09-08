@@ -137,10 +137,7 @@ const UserCutiReportList = () => {
                 </td>
                 <td>
                   <div className="flex justify-evenly gap-1">
-                    <Link
-                      to={`/cuti/detail/${id}`}
-                      className="btn btn-info btn-xs"
-                    >
+                    <Link to={`/cuti/${id}`} className="btn btn-info btn-xs">
                       <HiOutlineDocumentSearch />
                     </Link>
                     {isAdmin && (

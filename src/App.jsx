@@ -205,7 +205,7 @@ const router = createBrowserRouter([
                 loader: cutiReportLoader(store),
               },
               {
-                path: "detail/:id",
+                path: ":id",
                 element: <CutiDetail />,
                 loader: cutiDetailLoader,
                 errorElement: <ErrorElement />,

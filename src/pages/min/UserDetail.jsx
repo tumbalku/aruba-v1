@@ -1,5 +1,7 @@
 import React from "react";
 import { customFetch } from "../../utils";
+import { useLoaderData } from "react-router-dom";
+import { UserInfoDetail } from "../../components";
 export const loader =
   (store) =>
   async ({ params }) => {
@@ -19,7 +21,12 @@ export const loader =
     }
   };
 const UserDetail = () => {
-  return <div>UserDetail</div>;
+  const { userDetail } = useLoaderData();
+  return (
+    <div>
+      <UserInfoDetail {...userDetail} />
+    </div>
+  );
 };
 
 export default UserDetail;
