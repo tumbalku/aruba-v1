@@ -23,7 +23,6 @@ export const loader = async ({ params }) => {
 const PostDetail = () => {
   const { post } = useLoaderData();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.userState.user);
 
   async function handleDelete() {
     try {
@@ -43,7 +42,12 @@ const PostDetail = () => {
   return (
     <div>
       <div className="flex flex-row gap-2 justify-end">
-        <Link className="btn btn-xs md:btn-sm btn-info">Edit</Link>
+        <Link
+          to={`/posts/update/${post.id}`}
+          className="btn btn-xs md:btn-sm btn-info"
+        >
+          Edit
+        </Link>
         <button
           className="btn btn-xs md:btn-sm btn-error"
           onClick={handleDelete}

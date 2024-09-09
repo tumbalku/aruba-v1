@@ -46,12 +46,14 @@ import { action as updateDocumentAction } from "./pages/documents/DocumentDetail
 import { action as passwordAction } from "./pages/ChangePassword";
 import { action as profileAction } from "./pages/Profile";
 import { action as postAction } from "./pages/posts/PostCreate";
+import { action as postUpdateAction } from "./pages/posts/PostUpdate";
 import { action as kopAction } from "./pages/Kop";
 import { action as expAction } from "./pages/cuti/EditCuti";
 import { action as sipUploadAction } from "./pages/sip/SipUpload";
 import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 
 // loader
+import { loader as postUpdateLoader } from "./pages/posts/PostUpdate";
 import { loader as loginLoader } from "./pages/Login";
 import { loader as postsLoader } from "./pages/posts/Posts";
 import { loader as postDetailLoader } from "./pages/posts/PostDetail";
@@ -80,6 +82,7 @@ import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
 import NewsContainer from "./pages/news/NewsContainer";
 import NewsLayout from "./layout/NewsLayout";
 import NewsDetail from "./pages/news/NewsDetail";
+import PostUpdate from "./pages/posts/PostUpdate";
 // import { action as expAction } from "./pages/Exp";
 // import { action as expAction } from "./pages/Exp";
 
@@ -134,6 +137,13 @@ const router = createBrowserRouter([
             path: "create",
             element: <PostCreate />,
             action: postAction(store),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "update/:id",
+            element: <PostUpdate />,
+            action: postUpdateAction(store),
+            loader: postUpdateLoader,
             errorElement: <ErrorElement />,
           },
           {

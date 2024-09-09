@@ -9,14 +9,12 @@ import {
 } from "firebase/storage";
 import { toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
-import post from "/image/hero1.jpg";
 import { addImage, clearImage } from "../features/user/tempSlice";
 
-const ImageUpload = () => {
+const ImageUpload = ({ imageUrl = "" }) => {
   const dispatch = useDispatch();
-
   const [fileImg, setFileImg] = useState(null);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(imageUrl);
   const [uploading, setUploading] = useState(false);
 
   const handleImagesSubmit = async () => {

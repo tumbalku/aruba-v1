@@ -2,14 +2,29 @@ import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import { InputField, SubmitButton } from "../../components";
 
-import { Form } from "react-router-dom";
+import { Form, redirect, useLoaderData } from "react-router-dom";
 import ImageUpload from "../../components/ImageUpload";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
 import { clearImage } from "../../features/user/tempSlice";
+import { useSelector } from "react-redux";
+export const loader = async ({ params }) => {
+  try {
+    const response = await customFetch.get("/posts/" + params.id);
+
+    console.log(response);
+    return {
+      post: response.data.data,
+    };
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response.data.message || "Terjadi error!");
+    return null;
+  }
+};
 export const action =
   (store) =>
-  async ({ request }) => {
+  async ({ request, params }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
@@ -20,15 +35,15 @@ export const action =
     console.log(data);
 
     try {
-      const response = await customFetch.post(`/posts`, data, {
+      const response = await customFetch.patch(`/posts/${params.id}`, data, {
         headers: {
           "X-API-TOKEN": user.token,
         },
       });
       // how to dispatch
-      toast.success(response.data.message || "Create post");
+      toast.success(response.data.message || "Update post");
       store.dispatch(clearImage());
-      return null;
+      return redirect("/posts");
     } catch (error) {
       if (error) {
         toast.error(error.response.data.message);
@@ -37,9 +52,11 @@ export const action =
       return error;
     }
   };
-const PostCreate = () => {
-  const [value, setValue] = useState("");
-
+const PostUpdate = () => {
+  const { post } = useLoaderData();
+  const { content, title, imageUrl } = post;
+  const [value, setValue] = useState(content);
+  // const image = useSelector((state) => state.tempState.imageUrl);
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -90,10 +107,10 @@ const PostCreate = () => {
     <Form method="POST">
       <div className="flex flex-col sm:flex-row-reverse gap-6">
         <div className="flex-1 h-[300px] rounded-lg flex flex-col gap-4">
-          <ImageUpload />
+          <ImageUpload imageUrl={imageUrl} />
         </div>
         <div className="flex-[2] flex flex-col gap-6">
-          <InputField label="title" name="title" type="text" />
+          <InputField label="title" name="title" type="text" value={title} />
 
           <div>
             <p className="text-xs capitalize p-2">Content</p>
@@ -111,7 +128,11 @@ const PostCreate = () => {
             </div>
           </div>
           <div className="text-center md:text-right mt-5">
-            <SubmitButton color="btn-primary" size="btn-sm" text="Buat Post" />
+            <SubmitButton
+              color="btn-primary"
+              size="btn-sm"
+              text="Update post"
+            />
           </div>
         </div>
       </div>
@@ -119,4 +140,4 @@ const PostCreate = () => {
   );
 };
 
-export default PostCreate;
+export default PostUpdate;

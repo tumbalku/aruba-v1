@@ -3,6 +3,20 @@ import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 
+export const convertToValidDate = (createdAtArray) => {
+  const [year, month, day, hour, minute, second, millisecond] = createdAtArray;
+
+  return new Date(
+    year,
+    month - 1, // Bulan dimulai dari 0 (Januari)
+    day,
+    hour,
+    minute,
+    second + Math.floor(millisecond / 1000), // Tambahkan detik tambahan dari milidetik
+    millisecond % 1000 // Milidetik yang valid (0-999)
+  );
+};
+
 export const getText = (html) => {
   const doc = new DOMParser().parseFromString(html, "text/html");
   return doc.body.textContent;

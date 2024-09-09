@@ -150,7 +150,7 @@ const SipDetail = () => {
 
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
-      <div className="flex items-center justify-center p-2 border rounded-md bg-base-200">
+      <div className="flex items-center justify-center p-2 border rounded-md bg-base-200 h-fit">
         {fileType ? (
           <img
             src={fileTypeIcons[fileType].url}

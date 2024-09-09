@@ -1,5 +1,9 @@
 import { useLoaderData } from "react-router-dom";
-import { convertDateArrayToString, customFetch } from "../../utils";
+import {
+  convertDateArrayToString,
+  convertToValidDate,
+  customFetch,
+} from "../../utils";
 import profile from "/image/single.png";
 import DOMPurify from "dompurify";
 import moment from "moment";
@@ -47,7 +51,9 @@ const NewsDetail = () => {
         />
         <div className="flex flex-col">
           <p className="font-semibold mb-1">{author}</p>
-          {/* <p className="text-xs">Post: {moment(createdAt).fromNow()} </p> */}
+          <p className="text-xs">
+            Post: {moment(convertToValidDate(createdAt)).fromNow()}{" "}
+          </p>
         </div>
       </div>
       <div
