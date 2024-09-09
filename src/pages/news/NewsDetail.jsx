@@ -2,6 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { convertDateArrayToString, customFetch } from "../../utils";
 import profile from "/image/single.png";
 import DOMPurify from "dompurify";
+import moment from "moment";
 
 export const loader = async ({ params }) => {
   try {
@@ -44,7 +45,10 @@ const NewsDetail = () => {
           alt={author}
           className="w-10 h-10 rounded-full object-cover"
         />
-        <p className="font-semibold mb-1">{author}</p>
+        <div className="flex flex-col">
+          <p className="font-semibold mb-1">{author}</p>
+          {/* <p className="text-xs">Post: {moment(createdAt).fromNow()} </p> */}
+        </div>
       </div>
       <div
         className="prose w-full max-w-none leading-relaxed content"
