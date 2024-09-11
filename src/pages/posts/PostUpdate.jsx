@@ -40,7 +40,6 @@ export const action =
           "X-API-TOKEN": user.token,
         },
       });
-      // how to dispatch
       toast.success(response.data.message || "Update post");
       store.dispatch(clearImage());
       return redirect("/posts");
