@@ -6,7 +6,11 @@ import { customFetch, getImage, translateGender } from "../utils";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { updateUser, updateUserProfile } from "../features/user/userSlice";
-import { Form, redirect } from "react-router-dom";
+import { Form, redirect, useNavigate } from "react-router-dom";
+import {
+  errorHandleForAction,
+  errorHandleForFunction,
+} from "../utils/exception";
 
 export const action =
   (store) =>
@@ -26,17 +30,16 @@ export const action =
       store.dispatch(updateUser(data));
       return null;
     } catch (error) {
-      toast.error(error.response.data.message || "Terjadi error");
-
-      return null;
+      return errorHandleForAction(error, "toastify");
     }
   };
 
 const Profile = () => {
   const user = useSelector((state) => state.userState.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileRef = useRef(null);
-  const [avatarImage, setAvatarImage] = useState("");
+  const [avatarImage, setAvatarImage] = useState(user.avatar);
   const {
     id,
     username,
@@ -73,10 +76,7 @@ const Profile = () => {
       setAvatarImage(URL.createObjectURL(file));
       toast.success(response.data.message);
     } catch (error) {
-      const msg =
-        error.response?.data?.message || "Something error with your input";
-      toast.error(msg);
-      console.log(error);
+      errorHandleForFunction(error, navigate, "toastify");
     }
   };
 
@@ -128,7 +128,7 @@ const Profile = () => {
             className="small-btn btn-primary"
             onClick={() => fileRef.current.click()}
           >
-            Upload
+            Ubah profile
           </button>
         </div>
       </div>

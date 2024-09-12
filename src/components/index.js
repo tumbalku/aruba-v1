@@ -32,6 +32,8 @@ export { default as UnmodifiedField } from "./input-v2/UnmodifiedField";
 export { default as InputField } from "./input-v2/InputField";
 export { default as SipList } from "./SipList";
 export { default as UserInfoDetail } from "./UserInfoDetail";
+export { default as Maintain } from "./Maintain";
+export { default as NetworkError } from "./NetworkError";
 // commponent v2
 export { default as SectionInfo } from "./SectionInfo";
 

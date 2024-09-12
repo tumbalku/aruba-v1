@@ -1,5 +1,5 @@
 import React from "react";
-import SipStatusReportBadge from "../../components/SipStatusReportBadge";
+import SipStatusReportBadge from "../sip/SipStatusReportBadge";
 import { convertDateArrayToString } from "../../utils";
 import Swal from "sweetalert2";
 const Second = () => {

@@ -11,7 +11,7 @@ export const errorHandleForAction = (error, popup = "") => {
 
   if (error.code === "ERR_NETWORK") {
     toast.error("Network error");
-    return redirect("/exp");
+    return redirect("/network-error");
   }
 
   if (error.response.status === 401 || error.response.status === 403) {
@@ -42,7 +42,7 @@ export const errorHandleForFunction = (error, navigate, popup = "") => {
 
   if (error.code === "ERR_NETWORK") {
     toast.error("Network error");
-    navigate("/exp");
+    navigate("/network-error");
     return;
   }
 

@@ -104,7 +104,7 @@ const UserCutiReportList = () => {
           </tr>
         </thead>
         {/* ada masalah pada whitespace-nowrap */}
-        <tbody className="whitespace-nowrap text-center">
+        <tbody className="text-nowrap text-center">
           {cutis.map(({ dateStart, dateEnd, id, kop, number, user: owner }) => {
             return (
               <tr key={id}>

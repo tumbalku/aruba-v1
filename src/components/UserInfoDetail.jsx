@@ -42,30 +42,32 @@ const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
             className="w-24 h-24 object-cover rounded-xl"
           />
 
-          <table className="text-xs md:text-sm">
-            {nip && (
-              <tr>
-                <th className="text-left">NIP</th>
-                <td className="px-2">:</td>
-                <td>1111 2222 3333 4444 5555 6666</td>
-              </tr>
-            )}
+          <table>
+            <tbody className="text-xs md:text-sm">
+              {nip && (
+                <tr>
+                  <th className="text-left">NIP</th>
+                  <td className="px-2">:</td>
+                  <td>1111 2222 3333 4444 5555 6666</td>
+                </tr>
+              )}
 
-            <tr>
-              <th className="text-left">Nama</th>
-              <td className="px-2">:</td>
-              <td>{name}</td>
-            </tr>
-            <tr>
-              <th className="text-left">Alamat</th>
-              <td className="px-2">:</td>
-              <td>{address}</td>
-            </tr>
-            <tr>
-              <th className="text-nowrap text-left">Unit Kerja</th>
-              <td className="px-2">:</td>
-              <td>{workUnit}</td>
-            </tr>
+              <tr>
+                <th className="text-left">Nama</th>
+                <td className="px-2">:</td>
+                <td>{name}</td>
+              </tr>
+              <tr>
+                <th className="text-left">Alamat</th>
+                <td className="px-2">:</td>
+                <td>{address}</td>
+              </tr>
+              <tr>
+                <th className="text-nowrap text-left">Unit Kerja</th>
+                <td className="px-2">:</td>
+                <td>{workUnit}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <img

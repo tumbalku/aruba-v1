@@ -10,7 +10,6 @@ import { fileTypeIcons } from "../../data";
 import {
   FormInput,
   SectionInfo,
-  SelectInput,
   SubmitButton,
   UnmodifiedField,
   UserInfoDetail,
@@ -21,8 +20,12 @@ import { GoDownload } from "react-icons/go";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { FaWhatsapp } from "react-icons/fa6";
-import Second from "../exp/Second";
-import { errorHandleForAction } from "../../utils/exception";
+import {
+  errorHandleForAction,
+  errorHandleForFunction,
+} from "../../utils/exception";
+import Swal from "sweetalert2";
+import SipReport from "./SipReport";
 
 export const loader = async ({ params }) => {
   try {
@@ -63,7 +66,7 @@ const SipDetail = () => {
 
   const handleDownload = async (id, name) => {
     try {
-      const response = await customFetch.get(`letter/download/${id}`, {
+      const response = await customFetch.get(`sip/download/${id}`, {
         responseType: "blob",
       });
       console.log(response);
@@ -86,21 +89,36 @@ const SipDetail = () => {
       console.error("Download failed:", error);
     }
   };
+
   async function handleDelete(id) {
-    try {
-      const response = await customFetch.delete(`/letter/${id}`, {
-        headers: {
-          "X-API-TOKEN": `${user.token}`,
-        },
-      });
-      const msg = response.data.message;
-      toast.success(msg || "Success delete");
-      navigate("/sip");
-    } catch (error) {
-      const msg = error.response.data.message;
-      toast.error(msg || "Something error with the operation");
-      console.log(error);
-    }
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak akan bisa mengembalikan SIP ini apabila sudah terlanjur dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Iya, hapus",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await customFetch.delete(`/sip/${id}`, {
+            headers: {
+              "X-API-TOKEN": `${user.token}`,
+            },
+          });
+          Swal.fire({
+            title: "Berhasil menghapus SIP",
+            text: response.data?.message,
+            icon: "success",
+          });
+          navigate("/sip");
+        } catch (error) {
+          errorHandleForFunction(error, navigate);
+        }
+        navigate("/sip");
+      }
+    });
   }
 
   const {
@@ -130,7 +148,7 @@ const SipDetail = () => {
     )}* . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
       
     *Detail SIP:*
-    •	Nomor SIP: ${num}
+    •	Nomor SIP: ${num ? num : "-"}
     •	Tanggal Kadaluarsa: *${convertDateArrayToString(expiredAt)}*
     `.trim();
 
@@ -231,7 +249,7 @@ const SipDetail = () => {
             <SubmitButton color="btn-primary" size="btn-sm" text="Update" />
           </div>
         </Form>
-        <Second reports={reports} />
+        {reports && <SipReport reports={reports} />}
       </div>
     </div>
   );

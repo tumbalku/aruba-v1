@@ -18,12 +18,10 @@ export const action =
     const data = Object.fromEntries(formData);
     const user = store.getState().userState.user;
 
-    data.nip = data.nip ? data.nip : user.id;
-    data.docType = "SIP";
     data.file = data.file.size !== 0 ? data.file : null;
     console.log(data);
     try {
-      const response = await customFetch.post("/letter/upload", data, {
+      const response = await customFetch.post("/sip/upload", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           "X-API-TOKEN": user.token,

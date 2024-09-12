@@ -1,5 +1,23 @@
 import { Link } from "react-router-dom";
 import tempImg from "/image/hero1.jpg";
+
+export const loader = async ({ request }) => {
+  const params = Object.fromEntries([
+    ...new URL(request.url).searchParams.entries(),
+  ]);
+  params.size = 5;
+  console.log(params);
+  try {
+    const response = await customFetch.get("/posts", { params });
+    console.log(response);
+    return {
+      news: response.data.data,
+      pagination: response.data.pagination,
+    };
+  } catch (error) {
+    return errorHandleForAction(error, "toastify");
+  }
+};
 const LatestNews = () => {
   return (
     <div className="flex flex-col gap-4">

@@ -1,15 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { FeatureLayout, HomeLayout } from "./layout";
-import { ErrorElement } from "./components";
+import { ErrorElement, NetworkError } from "./components";
 import { store } from "./store";
 import {
   Error,
   Landing,
-  Exp,
   About,
   Letter,
   Documents,
-  Maintenance,
   CreateCuti,
   CutiDetail,
   Login,
@@ -20,7 +18,6 @@ import {
   CreateUser,
   UserDetail,
   UpdateUser,
-  KGBDetail,
   UploadDocument,
   DocumentDetail,
   ChangePassword,
@@ -70,7 +67,6 @@ import { loader as usersDetailLoader } from "./pages/min/UserDetail";
 import { loader as usersUpdateLoader } from "./pages/min/UpdateUser";
 import { loader as documentsLoader } from "./pages/Documents";
 import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail";
-import { loader as kgbDetailLoader } from "./pages/kgb/KGBDetail";
 import { loader as sipLoader } from "./pages/sip/Sip";
 import { loader as sipDetailLoader } from "./pages/sip/SipDetail";
 import { loader as kopLoader } from "./pages/Kop";
@@ -82,14 +78,17 @@ import { loader as newsUpdateLoader } from "./pages/news/NewsUpdate";
 import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
 import { First, links, Second } from "./pages/exp";
 import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
-import NewsContainer from "./pages/news/NewsContainer";
-import NewsLayout from "./layout/NewsLayout";
-import NewsDetail from "./pages/news/NewsDetail";
 import PostUpdate from "./pages/posts/PostUpdate";
-import NewsCreate from "./pages/news/NewsCreate";
-import NewsUpdate from "./pages/news/NewsUpdate";
-// import { action as expAction } from "./pages/Exp";
-// import { action as expAction } from "./pages/Exp";
+import NewsLayout from "./layout/NewsLayout";
+import {
+  NewsDetail,
+  NewsCreate,
+  NewsUpdate,
+  NewsContainer,
+} from "./pages/news";
+import Kgb from "./pages/kgb/Kgb";
+import Spmt from "./pages/spmt/Spmt";
+import Akreditasi from "./pages/akreditasi/Akreditasi";
 
 const router = createBrowserRouter([
   {
@@ -100,6 +99,21 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: "kgb",
+        element: <Kgb />,
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: "akreditasi",
+        element: <Akreditasi />,
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: "spmt",
+        element: <Spmt />,
         errorElement: <ErrorElement />,
       },
       {
@@ -179,12 +193,6 @@ const router = createBrowserRouter([
       {
         path: "letters",
         element: <Letter />,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "kgb",
-        element: <KGBDetail />,
-        loader: kgbDetailLoader,
         errorElement: <ErrorElement />,
       },
       {
@@ -361,6 +369,10 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     loader: loginLoader(store),
     action: loginAction(store),
+  },
+  {
+    path: "network-error",
+    element: <NetworkError />,
   },
 ]);
 const App = () => {

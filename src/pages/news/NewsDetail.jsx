@@ -4,6 +4,7 @@ import {
   convertDateArrayToString,
   convertLocalDateTimeToDate,
   customFetch,
+  getImage,
 } from "../../utils";
 import profile from "/image/single.png";
 import DOMPurify from "dompurify";
@@ -15,6 +16,7 @@ import {
 import { Link, useNavigate } from "react-router-dom/dist";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export const loader = async ({ params }) => {
   try {
@@ -26,11 +28,13 @@ export const loader = async ({ params }) => {
   }
 };
 const NewsDetail = () => {
+  const navigate = useNavigate();
   const { news } = useLoaderData();
   const { roles, user } = useSelector((state) => state.userState);
   const isAdmin = roles.includes("ADMIN");
-  const navigate = useNavigate();
-  const { title, createdAt, updatedAt, imageUrl, author, content, id } = news;
+  const { title, createdAt, updatedAt, imageUrl, author, content, id, avatar } =
+    news;
+  const [avatarImage, setAvatarImage] = useState(avatar);
   console.log(news);
 
   async function handleDelete() {
@@ -65,6 +69,20 @@ const NewsDetail = () => {
       }
     });
   }
+
+  async function getAvatar() {
+    try {
+      const response = await getImage(avatar);
+      setAvatarImage(response);
+    } catch (error) {
+      // nothing
+    }
+  }
+
+  useEffect(() => {
+    getAvatar();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="font-bold text-2xl sm:text-3xl tracking-tight">{title}</h1>
@@ -87,7 +105,7 @@ const NewsDetail = () => {
       )}
       <div className="flex flex-row gap-2 items-center">
         <img
-          src={profile}
+          src={avatarImage ? avatarImage : profile}
           alt={author}
           className="w-10 h-10 rounded-full object-cover"
         />

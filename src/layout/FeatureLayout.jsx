@@ -7,7 +7,7 @@ const FeatureLayout = ({ links }) => {
   const isLoading = navigation.state === "loading";
   return (
     <div className="flex flex-col lg:flex-row lg:gap-4">
-      <div className="lg:rounded-lg lg:w-[200px] secondary-color flex flex-row lg:flex-col justify-center lg:justify-start lg:items-start items-center gap-2 p-4 h-fit shadow-xl">
+      <div className="lg:rounded-lg lg:w-[200px] secondary-color flex flex-row lg:flex-col justify-center lg:justify-start lg:items-start items-center gap-2 p-4 h-fit shadow-xl min-w-40">
         {links.map((link, index) => {
           return (
             <Link
@@ -20,7 +20,7 @@ const FeatureLayout = ({ links }) => {
           );
         })}
       </div>
-      <div className="flex-1 bg-base-300 h-fit lg:rounded-lg p-4 shadow-xl">
+      <div className="flex-1 overflow-x-auto bg-base-300 h-fit lg:rounded-lg p-4 shadow-xl max-w-full">
         {isLoading ? <Loading /> : <Outlet />}
       </div>
     </div>
