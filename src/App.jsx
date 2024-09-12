@@ -50,6 +50,8 @@ import { action as postUpdateAction } from "./pages/posts/PostUpdate";
 import { action as kopAction } from "./pages/Kop";
 import { action as expAction } from "./pages/cuti/EditCuti";
 import { action as sipUploadAction } from "./pages/sip/SipUpload";
+import { action as newsCreateAction } from "./pages/news/NewsCreate";
+import { action as newsUpdateAction } from "./pages/news/NewsUpdate";
 import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 
 // loader
@@ -74,6 +76,7 @@ import { loader as sipDetailLoader } from "./pages/sip/SipDetail";
 import { loader as kopLoader } from "./pages/Kop";
 import { loader as newsContainerLoader } from "./pages/news/NewsContainer";
 import { loader as newsDetailLoader } from "./pages/news/NewsDetail";
+import { loader as newsUpdateLoader } from "./pages/news/NewsUpdate";
 
 // exp
 import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
@@ -83,6 +86,8 @@ import NewsContainer from "./pages/news/NewsContainer";
 import NewsLayout from "./layout/NewsLayout";
 import NewsDetail from "./pages/news/NewsDetail";
 import PostUpdate from "./pages/posts/PostUpdate";
+import NewsCreate from "./pages/news/NewsCreate";
+import NewsUpdate from "./pages/news/NewsUpdate";
 // import { action as expAction } from "./pages/Exp";
 // import { action as expAction } from "./pages/Exp";
 
@@ -115,6 +120,19 @@ const router = createBrowserRouter([
             loader: newsDetailLoader,
           },
         ],
+      },
+      {
+        path: "news/create",
+        element: <NewsCreate />,
+        action: newsCreateAction(store),
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: "news/edit/:id",
+        element: <NewsUpdate />,
+        loader: newsUpdateLoader,
+        action: newsUpdateAction(store),
+        errorElement: <ErrorElement />,
       },
       {
         path: "posts",

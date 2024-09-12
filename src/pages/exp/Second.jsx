@@ -1,32 +1,31 @@
 import React from "react";
 import SipStatusReportBadge from "../../components/SipStatusReportBadge";
 import { convertDateArrayToString } from "../../utils";
-
-const Second = ({ reports }) => {
+import Swal from "sweetalert2";
+const Second = () => {
+  function handleClick() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Data ini kemungkinan berhubungan dengan data data yang lainnya. Anda tidak akan bisa mengembalikan data ini apabila sudah terlanjur dihapus",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Berhasil mengapus pengguna",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  }
   return (
-    <div className="bg-base-100 border rounded-lg my-4 max-h-[280px] overflow-y-scroll">
-      <div className="overflow-x-auto">
-        <table className="table table-xs text-center">
-          <thead>
-            <tr>
-              <th>Tanggal Kirim</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reports.map((report) => {
-              return (
-                <tr key={report.id}>
-                  <td>{convertDateArrayToString(report.sentDate)}</td>
-                  <td className="text-center">
-                    <SipStatusReportBadge status={report.status} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+    <div>
+      <p>halo</p>
+      <button onClick={handleClick}>Click mee</button>
     </div>
   );
 };

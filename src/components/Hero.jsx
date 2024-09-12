@@ -23,7 +23,7 @@ const Hero = () => {
           pekerjaan penting dalam pelayanan kesehatan
         </p>
         <div className="mt-6">
-          <Link to="/letters" className="btn btn-primary btn-wide text-sm">
+          <Link to="/news" className="btn btn-primary btn-wide text-sm">
             Pelajari lebih lanjut
           </Link>
         </div>

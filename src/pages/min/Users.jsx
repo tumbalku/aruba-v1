@@ -6,11 +6,11 @@ import {
   UserList,
 } from "../../components";
 
-import { toast } from "react-toastify";
 import { Link, redirect, useNavigation } from "react-router-dom";
 import { customFetch } from "../../utils";
 import { useSelector } from "react-redux";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { errorHandleForAction } from "../../utils/exception";
 
 export const loader =
   (store) =>
@@ -34,15 +34,14 @@ export const loader =
       };
     } catch (error) {
       console.log(error);
-      toast.warn("Terjadi error!");
-      return redirect("/login");
+      return errorHandleForAction(error);
     }
   };
 const Users = () => {
   const roles = useSelector((state) => state.userState.roles);
+  const isAdmin = roles.includes("ADMIN");
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
-  const isAdmin = roles.includes("ADMIN");
 
   return (
     <section>

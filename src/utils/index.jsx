@@ -3,18 +3,26 @@ import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 
-export const convertToValidDate = (createdAtArray) => {
+export const convertLocalDateTimeToDate = (createdAtArray) => {
   const [year, month, day, hour, minute, second, millisecond] = createdAtArray;
 
-  return new Date(
+  // Jika milidetik lebih dari 999, potong atau atur batas
+  const validMillisecond = Math.min(millisecond, 999); // Batas maksimal milidetik
+
+  // Jangan tambahkan detik dari milidetik jika tidak relevan
+  const date = new Date(
     year,
-    month - 1, // Bulan dimulai dari 0 (Januari)
+    month - 1,
     day,
     hour,
     minute,
-    second + Math.floor(millisecond / 1000), // Tambahkan detik tambahan dari milidetik
-    millisecond % 1000 // Milidetik yang valid (0-999)
+    second,
+    validMillisecond
   );
+
+  console.log("Converted Date (Fixed):", date);
+
+  return date;
 };
 
 export const getText = (html) => {

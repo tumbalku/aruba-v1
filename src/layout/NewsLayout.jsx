@@ -4,6 +4,7 @@ import LatestNews from "../pages/news/LatestNews";
 
 const NewsLayout = () => {
   const navigation = useNavigation();
+  console.log(navigation);
   const isLoading = navigation.state === "loading";
   return (
     <div className="flex flex-col lg:flex-row gap-8">

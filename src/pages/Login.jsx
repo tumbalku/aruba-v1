@@ -3,7 +3,7 @@ import { Form, Link, redirect, useSearchParams } from "react-router-dom";
 import { customFetch } from "../utils";
 import { toast } from "react-toastify";
 import { loginUser } from "../features/user/userSlice";
-import { errorHandle } from "../utils/exception";
+import { errorHandleForAction } from "../utils/exception";
 
 export const loader = (store) => () => {
   const user = store.getState().userState.user;
@@ -27,7 +27,7 @@ export const action =
       toast.success("Logged in successfully");
       return redirect(redirectTo);
     } catch (error) {
-      return errorHandle(error);
+      return errorHandleForAction(error, "toastify");
     }
   };
 const Login = () => {

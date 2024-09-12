@@ -10,8 +10,9 @@ import profile from "/image/single.png";
 import { customFetch, getImage, translateGender } from "../utils";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
-import { toast } from "react-toastify";
 import SectionTitle from "./SectionTitle";
+import Swal from "sweetalert2";
+import { errorHandleForFunction } from "../utils/exception";
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -25,27 +26,47 @@ const UserList = () => {
   const isAdmin = roles.includes("ADMIN");
 
   async function handleDelete(id) {
-    try {
-      const response = await customFetch.delete(`/users/${id}`, {
-        headers: {
-          "X-API-TOKEN": `${user.token}`,
-        },
-      });
-      const msg = response.data.message;
-      toast.success(msg || "Success delete");
-      console.log(location.search);
-      setUsers(users.filter((user) => user.id !== id));
-      const queryParams = new URLSearchParams(location.search);
-      if (queryParams.has("identity")) {
-        navigate("/users");
-      }
+    // Tampilkan konfirmasi penghapusan menggunakan SweetAlert
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Data ini kemungkinan berhubungan dengan data lain. Anda tidak akan bisa mengembalikan data ini apabila sudah terlanjur dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Menghapus data menggunakan customFetch
+          const response = await customFetch.delete(`/users/${id}`, {
+            headers: {
+              "X-API-TOKEN": user.token,
+            },
+          });
 
-      console.log(response);
-    } catch (error) {
-      const msg = error.response.data.message;
-      toast.error(msg || "Something error with the operation");
-      console.log(error);
-    }
+          // Memperbarui state users setelah data berhasil dihapus
+          setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+
+          // Mengarahkan pengguna jika terdapat query parameter tertentu
+          const queryParams = new URLSearchParams(location.search);
+          if (queryParams.has("identity")) {
+            navigate("/users");
+          }
+
+          // Tampilkan notifikasi berhasil setelah penghapusan
+          Swal.fire({
+            title: "Berhasil menghapus pengguna",
+            text: "Data pengguna telah dihapus.",
+            icon: "success",
+          });
+
+          console.log(response);
+        } catch (error) {
+          return errorHandleForFunction(error, navigate);
+        }
+      }
+    });
   }
 
   // getImage

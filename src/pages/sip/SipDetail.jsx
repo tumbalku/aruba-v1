@@ -22,16 +22,14 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { FaWhatsapp } from "react-icons/fa6";
 import Second from "../exp/Second";
+import { errorHandleForAction } from "../../utils/exception";
 
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get(`sip/${params.id}`);
-    console.log(response);
     return { documentDetail: response.data.data };
   } catch (error) {
-    console.log(error);
-    toast.error(error.resonse.data.message);
-    return null;
+    return errorHandleForAction(error, "toastify");
   }
 };
 export const action =
@@ -52,12 +50,7 @@ export const action =
       toast.success(response.data.message || "Berhasil melalukan update");
       return null;
     } catch (error) {
-      console.log(error);
-      // if (error) {
-      //   toast.warn("Terjadi error!");
-      //   return redirect("/login");
-      // }
-      return null;
+      return errorHandleForAction(error);
     }
   };
 

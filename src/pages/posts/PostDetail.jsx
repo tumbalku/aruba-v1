@@ -3,9 +3,11 @@ import React from "react";
 import DOMPurify from "dompurify";
 import { customFetch } from "../../utils";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
-import { errorHandle } from "../../utils/exception";
+import {
+  errorHandleForAction,
+  errorHandleForFunction,
+} from "../../utils/exception";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get("/posts/" + params.id);
@@ -15,9 +17,7 @@ export const loader = async ({ params }) => {
       post: response.data.data,
     };
   } catch (error) {
-    console.log(error);
-    toast.error(error.response.data.message || "Terjadi error!");
-    return null;
+    return errorHandleForAction(error, "toastify");
   }
 };
 const PostDetail = () => {
@@ -35,7 +35,7 @@ const PostDetail = () => {
       toast.success(response.data.message);
       navigate("/posts");
     } catch (error) {
-      return errorHandle(error);
+      return errorHandleForFunction(error, navigate);
     }
   }
 

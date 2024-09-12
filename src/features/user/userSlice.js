@@ -37,6 +37,12 @@ const userSlice = createSlice({
       localStorage.removeItem("roles");
       toast.success("Logged out successfully");
     },
+    clearUser: (state) => {
+      state.user = null;
+      state.roles = [];
+      localStorage.removeItem("user");
+      localStorage.removeItem("roles");
+    },
     loginUser: (state, action) => {
       console.log("login", action.payload);
       const { roles, ...user } = action.payload.user;
@@ -81,6 +87,7 @@ export const {
   toggleTheme,
   logoutUser,
   updateUser,
+  clearUser,
   updateUserProfile,
 } = userSlice.actions;
 

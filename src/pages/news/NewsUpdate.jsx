@@ -1,26 +1,14 @@
-import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import { InputField, SubmitButton } from "../../components";
-import { modules, formats } from "../../utils/reactQuilConfig";
-import { Form, redirect, useLoaderData } from "react-router-dom";
-import ImageUpload from "../../components/ImageUpload";
-import { customFetch } from "../../utils";
-import { toast } from "react-toastify";
+import React from "react";
 import { clearImage } from "../../features/user/tempSlice";
-export const loader = async ({ params }) => {
-  try {
-    const response = await customFetch.get("/posts/" + params.id);
-
-    console.log(response);
-    return {
-      post: response.data.data,
-    };
-  } catch (error) {
-    console.log(error);
-    toast.error(error.response.data.message || "Terjadi error!");
-    return null;
-  }
-};
+import { customFetch } from "../../utils";
+import { Form, redirect, useLoaderData } from "react-router-dom/dist";
+import ImageUpload from "../../components/ImageUpload";
+import { InputField, SubmitButton } from "../../components";
+import ReactQuill from "react-quill/lib";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { errorHandleForAction } from "../../utils/exception";
+import { modules, formats } from "../../utils/reactQuilConfig";
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -39,22 +27,30 @@ export const action =
           "X-API-TOKEN": user.token,
         },
       });
+      // how to dispatch
       toast.success(response.data.message || "Update post");
       store.dispatch(clearImage());
-      return redirect("/posts");
+      return redirect("/news");
     } catch (error) {
-      if (error) {
-        toast.error(error.response.data.message);
-        return null;
-      }
-      return error;
+      return errorHandleForAction(error);
     }
   };
-const PostUpdate = () => {
+export const loader = async ({ params }) => {
+  try {
+    const response = await customFetch.get("/posts/" + params.id);
+
+    console.log(response);
+    return {
+      post: response.data.data,
+    };
+  } catch (error) {
+    return errorHandleForAction(error, "toastify");
+  }
+};
+const NewsUpdate = () => {
   const { post } = useLoaderData();
   const { content, title, imageUrl } = post;
   const [value, setValue] = useState(content);
-
   console.log(value);
   return (
     <Form method="POST">
@@ -81,11 +77,7 @@ const PostUpdate = () => {
             </div>
           </div>
           <div className="text-center md:text-right mt-5">
-            <SubmitButton
-              color="btn-primary"
-              size="btn-sm"
-              text="Update post"
-            />
+            <SubmitButton color="btn-primary" size="btn-sm" text="Buat Post" />
           </div>
         </div>
       </div>
@@ -93,4 +85,4 @@ const PostUpdate = () => {
   );
 };
 
-export default PostUpdate;
+export default NewsUpdate;
