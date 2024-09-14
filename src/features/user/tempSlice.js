@@ -2,13 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   imageUrl: "",
+  chooseUser: null,
 };
 const tempSlice = createSlice({
   name: "temp",
   initialState,
   reducers: {
+    chooseUser: (state, action) => {
+      console.log("chooseUser", action.payload);
+      state.chooseUser = action.payload;
+    },
+    clearChooseUser: (state) => {
+      state.chooseUser = null;
+    },
     addImage: (state, action) => {
-      console.log(action.payload);
       state.imageUrl = action.payload;
     },
     clearImage: (state) => {
@@ -17,6 +24,7 @@ const tempSlice = createSlice({
   },
 });
 
-export const { addImage, clearImage } = tempSlice.actions;
+export const { addImage, clearImage, chooseUser, clearChooseUser } =
+  tempSlice.actions;
 
 export default tempSlice.reducer;

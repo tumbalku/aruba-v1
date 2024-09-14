@@ -317,7 +317,7 @@ const router = createBrowserRouter([
             path: "users/create",
             element: <CreateUser />,
             action: usersCreateAction(store),
-            loader: usersCreateLoader,
+            loader: usersCreateLoader(store),
             errorElement: <ErrorElement />,
           },
           {

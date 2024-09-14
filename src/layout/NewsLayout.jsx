@@ -4,13 +4,13 @@ import LatestNews from "../pages/news/LatestNews";
 
 const NewsLayout = () => {
   const navigation = useNavigation();
-  console.log(navigation);
+
   const isLoading = navigation.state === "loading";
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <div className="flex-[5]">{isLoading ? <Loading /> : <Outlet />}</div>
 
-      <div className="h-fit flex-[2]">
+      <div className="h-fit flex-[2] lg:max-w-[350px] overflow-hidden">
         <div
           className="md:h-[150px] p-5 flex flex-col justify-center gap-2 bg-cover bg-center relative"
           style={{ backgroundImage: "url('/image/hero1.jpg')" }}
@@ -26,7 +26,7 @@ const NewsLayout = () => {
             Lihat RSUD Bahteramas lebih dekat
           </Link>
         </div>
-        <div className="flex flex-row gap-1 justify-center items-center my-2">
+        <div className="flex flex-row gap-1 justify-center items-center mb-4 mt-1">
           <h1 className="font-bold text-xl text-nowrap">Info terkini</h1>
           <span className="border border-black w-full h-fit"></span>
         </div>

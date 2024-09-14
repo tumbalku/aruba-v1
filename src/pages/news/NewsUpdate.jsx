@@ -63,7 +63,7 @@ const NewsUpdate = () => {
 
           <div>
             <p className="text-xs capitalize p-2">Content</p>
-            <div className={`h-[500px] overflow-y-scroll text-wrap`}>
+            <div className={`h-[350px] overflow-y-scroll text-wrap`}>
               <ReactQuill
                 theme="snow"
                 value={value}
@@ -76,8 +76,12 @@ const NewsUpdate = () => {
               <input type="hidden" name="content" value={value} />
             </div>
           </div>
-          <div className="text-center md:text-right mt-5">
-            <SubmitButton color="btn-primary" size="btn-sm" text="Buat Post" />
+          <div className="text-center md:text-right">
+            <SubmitButton
+              color="btn-primary"
+              size="btn-sm"
+              text="Update Post"
+            />
           </div>
         </div>
       </div>

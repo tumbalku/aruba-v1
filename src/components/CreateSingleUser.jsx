@@ -54,6 +54,20 @@ const CreateSingleUser = () => {
         />
 
         <div className="flex justify-center items-center">
+          <FormCheckbox label="Admin" name="ADMIN" size="checkbox-sm" />
+          <FormCheckbox
+            label="Karyawan"
+            name="EMPLOYEE"
+            size="checkbox-sm"
+            defaultChecked={true}
+          />
+          <FormCheckbox
+            label="Pejabat"
+            name="OFFICEHOLDER"
+            size="checkbox-sm"
+          />
+        </div>
+        <div className="flex justify-center items-center">
           <FormCheckbox
             defaultChecked={true}
             label="ASN"
@@ -61,6 +75,7 @@ const CreateSingleUser = () => {
             size="checkbox-sm"
             onChange={handleCheckboxChange}
           />
+
           {isPegawai && (
             <FormCheckbox
               defaultChecked={false}

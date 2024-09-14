@@ -35,7 +35,6 @@ const NewsDetail = () => {
   const { title, createdAt, updatedAt, imageUrl, author, content, id, avatar } =
     news;
   const [avatarImage, setAvatarImage] = useState(avatar);
-  console.log(news);
 
   async function handleDelete() {
     Swal.fire({
@@ -49,7 +48,6 @@ const NewsDetail = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Menghapus data menggunakan customFetch
           const response = await customFetch.delete(`/posts/${id}`, {
             headers: {
               "X-API-TOKEN": user.token,

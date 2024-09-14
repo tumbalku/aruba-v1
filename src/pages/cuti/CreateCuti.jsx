@@ -9,16 +9,19 @@ import {
 } from "../../components";
 import { toast } from "react-toastify";
 import { customFetch, daysBetween } from "../../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { signedBy } from "../../data";
+import Second from "../exp/Second";
+import { useDispatch, useSelector } from "react-redux";
+import { clearChooseUser } from "../../features/user/tempSlice";
 export const action =
   (store) =>
   async ({ request }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-
+    store.dispatch(clearChooseUser());
     const user = store.getState().userState.user;
 
     data.people = JSON.parse(data.tembusan);
@@ -106,11 +109,14 @@ export const loader = (store) => async () => {
   }
 };
 const CreateCuti = () => {
+  const dispatch = useDispatch();
   const date = new Date().toISOString().split("T")[0];
   const [name, setName] = useState("");
   const [tembusan, setTembusan] = useState([]);
   const [isWa, setIsWa] = useState(false);
   // const [isCurrentWa, setIsCurrentWa] = useState(false);
+  const chooseUser = useSelector((state) => state?.tempState?.chooseUser);
+  console.log(chooseUser);
 
   const { kops } = useLoaderData();
 
@@ -150,11 +156,30 @@ const CreateCuti = () => {
     );
     setKopData(selectedKop || {});
   };
+
   return (
     <Form method="POST">
       <div className="grid grid-cols-4 gap-5 ">
+        <div className="col-span-4">
+          <Second />
+        </div>
+        <div className="col-span-4">
+          {chooseUser && <p>{chooseUser.name}</p>}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => dispatch(clearChooseUser())}
+          >
+            Clear User
+          </button>
+        </div>
         <div className="col-span-4 md:col-span-2">
-          <FormInput name="user" label="User ID" size="input-sm" />
+          <FormInput
+            name="user"
+            label="User ID"
+            size="input-sm"
+            defaultValue={chooseUser ? chooseUser.id : ""}
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
           <SelectInputForId

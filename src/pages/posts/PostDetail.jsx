@@ -8,6 +8,7 @@ import {
   errorHandleForFunction,
 } from "../../utils/exception";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 export const loader = async ({ params }) => {
   try {
     const response = await customFetch.get("/posts/" + params.id);
@@ -21,6 +22,7 @@ export const loader = async ({ params }) => {
   }
 };
 const PostDetail = () => {
+  const user = useSelector((state) => state.userState.user);
   const { post } = useLoaderData();
   const navigate = useNavigate();
 

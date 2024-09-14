@@ -12,7 +12,7 @@ const HomeLayout = () => {
       {/* {isLoading ? (
         <Loading />
       ) : ( */}
-      <section className="align-element py-20 font-poppins">
+      <section className="align-element py-10 font-poppins">
         <PrevLinks />
         <Outlet />
       </section>

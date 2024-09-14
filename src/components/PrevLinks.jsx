@@ -2,17 +2,15 @@ import { Link, useLocation } from "react-router-dom";
 
 const PrevLinks = () => {
   const location = useLocation();
-  const paths = location.pathname
-    .split("/")
-    .filter(
-      (path) =>
-        path &&
-        path !== "edit" &&
-        path !== "password" &&
-        path !== "create" &&
-        path !== "kop" &&
-        path !== "report"
-    );
+  const paths = location.pathname.split("/").filter(
+    (path) =>
+      path &&
+      path !== "edit" &&
+      path !== "password" &&
+      // path !== "create" &&
+      path !== "kop" &&
+      path !== "report"
+  );
 
   const pathNames = {
     "": "Beranda",
@@ -24,10 +22,10 @@ const PrevLinks = () => {
   };
 
   if (paths.length <= 1) {
-    return;
+    return <div className="p-6"></div>;
   }
   return (
-    <div className="text-sm breadcrumbs mb-6">
+    <div className="text-sm breadcrumbs mb-4">
       <ul>
         <li>
           <Link to="/" className="text-xs">

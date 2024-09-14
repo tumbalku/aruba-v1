@@ -1,4 +1,3 @@
-import React from "react";
 import SipStatusReportBadge from "./SipStatusReportBadge";
 import { convertDateArrayToString } from "../../utils";
 
