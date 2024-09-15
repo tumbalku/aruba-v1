@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import network_err from "/image/network-error.png";
+import { QRCodeCanvas } from "qrcode.react";
 import { customFetch } from "../../utils";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -9,7 +10,7 @@ const First = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(query);
   const [people, setPeople] = useState([]);
-
+  const youtubeLink = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(query);
@@ -70,6 +71,11 @@ const First = () => {
           <button>close</button>
         </form>
       </dialog>
+
+      <div>
+        <h2>YouTube QR Code</h2>
+        <QRCodeCanvas value={youtubeLink} size={96} />
+      </div>
     </div>
   );
 };

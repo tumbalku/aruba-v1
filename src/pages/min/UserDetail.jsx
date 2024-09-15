@@ -23,7 +23,7 @@ export const loader =
 const UserDetail = () => {
   const { userDetail } = useLoaderData();
   return (
-    <div>
+    <div className="grid place-items-center">
       <UserInfoDetail {...userDetail} />
     </div>
   );

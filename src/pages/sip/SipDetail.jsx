@@ -171,10 +171,15 @@ const SipDetail = () => {
         ) : (
           <img src={noFile} alt={name} className="w-24 h-24" />
         )}
-        <div className=" ml-1 ">
+        <div>
           <p className="font-semibold truncate text-xs sm:text-base w-36">
             {name}
           </p>
+          {size && (
+            <p className="font-semibold badge badge-primary badge-xs md:badge-sm">
+              {formatFileSize(size)}
+            </p>
+          )}
           <div className="mt-4 flex space-x-1">
             {fileType && (
               <button
@@ -211,25 +216,20 @@ const SipDetail = () => {
             Kirim
           </button>
         </div>
-        <UserInfoDetail {...owner} />
+        <div className="grid place-items-center">
+          <UserInfoDetail {...owner} />
+        </div>
 
         <Form method="post">
           <div className="grid md:grid-cols-2 gap-2 mt-8">
             <FormInput
-              size="md:input-sm input-xs "
+              size="md:input-sm input-xs"
               labelSize="text-xs"
               type="text"
               label="File name"
               name="name"
               defaultValue={name}
             />
-
-            {fileType && (
-              <UnmodifiedField
-                value={formatFileSize(size)}
-                label="Ukuran file"
-              />
-            )}
             <div className="grid grid-cols-1 md:grid-cols-3 col-span-2">
               <UnmodifiedField
                 value={convertDateArrayToString(uploadedAt)}

@@ -6,7 +6,7 @@ import { customFetch, getImage, translateGender } from "../utils";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { updateUser, updateUserProfile } from "../features/user/userSlice";
-import { Form, redirect, useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import {
   errorHandleForAction,
   errorHandleForFunction,

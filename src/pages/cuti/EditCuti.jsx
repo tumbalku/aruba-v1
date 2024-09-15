@@ -7,6 +7,7 @@ import {
   SelectInput,
   SelectInputForId,
   SubmitButton,
+  UserInfoDetail,
 } from "../../components";
 import { toast } from "react-toastify";
 import { arrayToDate, customFetch, isAuthenticate } from "../../utils";
@@ -104,14 +105,19 @@ const EditCuti = () => {
   return (
     <Form method="POST">
       <div className="grid grid-cols-4 gap-5 ">
-        <div className="col-span-4 md:col-span-2">
+        <div className="col-span-4">
+          <div className="grid place-items-center ">
+            <UserInfoDetail {...owner} />
+          </div>
+        </div>
+        {/* <div className="col-span-4 md:col-span-2">
           <FormInput
             name="user"
             label="User ID"
             size="input-sm"
             defaultValue={owner.id}
           />
-        </div>
+        </div> */}
         <div className="col-span-4 md:col-span-2">
           <SelectInputForId
             name="kop"

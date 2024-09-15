@@ -1,5 +1,6 @@
 import SipStatusReportBadge from "./SipStatusReportBadge";
 import { convertDateArrayToString } from "../../utils";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const SipReport = ({ reports }) => {
   return (
@@ -10,6 +11,7 @@ const SipReport = ({ reports }) => {
             <tr>
               <th>Tanggal Kirim</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -19,6 +21,11 @@ const SipReport = ({ reports }) => {
                   <td>{convertDateArrayToString(report.sentDate)}</td>
                   <td className="text-center">
                     <SipStatusReportBadge status={report.status} />
+                  </td>
+                  <td>
+                    <button className="btn btn-error btn-xs">
+                      <AiOutlineDelete />
+                    </button>
                   </td>
                 </tr>
               );

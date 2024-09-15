@@ -60,15 +60,15 @@ const Second = () => {
     <div className="flex justify-center items-center">
       <button
         type="button"
-        className="px-4 py-2 bg-blue-500 text-white rounded"
+        className="btn btn-primary btn-sm"
         onClick={openModal}
       >
         Pilih Pengguna
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
+        <div className="z-10 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-base-300 rounded-lg shadow-lg max-w-lg w-full p-4 relative">
             <h2 className="text-xl font-semibold mb-4">
               Masukan Nama atau NIP
             </h2>
@@ -76,7 +76,7 @@ const Second = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Cari produk..."
+              placeholder="Cari pengguna..."
               className="border p-2 rounded w-full"
             />
             {isFetched ? (
@@ -86,15 +86,14 @@ const Second = () => {
                 <p>User tidak ditemukan</p>
               )
             ) : null}
-            <div className="flex justify-end">
-              <button
-                type="button"
-                className="px-4 py-2 bg-red-500 text-white rounded"
-                onClick={closeModal}
-              >
-                Close Modal
-              </button>
-            </div>
+
+            <button
+              type="button"
+              className="px-4 py-2 btn btn-sm btn-circle btn-error absolute -right-3 -top-3"
+              onClick={closeModal}
+            >
+              X
+            </button>
           </div>
         </div>
       )}

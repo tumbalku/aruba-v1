@@ -11,6 +11,7 @@ import {
   FormTextArea,
   PrevLinks,
   StatusBadge,
+  UserInfoDetail,
 } from "../../components";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -83,101 +84,38 @@ const CutiDetail = () => {
         </button>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4 mt-8">
-        <div className="md:col-span-2"></div>
-
-        <>
-          {/* Cuti */}
-          <div className="md:order-2 order-1">
-            <h1 className="font-semibold text-sm pb-5 text-center">
-              Detail Cuti
-            </h1>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-4">
+        <div className="grid place-items-center ">
+          <UserInfoDetail {...owner} />
+        </div>
+        <div>
+          <FormInput
+            label="Jenis Cuti"
+            disabled={true}
+            defaultValue={kop.name}
+            name="type"
+            size="input-sm"
+            type="text"
+          />
+          <div className="grid grid-cols-2 gap-2">
             <FormInput
-              label="ID"
+              label="Dari tanggal"
               disabled={true}
-              defaultValue={id}
-              name="ID"
-              size="input-sm"
-              type="text"
-            />
-            <FormInput
-              label="Jenis Cuti"
-              disabled={true}
-              defaultValue={kop.name}
+              defaultValue={convertDateArrayToString(dateStart)}
               name="type"
               size="input-sm"
               type="text"
             />
-            <div className="grid grid-cols-2 gap-2">
-              <FormInput
-                label="Dari tanggal"
-                disabled={true}
-                defaultValue={convertDateArrayToString(dateStart)}
-                name="type"
-                size="input-sm"
-                type="text"
-              />
-              <FormInput
-                label="Sampai tanggal"
-                disabled={true}
-                defaultValue={convertDateArrayToString(dateEnd)}
-                name="type"
-                size="input-sm"
-                type="text"
-              />
-            </div>
-          </div>
-
-          {/* Pegawai */}
-          <div className="md:order-1 order-2">
-            <h1 className="font-semibold text-sm pb-5 text-center">
-              Detail Pegawai
-            </h1>
-
             <FormInput
-              label="NIP"
+              label="Sampai tanggal"
               disabled={true}
-              defaultValue={owner.nip}
-              name="userId"
-              size="input-sm"
-              type="text"
-            />
-            <FormInput
-              label="Nama Pegawai"
-              disabled={true}
-              defaultValue={owner.name}
-              name="name"
-              size="input-sm"
-              type="text"
-            />
-
-            <FormInput
-              label="No. HP"
-              disabled={true}
-              defaultValue={owner.phone}
-              name="phone"
-              size="input-sm"
-              type="text"
-            />
-            <FormInput
-              label="Email"
-              disabled={true}
-              defaultValue={owner.email}
+              defaultValue={convertDateArrayToString(dateEnd)}
               name="type"
               size="input-sm"
               type="text"
             />
-
-            <FormInput
-              label="Alamat"
-              disabled={true}
-              defaultValue={owner.address}
-              name="address"
-              size="input-sm"
-              type="text"
-            />
           </div>
-        </>
+        </div>
       </div>
     </>
   );

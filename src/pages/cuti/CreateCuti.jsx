@@ -1,4 +1,4 @@
-import { Form, redirect, useLoaderData } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
 import {
   DateInput,
   FormCheckbox,
@@ -6,6 +6,7 @@ import {
   SelectInput,
   SelectInputForId,
   SubmitButton,
+  UserInfoDetail,
 } from "../../components";
 import { toast } from "react-toastify";
 import { customFetch, daysBetween } from "../../utils";
@@ -13,19 +14,21 @@ import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { signedBy } from "../../data";
-import Second from "../exp/Second";
 import { useDispatch, useSelector } from "react-redux";
 import { clearChooseUser } from "../../features/user/tempSlice";
+import SelectUser from "../min/SelectUser";
 export const action =
   (store) =>
   async ({ request }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    store.dispatch(clearChooseUser());
     const user = store.getState().userState.user;
+    const chooseUser = store.getState().tempState.chooseUser;
 
+    console.log(chooseUser);
     data.people = JSON.parse(data.tembusan);
     data.kopData = JSON.parse(data.kopData || "{}");
+    data.user = chooseUser.id;
     console.log(data);
 
     function formatPhoneNumber(phone) {
@@ -81,6 +84,7 @@ export const action =
       if (hp) {
         window.open(urlToWa, "_blank");
       }
+      store.dispatch(clearChooseUser());
       return null;
     } catch (error) {
       if (error) {
@@ -161,25 +165,26 @@ const CreateCuti = () => {
     <Form method="POST">
       <div className="grid grid-cols-4 gap-5 ">
         <div className="col-span-4">
-          <Second />
-        </div>
-        <div className="col-span-4">
-          {chooseUser && <p>{chooseUser.name}</p>}
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => dispatch(clearChooseUser())}
-          >
-            Clear User
-          </button>
-        </div>
-        <div className="col-span-4 md:col-span-2">
-          <FormInput
-            name="user"
-            label="User ID"
-            size="input-sm"
-            defaultValue={chooseUser ? chooseUser.id : ""}
-          />
+          {chooseUser ? (
+            <>
+              <div className="grid place-items-center ">
+                <UserInfoDetail {...chooseUser} />
+              </div>
+              <div className="text-center mt-4">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => {
+                    dispatch(clearChooseUser());
+                  }}
+                >
+                  Clear User
+                </button>
+              </div>
+            </>
+          ) : (
+            <SelectUser />
+          )}
         </div>
         <div className="col-span-4 md:col-span-2">
           <SelectInputForId

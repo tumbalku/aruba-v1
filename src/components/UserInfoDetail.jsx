@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import profile from "/image/single.png";
 import logo from "/image/sultra.png";
 import { getImage } from "../utils";
+import { FiExternalLink } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { QRCodeCanvas } from "qrcode.react";
 
 const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
   const [avatarImage, setAvatarImage] = useState("");
@@ -18,16 +21,17 @@ const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
     getAvatar();
   }, [avatar]);
 
+  const link = "https://www.arubasdm.online";
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 max-w-2xl bg-base-200 p-4 rounded-xl shadow-xl">
       <div className="flex justify-between gap-1 items-center">
         <img
           src={logo}
           alt=""
-          className="w-14 h-14 object-cover rounded-full"
+          className="w-14 h-14 object-cover rounded-full hidden md:flex"
         />
 
-        <div className="flex-1 flex flex-col md:flex-row justify-between items-center">
+        <div className="flex-1 flex flex-col md:flex-row justify-between items-center gap-4">
           <h1 className="font-bold text-2xl text-center">
             {nip ? "Pegawai" : "Blud"} Bahteramas
           </h1>
@@ -48,7 +52,7 @@ const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
                 <tr>
                   <th className="text-left">NIP</th>
                   <td className="px-2">:</td>
-                  <td>1111 2222 3333 4444 5555 6666</td>
+                  <td>{nip}</td>
                 </tr>
               )}
 
@@ -70,11 +74,16 @@ const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
             </tbody>
           </table>
         </div>
-        <img
-          src={profile}
-          alt="user-profile"
-          className="w-24 h-24 object-cover"
+
+        <QRCodeCanvas
+          value={link}
+          size={96}
+          className="hidden md:inline-block"
         />
+
+        <Link to={link} target="_blank" className="md:hidden">
+          <FiExternalLink />
+        </Link>
       </div>
     </div>
   );

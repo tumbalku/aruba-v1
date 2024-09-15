@@ -5,7 +5,6 @@ import {
   formatFileSize,
 } from "../utils";
 import { FaRegEye } from "react-icons/fa";
-import { LuUpload } from "react-icons/lu";
 import { fileTypeIcons } from "../data";
 import { GoDownload } from "react-icons/go";
 import { useSelector } from "react-redux";
@@ -68,11 +67,11 @@ const SipList = () => {
                 {name}
               </p>
 
-              {size ? (
+              {size && (
                 <p className="mb-5 font-semibold badge badge-primary badge-xs md:badge-sm">
                   {formatFileSize(size)}
                 </p>
-              ) : null}
+              )}
 
               <div className="hidden md:flex gap-2 flex-col mt-2">
                 {expiredAt && (
