@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import SectionTitle from "./SectionTitle";
 import { checkCutiStatus } from "../data";
 import StatusBadge from "./StatusBadge";
+import CutiStatusBadge from "../pages/cuti/CutiStatusBadge";
 
 const UserCutiReportList = () => {
   const navigate = useNavigate();
@@ -99,69 +100,81 @@ const UserCutiReportList = () => {
             <th>Dari Tanggal</th>
             <th>Sampai Tanggal</th>
             <th>Total Hari</th>
-            <th>Status</th>
+            <th>Proses Cuti</th>
+            <th>Status Permohonan</th>
             <th>Action</th>
           </tr>
         </thead>
         {/* ada masalah pada whitespace-nowrap */}
         <tbody className="text-nowrap text-center">
-          {cutis.map(({ dateStart, dateEnd, id, kop, number, user: owner }) => {
-            return (
-              <tr key={id}>
-                <th>{number}</th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-10 w-10 md:h-12 md:w-12">
-                        <img
-                          src={userImages[owner.id] || profile}
-                          alt={owner.name}
-                        />
+          {cutis.map(
+            ({ dateStart, dateEnd, id, kop, number, status, user: owner }) => {
+              return (
+                <tr key={id}>
+                  <th>{number}</th>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle h-10 w-10 md:h-12 md:w-12">
+                          <img
+                            src={userImages[owner.id] || profile}
+                            alt={owner.name}
+                          />
+                        </div>
+                      </div>
+                      <div className="text-left">
+                        <div className="font-bold">{owner.name}</div>
+                        <div className="text-xs opacity-50">
+                          {owner.nip || owner.phone || owner.email}
+                        </div>
                       </div>
                     </div>
-                    <div className="text-left">
-                      <div className="font-bold">{owner.name}</div>
-                      <div className="text-xs opacity-50">
-                        {owner.nip || owner.phone || owner.email}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>{kop.name}</td>
-                <td>{owner.workUnit}</td>
-                <td>{dateToFormat(dateStart)}</td>
-                <td>{dateToFormat(dateEnd)}</td>
-                <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
-                <td>
-                  <StatusBadge status={checkCutiStatus(dateStart, dateEnd)} />
-                </td>
-                <td>
-                  <div className="flex justify-evenly gap-1">
-                    <Link to={`/cuti/${id}`} className="btn btn-info btn-xs">
-                      <HiOutlineDocumentSearch />
-                    </Link>
-                    {isAdmin && (
-                      <>
-                        <Link
-                          to={`/cuti/edit/${id}`}
-                          className="btn btn-warning btn-xs"
-                        >
-                          <AiOutlineEdit />
-                        </Link>
-
-                        <button
-                          onClick={() => handleDelete(id)}
-                          className="btn btn-error btn-xs"
-                        >
-                          <AiOutlineDelete />
-                        </button>
-                      </>
+                  </td>
+                  <td>{kop.name}</td>
+                  <td className="max-w-52 truncate">{owner.workUnit}</td>
+                  <td>{dateToFormat(dateStart)}</td>
+                  <td>{dateToFormat(dateEnd)}</td>
+                  <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                  <td>
+                    {status !== "Menunggu" && status !== "Dibatalkan" ? (
+                      <StatusBadge
+                        status={checkCutiStatus(dateStart, dateEnd)}
+                      />
+                    ) : (
+                      "-"
                     )}
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+                  </td>
+                  <td>
+                    <CutiStatusBadge status={status} />
+                  </td>
+                  <td>
+                    <div className="flex justify-evenly gap-1">
+                      <Link to={`/cuti/${id}`} className="btn btn-info btn-xs">
+                        <HiOutlineDocumentSearch />
+                      </Link>
+                      {isAdmin && (
+                        <>
+                          <Link
+                            to={`/cuti/edit/${id}`}
+                            className="btn btn-warning btn-xs"
+                          >
+                            <AiOutlineEdit />
+                          </Link>
+
+                          <button
+                            onClick={() => handleDelete(id)}
+                            className="btn btn-error btn-xs"
+                          >
+                            <AiOutlineDelete />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            }
+          )}
         </tbody>
       </table>
     </div>

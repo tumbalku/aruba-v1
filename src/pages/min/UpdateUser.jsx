@@ -17,7 +17,11 @@ export const loader =
             "X-API-TOKEN": user.token,
           },
         }),
-        customFetch(`/addresses`),
+        customFetch(`/addresses`, {
+          headers: {
+            "X-API-TOKEN": user.token,
+          },
+        }),
       ]);
 
       return {

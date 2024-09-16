@@ -43,6 +43,7 @@ export const action =
       PPPK,
       isPegawai,
       ASN,
+      workUnit,
       ...roles
     } = data;
     const selectedRank = ranks.find((item) => item.name === rank);
@@ -68,24 +69,22 @@ export const action =
       rank: data.pangkat,
       nip,
       position,
+      workUnit,
     };
     console.log(newUser);
 
-    return null;
-    // try {
-    //   const response = await customFetch.post(`/users`, newUser, {
-    //     headers: {
-    //       "X-API-TOKEN": user.token,
-    //     },
-    //   });
+    try {
+      const response = await customFetch.post(`/users`, newUser, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
 
-    //   toast.success(response.data.message || "Berhasil!");
-    //   return redirect("/users");
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error(error.response.data.message);
-    //   return null;
-    // }
+      toast.success(response.data.message || "Berhasil!");
+      return redirect("/users");
+    } catch (error) {
+      return errorHandleForAction(error, "toastify");
+    }
   };
 const CreateUser = () => {
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import {
   convertDateArrayToString,
@@ -44,7 +44,7 @@ export const action =
     const user = store.getState().userState.user;
 
     try {
-      const response = await customFetch.patch(`/letter/${params.id}`, data, {
+      const response = await customFetch.patch(`/sip/${params.id}`, data, {
         headers: {
           "X-API-TOKEN": user.token,
         },
@@ -121,6 +121,42 @@ const SipDetail = () => {
     });
   }
 
+  async function handleWa(id) {
+    const message = `
+    *Kepada Yth:*
+
+    ${ownerName}
+    ${nip}
+
+    Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada *${convertDateArrayToString(
+      expiredAt
+    )}* . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
+
+    *Detail SIP:*
+    •	Nomor SIP: ${num ? num : "-"}
+    •	Tanggal Kadaluarsa: *${convertDateArrayToString(expiredAt)}*
+    `.trim();
+
+    const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    console.log(user.token);
+    try {
+      const response = await customFetch.post("/sip/report/" + id, null, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
+      window.open(urlToWa, "_blank");
+      toast.success(response.data.messge);
+    } catch (error) {
+      errorHandleForFunction(error, navigate, "toastify");
+    }
+  }
+
+  useEffect(() => {}, [handleWa]);
+
   const {
     id,
     type,
@@ -135,29 +171,6 @@ const SipDetail = () => {
     user: owner,
   } = documentDetail;
   const { name: ownerName, nip, phone, workUnit } = owner;
-
-  const handelWa = () => {
-    const message = `
-    *Kepada Yth:*
-
-    ${ownerName}
-    ${nip}
-  
-    Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada *${convertDateArrayToString(
-      expiredAt
-    )}* . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
-      
-    *Detail SIP:*
-    •	Nomor SIP: ${num ? num : "-"}
-    •	Tanggal Kadaluarsa: *${convertDateArrayToString(expiredAt)}*
-    `.trim();
-
-    const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
-      message
-    )}`;
-
-    window.open(urlToWa, "_blank");
-  };
 
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
@@ -209,8 +222,9 @@ const SipDetail = () => {
           />
 
           <button
+            type="button"
             className="btn btn-xs md:btn-sm btn-success"
-            onClick={handelWa}
+            onClick={() => handleWa(id)}
           >
             <FaWhatsapp />
             Kirim
@@ -249,7 +263,7 @@ const SipDetail = () => {
             <SubmitButton color="btn-primary" size="btn-sm" text="Update" />
           </div>
         </Form>
-        {reports && <SipReport reports={reports} />}
+        <SipReport reports={reports} />
       </div>
     </div>
   );

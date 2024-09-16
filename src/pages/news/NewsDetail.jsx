@@ -73,6 +73,7 @@ const NewsDetail = () => {
       const response = await getImage(avatar);
       setAvatarImage(response);
     } catch (error) {
+      console.log(error);
       // nothing
     }
   }

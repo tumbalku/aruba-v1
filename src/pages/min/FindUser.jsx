@@ -52,7 +52,7 @@ const FindUser = ({ people, getUser }) => {
                       </div>
                       <div>
                         <div className="font-bold capitalize">{name}</div>
-                        <div className="text-sm opacity-50">
+                        <div className="text-sm opacity-50 line-clamp-1">
                           {workUnit ? workUnit : "-"}
                         </div>
                       </div>

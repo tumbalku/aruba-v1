@@ -49,6 +49,7 @@ import { action as expAction } from "./pages/cuti/EditCuti";
 import { action as sipUploadAction } from "./pages/sip/SipUpload";
 import { action as newsCreateAction } from "./pages/news/NewsCreate";
 import { action as newsUpdateAction } from "./pages/news/NewsUpdate";
+import { action as myCutiCreateAction } from "./pages/cuti/MyCutiCreate";
 import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 
 // loader
@@ -57,6 +58,7 @@ import { loader as loginLoader } from "./pages/Login";
 import { loader as postsLoader } from "./pages/posts/Posts";
 import { loader as postDetailLoader } from "./pages/posts/PostDetail";
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
+import { loader as myCutiCreateLoader } from "./pages/cuti/MyCutiCreate";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
 import { loader as cutiDecisionLoader } from "./pages/cuti/CutiDecision";
 import { loader as createCutiLoader } from "./pages/cuti/CreateCuti";
@@ -89,6 +91,7 @@ import {
 import Kgb from "./pages/kgb/Kgb";
 import Spmt from "./pages/spmt/Spmt";
 import Akreditasi from "./pages/akreditasi/Akreditasi";
+import MyCutiCreate from "./pages/cuti/MyCutiCreate";
 
 const router = createBrowserRouter([
   {
@@ -286,6 +289,13 @@ const router = createBrowserRouter([
             element: <MyCuti />,
             errorElement: <ErrorElement />,
             loader: myCutiLoader(store),
+          },
+          {
+            path: "my-cuti/create",
+            element: <MyCutiCreate />,
+            errorElement: <ErrorElement />,
+            loader: myCutiCreateLoader,
+            action: myCutiCreateAction(store),
           },
           {
             path: "letters/cuti/decision/:id",

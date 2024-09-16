@@ -1,8 +1,18 @@
-# React + Vite
+# kelik kirim ke wa, trus tambahkan laporan belum ada (SIP)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# user edit (belum di update)
 
-Currently, two official plugins are available:
+# cuti edit (belum di update)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# desain berjalan (belum di buat)
+
+# belum ada cuti detail khusus untuk user
+
+# belum ada user detail untuk melihat detail info
+
+###########
+#complete
+
+## user create cuti (belum dibuat)
+
+# kalau sedang cuti atau cuti sedang menunggu maka tidak bisa membuat cuti lagi

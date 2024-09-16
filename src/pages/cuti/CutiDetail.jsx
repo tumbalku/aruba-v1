@@ -35,7 +35,6 @@ const CutiDetail = () => {
 
   const [isDisabled, setIsDisabled] = useState(false);
 
-  console.log(user);
   const handleDownload = async () => {
     setIsDisabled(true);
     try {

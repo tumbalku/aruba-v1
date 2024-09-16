@@ -10,13 +10,14 @@ import {
 } from "../../components";
 import { toast } from "react-toastify";
 import { customFetch, daysBetween } from "../../utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { signedBy } from "../../data";
 import { useDispatch, useSelector } from "react-redux";
 import { clearChooseUser } from "../../features/user/tempSlice";
 import SelectUser from "../min/SelectUser";
+import { errorHandleForAction } from "../../utils/exception";
 export const action =
   (store) =>
   async ({ request }) => {
@@ -87,29 +88,20 @@ export const action =
       store.dispatch(clearChooseUser());
       return null;
     } catch (error) {
-      if (error) {
-        toast.error(error.response.data.message);
-        return null;
-      }
+      return errorHandleForAction(error, "toastify");
     }
   };
 export const loader = (store) => async () => {
   const user = store.getState().userState.user;
 
   try {
-    const response = await customFetch.get("/kops", {
-      headers: {
-        "X-API-TOKEN": `${user.token}`,
-      },
-    });
+    const response = await customFetch.get("/kops");
 
     return {
       kops: response.data.data,
     };
   } catch (error) {
-    console.log(error);
-    toast.warn("Terjadi error!");
-    return null;
+    return errorHandleForAction(error, "toastify");
   }
 };
 const CreateCuti = () => {
@@ -309,7 +301,12 @@ const CreateCuti = () => {
         </div>
       </div>
       <div className="text-center md:text-right mt-5">
-        <SubmitButton color="btn-primary" size="btn-sm" text="Buat Cuti" />
+        <SubmitButton
+          disabled={!chooseUser}
+          color="btn-primary"
+          size="btn-sm"
+          text="Buat Cuti"
+        />
       </div>
     </Form>
   );

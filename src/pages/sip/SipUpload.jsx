@@ -8,8 +8,12 @@ import {
   FileInput,
   FormInput,
   SubmitButton,
+  UserInfoDetail,
 } from "../../components";
 import { errorHandleForAction } from "../../utils/exception";
+import { useDispatch, useSelector } from "react-redux";
+import { clearChooseUser } from "../../features/user/tempSlice";
+import SelectUser from "../min/SelectUser";
 
 export const action =
   (store) =>
@@ -17,7 +21,9 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const user = store.getState().userState.user;
+    const chooseUser = store.getState().tempState.chooseUser;
 
+    data.userId = chooseUser.id;
     data.file = data.file.size !== 0 ? data.file : null;
     console.log(data);
     try {
@@ -29,19 +35,19 @@ export const action =
       });
 
       console.log(response);
-      toast.success("Success upload file");
+      toast.success(response?.data?.message || "Berhasil!");
+      store.dispatch(clearChooseUser());
       return redirect("/sip");
     } catch (error) {
       return errorHandleForAction(error, "toastify");
     }
   };
 const SipUpload = () => {
+  const chooseUser = useSelector((state) => state?.tempState?.chooseUser);
   const [form, setForm] = useState({
     file: null,
     details: {
-      name: "",
       num: "",
-      nip: "",
     },
   });
 
@@ -63,32 +69,36 @@ const SipUpload = () => {
     }
   };
   const date = new Date().toISOString().split("T")[0];
+  const dispatch = useDispatch();
   return (
     <div className="bg-base-300 p-4 rounded-md shadow-md">
+      {chooseUser ? (
+        <>
+          <div className="grid place-items-center ">
+            <UserInfoDetail {...chooseUser} />
+          </div>
+          <div className="text-center mt-4">
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                dispatch(clearChooseUser());
+              }}
+            >
+              Clear User
+            </button>
+          </div>
+        </>
+      ) : (
+        <SelectUser />
+      )}
       <Form method="post" encType="multipart/form-data">
-        <FormInput
-          size="input-sm"
-          type="text"
-          label="Name"
-          name="name"
-          defaultValue={form.details.name}
-          onChange={handleInputChange}
-        />
         <FormInput
           size="input-sm"
           type="text"
           label="Nomor"
           name="num"
           defaultValue={form.details.num}
-          onChange={handleInputChange}
-        />
-
-        <FormInput
-          size="input-sm"
-          type="text"
-          label="NIP"
-          name="nip"
-          defaultValue={form.details.nip}
           onChange={handleInputChange}
         />
         <div className="grid grid-cols-2 gap-5">
@@ -108,8 +118,8 @@ const SipUpload = () => {
         </div>
         <div className="text-right mt-5">
           <SubmitButton
-            color="btn-primary"
-            disabled={!form.details.name}
+            color="btn-primary btn-sm btn"
+            disabled={!chooseUser}
             text="Upload"
           />
         </div>

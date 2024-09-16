@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 
 export const convertLocalDateTimeToDate = (createdAtArray) => {
+  console.log("utils/index.js => convertLocalDateTimeToDate");
   const [year, month, day, hour, minute, second, millisecond] = createdAtArray;
 
   // Jika milidetik lebih dari 999, potong atau atur batas
@@ -19,17 +20,17 @@ export const convertLocalDateTimeToDate = (createdAtArray) => {
     second,
     validMillisecond
   );
-
-  console.log("Converted Date (Fixed):", date);
-
   return date;
 };
 
 export const getText = (html) => {
+  console.log("utils/index.js => getTest");
   const doc = new DOMParser().parseFromString(html, "text/html");
   return doc.body.textContent;
 };
+
 export const arrayToDate = (date) => {
+  console.log("utils/index.js => arrayToDate");
   if (!date) {
     return null;
   }
@@ -37,14 +38,16 @@ export const arrayToDate = (date) => {
 };
 
 export function daysBetween(dateStart, dateEnd) {
+  console.log("utils/index.js => daysBetween");
   const start = moment(dateStart);
   const end = moment(dateEnd);
 
   const diffInDays = end.diff(start, "days");
-
   return diffInDays;
 }
+
 export function calculateDaysBetween(startArray, endArray) {
+  console.log("utils/index.js => calculateDaysBetween");
   // Konversi array menjadi objek moment dengan memperbaiki bulan (bulan dimulai dari 0)
   const startDate = moment([startArray[0], startArray[1] - 1, startArray[2]]);
   const endDate = moment([endArray[0], endArray[1] - 1, endArray[2]]);
