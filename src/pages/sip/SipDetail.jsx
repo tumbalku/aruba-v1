@@ -154,7 +154,7 @@ const SipDetail = () => {
       errorHandleForFunction(error, navigate, "toastify");
     }
   }
-
+  console.log("hallo");
   useEffect(() => {}, [handleWa]);
 
   const {
