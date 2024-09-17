@@ -6,9 +6,8 @@ import CutiStatusBadge from "../cuti/CutiStatusBadge";
 import { useSelector } from "react-redux";
 import Report from "./Report";
 
-const SipReportView = () => {
+const CutiReportView = () => {
   const tableRef = useRef(null);
-  const { user } = useSelector((state) => state.userState);
 
   useEffect(() => {
     const tableBody = tableRef.current;
@@ -39,9 +38,6 @@ const SipReportView = () => {
         const response = await customFetch("/cuti/search", {
           params: {
             size: 1000,
-          },
-          headers: {
-            "X-API-TOKEN": user.token,
           },
         });
         setCutis(response.data.data);
@@ -118,4 +114,4 @@ const SipReportView = () => {
   );
 };
 
-export default SipReportView;
+export default CutiReportView;

@@ -6,8 +6,7 @@ import { useLoaderData } from "react-router-dom";
 export const loader = async ({ request }) => {
   try {
     const response = await customFetch.get("/posts");
-    console.log("dipanggil");
-    console.log(response);
+
     return {
       posts: response.data.data,
       pagination: response.data.pagination,

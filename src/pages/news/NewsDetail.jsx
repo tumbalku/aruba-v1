@@ -32,9 +32,16 @@ const NewsDetail = () => {
   const { news } = useLoaderData();
   const { roles, user } = useSelector((state) => state.userState);
   const isAdmin = roles.includes("ADMIN");
-  const { title, createdAt, updatedAt, imageUrl, author, content, id, avatar } =
-    news;
-  const [avatarImage, setAvatarImage] = useState(avatar);
+  const {
+    title,
+    createdAt,
+    updatedAt,
+    imageUrl,
+    user: owner,
+    content,
+    id,
+  } = news;
+  const [avatarImage, setAvatarImage] = useState(owner.avatar);
 
   async function handleDelete() {
     Swal.fire({
@@ -70,7 +77,7 @@ const NewsDetail = () => {
 
   async function getAvatar() {
     try {
-      const response = await getImage(avatar);
+      const response = await getImage(owner.avatar);
       setAvatarImage(response);
     } catch (error) {
       console.log(error);
@@ -105,11 +112,11 @@ const NewsDetail = () => {
       <div className="flex flex-row gap-2 items-center">
         <img
           src={avatarImage ? avatarImage : profile}
-          alt={author}
+          alt={owner.name}
           className="w-10 h-10 rounded-full object-cover"
         />
         <div className="flex flex-col">
-          <p className="font-semibold mb-1">{author}</p>
+          <p className="font-semibold mb-1">{owner.name}</p>
           <p className="text-xs">
             Post: {moment(convertLocalDateTimeToDate(createdAt)).fromNow()}
           </p>

@@ -1,6 +1,6 @@
 import { Hero } from "../components";
 import TitleSection from "../components/TitleSection";
-import SipReportView from "./report/SipReportView";
+import CutiReportView from "./report/CutiReportView";
 const Landing = () => {
   return (
     <section>
@@ -12,7 +12,7 @@ const Landing = () => {
           "Pantau status dan riwayat cuti pegawai secara lengkap dan akurat melalui laporan ini."
         }
       />
-      <SipReportView />
+      <CutiReportView />
     </section>
   );
 };

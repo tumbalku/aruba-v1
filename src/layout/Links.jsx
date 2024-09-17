@@ -17,6 +17,4 @@ export const profileLinks = [
 
 export const postsLinks = [
   { name: "Data", url: "/posts", icon: <BiSolidUserDetail /> },
-  { name: "Create", url: "create", icon: <LiaKeySolid /> },
-  { name: "Report", url: "report", icon: <HiOutlineDocumentReport /> },
 ];

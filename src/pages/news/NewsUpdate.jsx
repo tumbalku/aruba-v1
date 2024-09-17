@@ -1,5 +1,5 @@
 import React from "react";
-import { clearImage } from "../../features/user/tempSlice";
+import { addImage, clearImage } from "../../features/user/tempSlice";
 import { customFetch } from "../../utils";
 import { Form, redirect, useLoaderData } from "react-router-dom/dist";
 import ImageUpload from "../../components/ImageUpload";
@@ -35,18 +35,23 @@ export const action =
       return errorHandleForAction(error);
     }
   };
-export const loader = async ({ params }) => {
-  try {
-    const response = await customFetch.get("/posts/" + params.id);
 
-    console.log(response);
-    return {
-      post: response.data.data,
-    };
-  } catch (error) {
-    return errorHandleForAction(error, "toastify");
-  }
-};
+export const loader =
+  (store) =>
+  async ({ params }) => {
+    try {
+      const response = await customFetch.get("/posts/" + params.id);
+
+      const image = response.data?.data?.imageUrl;
+      store.dispatch(addImage(image));
+      return {
+        post: response.data.data,
+      };
+    } catch (error) {
+      return errorHandleForAction(error, "toastify");
+    }
+  };
+
 const NewsUpdate = () => {
   const { post } = useLoaderData();
   const { content, title, imageUrl } = post;

@@ -27,7 +27,7 @@ const Post = ({ post }) => {
         </Link>
         <p className="line-clamp-5 small-text">{getText(content)}</p>
         <Link
-          to={`${id}`}
+          to={`/news/${id}`}
           className="btn btn-outline btn-sm btn-secondary px-10 w-fit"
         >
           Baca

@@ -4,7 +4,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { customFetch } from "../../utils";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import SipReportView from "../report/SipReportView";
+
 import CarouseView from "../report/CarouseView";
 
 const First = () => {

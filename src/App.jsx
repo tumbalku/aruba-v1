@@ -25,9 +25,6 @@ import {
   Kop,
   CutiReport,
   Posts,
-  PostReport,
-  PostCreate,
-  PostDetail,
   SipUpload,
 } from "./pages";
 import { LoginRequireRoutes } from "./routes";
@@ -42,8 +39,6 @@ import { action as uploadDocumentAction } from "./pages/documents/UploadDocument
 import { action as updateDocumentAction } from "./pages/documents/DocumentDetail";
 import { action as passwordAction } from "./pages/ChangePassword";
 import { action as profileAction } from "./pages/Profile";
-import { action as postAction } from "./pages/posts/PostCreate";
-import { action as postUpdateAction } from "./pages/posts/PostUpdate";
 import { action as kopAction } from "./pages/Kop";
 import { action as expAction } from "./pages/cuti/EditCuti";
 import { action as sipUploadAction } from "./pages/sip/SipUpload";
@@ -53,10 +48,8 @@ import { action as myCutiCreateAction } from "./pages/cuti/MyCutiCreate";
 import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 
 // loader
-import { loader as postUpdateLoader } from "./pages/posts/PostUpdate";
 import { loader as loginLoader } from "./pages/Login";
 import { loader as postsLoader } from "./pages/posts/Posts";
-import { loader as postDetailLoader } from "./pages/posts/PostDetail";
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
 import { loader as myCutiCreateLoader } from "./pages/cuti/MyCutiCreate";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
@@ -80,7 +73,6 @@ import { loader as newsUpdateLoader } from "./pages/news/NewsUpdate";
 import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
 import { First, links, Second } from "./pages/exp";
 import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
-import PostUpdate from "./pages/posts/PostUpdate";
 import NewsLayout from "./layout/NewsLayout";
 import {
   NewsDetail,
@@ -147,7 +139,7 @@ const router = createBrowserRouter([
       {
         path: "news/edit/:id",
         element: <NewsUpdate />,
-        loader: newsUpdateLoader,
+        loader: newsUpdateLoader(store),
         action: newsUpdateAction(store),
         errorElement: <ErrorElement />,
       },
@@ -160,30 +152,6 @@ const router = createBrowserRouter([
             index: true,
             element: <Posts />,
             loader: postsLoader,
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: ":id",
-            element: <PostDetail />,
-            loader: postDetailLoader,
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: "create",
-            element: <PostCreate />,
-            action: postAction(store),
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: "update/:id",
-            element: <PostUpdate />,
-            action: postUpdateAction(store),
-            loader: postUpdateLoader,
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: "report",
-            element: <PostReport />,
             errorElement: <ErrorElement />,
           },
         ],

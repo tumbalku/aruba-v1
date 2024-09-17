@@ -34,6 +34,3 @@ export { default as SipDetail } from "./sip/SipDetail";
 
 // posts
 export { default as Posts } from "./posts/Posts";
-export { default as PostCreate } from "./posts/PostCreate";
-export { default as PostReport } from "./posts/PostReport";
-export { default as PostDetail } from "./posts/PostDetail";
