@@ -22,7 +22,7 @@ import {
   Posts,
   SipUpload,
 } from "./pages";
-import { LoginRequireRoutes } from "./routes";
+import { AdminOnly, LoginRequireRoutes } from "./routes";
 
 // cuti ========
 import {
@@ -126,21 +126,7 @@ const router = createBrowserRouter([
         element: <Landing />,
         errorElement: <ErrorElement />,
       },
-      {
-        path: "kgb",
-        element: <Kgb />,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "akreditasi",
-        element: <Akreditasi />,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "spmt",
-        element: <Spmt />,
-        errorElement: <ErrorElement />,
-      },
+
       {
         path: "news",
         element: <NewsLayout />,
@@ -161,60 +147,11 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "news/create",
-        element: <NewsCreate />,
-        action: newsCreateAction(store),
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "news/edit/:id",
-        element: <NewsUpdate />,
-        loader: newsUpdateLoader(store),
-        action: newsUpdateAction(store),
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "posts",
-        element: <FeatureLayout links={postsLinks} />,
-        errorElement: <ErrorElement />,
-        children: [
-          {
-            index: true,
-            element: <Posts />,
-            loader: postsLoader,
-            errorElement: <ErrorElement />,
-          },
-        ],
-      },
-      {
         path: "about",
         element: <About />,
         errorElement: <ErrorElement />,
       },
-      {
-        path: "letters",
-        element: <Letter />,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "sip",
-        element: <Sip />,
-        loader: sipLoader,
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "sip/upload",
-        element: <SipUpload />,
-        action: sipUploadAction(store),
-        errorElement: <ErrorElement />,
-      },
-      {
-        path: "sip/:id",
-        element: <SipDetail />,
-        errorElement: <ErrorElement />,
-        loader: sipDetailLoader,
-        action: sipDetailAction(store),
-      },
+
       {
         path: "exp",
         element: <FeatureLayout links={links} />,
@@ -233,54 +170,162 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "exp/:id",
-        element: <CutiUpdate />,
-        errorElement: <ErrorElement />,
-        loader: cutiUpdateLoader(store),
-        action: cutiUpdateAction(store),
-      },
-      {
         element: <LoginRequireRoutes />,
         children: [
           {
-            path: "cuti",
-            element: <FeatureLayout links={cutiLinks} />,
+            element: <AdminOnly />,
             children: [
               {
-                index: true,
-                element: <CutiCreate />,
-                errorElement: <ErrorElement />,
-                loader: cutiCreateLoader,
-                action: cutiCreateAction(store),
-              },
-              {
-                path: "kop",
-                element: <Kop />,
-                errorElement: <ErrorElement />,
-                loader: kopLoader(store),
-                action: kopAction(store),
-              },
-              {
-                path: "report",
-                element: <CutiReport />,
-                errorElement: <ErrorElement />,
-                loader: cutiReportLoader(store),
-              },
-              {
-                path: ":id",
-                element: <CutiDetail />,
-                loader: cutiDetailLoader,
+                path: "letters",
+                element: <Letter />,
                 errorElement: <ErrorElement />,
               },
               {
-                path: "edit/:id",
-                element: <CutiUpdate />,
+                path: "sip",
+                element: <Sip />,
+                loader: sipLoader,
                 errorElement: <ErrorElement />,
-                loader: cutiUpdateLoader(store),
-                action: cutiUpdateAction(store),
+              },
+              {
+                path: "sip/upload",
+                element: <SipUpload />,
+                action: sipUploadAction(store),
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "sip/:id",
+                element: <SipDetail />,
+                errorElement: <ErrorElement />,
+                loader: sipDetailLoader,
+                action: sipDetailAction(store),
+              },
+              {
+                path: "news/create",
+                element: <NewsCreate />,
+                action: newsCreateAction(store),
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "news/edit/:id",
+                element: <NewsUpdate />,
+                loader: newsUpdateLoader(store),
+                action: newsUpdateAction(store),
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "posts",
+                element: <FeatureLayout links={postsLinks} />,
+                errorElement: <ErrorElement />,
+                children: [
+                  {
+                    index: true,
+                    element: <Posts />,
+                    loader: postsLoader,
+                    errorElement: <ErrorElement />,
+                  },
+                ],
+              },
+              {
+                path: "kgb",
+                element: <Kgb />,
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "akreditasi",
+                element: <Akreditasi />,
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "spmt",
+                element: <Spmt />,
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "users",
+                element: <Users />,
+                errorElement: <ErrorElement />,
+                loader: usersLoader(store),
+              },
+              {
+                path: "users/:id",
+                element: <UserDetail />,
+                errorElement: <ErrorElement />,
+                loader: usersDetailLoader(store),
+              },
+              {
+                path: "users/edit/:id",
+                element: <UpdateUser />,
+                errorElement: <ErrorElement />,
+                loader: usersUpdateLoader(store),
+                action: usersUpdateAction(store),
+              },
+              {
+                path: "users/create",
+                element: <CreateUser />,
+                action: usersCreateAction(store),
+                loader: usersCreateLoader(store),
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "documents",
+                element: <Documents />,
+                errorElement: <ErrorElement />,
+                loader: documentsLoader,
+              },
+              {
+                path: "documents/:id",
+                element: <DocumentDetail />,
+                errorElement: <ErrorElement />,
+                loader: documentDetailLoader,
+                action: updateDocumentAction(store),
+              },
+              {
+                path: "documents/upload",
+                element: <UploadDocument />,
+                action: uploadDocumentAction(store),
+                errorElement: <ErrorElement />,
+              },
+              {
+                path: "cuti",
+                element: <FeatureLayout links={cutiLinks} />,
+                children: [
+                  {
+                    index: true,
+                    element: <CutiCreate />,
+                    errorElement: <ErrorElement />,
+                    loader: cutiCreateLoader,
+                    action: cutiCreateAction(store),
+                  },
+                  {
+                    path: "kop",
+                    element: <Kop />,
+                    errorElement: <ErrorElement />,
+                    loader: kopLoader(store),
+                    action: kopAction(store),
+                  },
+                  {
+                    path: "report",
+                    element: <CutiReport />,
+                    errorElement: <ErrorElement />,
+                    loader: cutiReportLoader(store),
+                  },
+                  {
+                    path: ":id",
+                    element: <CutiDetail />,
+                    loader: cutiDetailLoader,
+                    errorElement: <ErrorElement />,
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <CutiUpdate />,
+                    errorElement: <ErrorElement />,
+                    loader: cutiUpdateLoader(store),
+                    action: cutiUpdateAction(store),
+                  },
+                ],
+                errorElement: <Error />,
               },
             ],
-            errorElement: <Error />,
           },
           {
             path: "my-cuti",
@@ -296,71 +341,26 @@ const router = createBrowserRouter([
             action: myCutiCreateAction(store),
           },
           {
-            path: "users",
-            element: <Users />,
-            errorElement: <ErrorElement />,
-            loader: usersLoader(store),
-          },
-          {
-            path: "users/:id",
-            element: <UserDetail />,
-            errorElement: <ErrorElement />,
-            loader: usersDetailLoader(store),
-          },
-          {
-            path: "users/edit/:id",
-            element: <UpdateUser />,
-            errorElement: <ErrorElement />,
-            loader: usersUpdateLoader(store),
-            action: usersUpdateAction(store),
-          },
-          {
-            path: "users/create",
-            element: <CreateUser />,
-            action: usersCreateAction(store),
-            loader: usersCreateLoader(store),
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: "documents",
-            element: <Documents />,
-            errorElement: <ErrorElement />,
-            loader: documentsLoader,
-          },
-          {
-            path: "documents/:id",
-            element: <DocumentDetail />,
-            errorElement: <ErrorElement />,
-            loader: documentDetailLoader,
-            action: updateDocumentAction(store),
-          },
-          {
-            path: "documents/upload",
-            element: <UploadDocument />,
-            action: uploadDocumentAction(store),
-            errorElement: <ErrorElement />,
+            path: "profile",
+            element: <FeatureLayout links={profileLinks} />,
+            children: [
+              {
+                index: true,
+                element: <Profile />,
+                errorElement: <ErrorElement />,
+                action: profileAction(store),
+              },
+              {
+                path: "password",
+                element: <ChangePassword />,
+                errorElement: <ErrorElement />,
+                action: passwordAction(store),
+              },
+            ],
+            errorElement: <Error />,
           },
         ],
         errorElement: <ErrorElement />,
-      },
-      {
-        path: "profile",
-        element: <FeatureLayout links={profileLinks} />,
-        children: [
-          {
-            index: true,
-            element: <Profile />,
-            errorElement: <ErrorElement />,
-            action: profileAction(store),
-          },
-          {
-            path: "password",
-            element: <ChangePassword />,
-            errorElement: <ErrorElement />,
-            action: passwordAction(store),
-          },
-        ],
-        errorElement: <Error />,
       },
     ],
   },

@@ -56,16 +56,6 @@ export function calculateDaysBetween(startArray, endArray) {
   return endDate.diff(startDate, "days");
 }
 
-// const devURL = "http://localhost:8080/api/v1";
-
-// export const customFetch = axios.create({
-//   baseURL: devURL,
-//   headers: {
-//     "Content-Type": "application/json",
-//     Accept: "application/json",
-//     // "ngrok-skip-browser-warning": true,
-//   },
-// });
 const prodURL = import.meta.env.VITE_SPRING_API_URL;
 const devURL = "http://localhost:8080/api/v1";
 

@@ -7,7 +7,7 @@ const LoginRequireRoutes = () => {
   const location = useLocation();
 
   if (!user) {
-    toast.warn("Silahkan Login terlebih dahulu");
+    toast.error("Silahkan Login terlebih dahulu");
 
     return (
       <Navigate to={`/login?redirect=${location.pathname}${location.search}`} />

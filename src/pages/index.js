@@ -4,7 +4,6 @@ export { default as Login } from "./Login";
 export { default as Letter } from "./Letter";
 export { default as Profile } from "./Profile";
 export { default as ChangePassword } from "./ChangePassword";
-export { default as Exp } from "./Exp";
 export { default as Kop } from "./Kop";
 export { default as About } from "./About";
 export { default as Maintenance } from "./Maintenance";
