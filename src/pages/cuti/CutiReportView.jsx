@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { calculateDaysBetween, customFetch, dateToFormat } from "../../utils";
 import { checkCutiStatus } from "../../data";
 import { StatusBadge } from "../../components";
-import CutiStatusBadge from "../cuti/CutiStatusBadge";
-import { useSelector } from "react-redux";
-import Report from "./Report";
+import CutiStatusBadge from "./components/CutiStatusBadge";
+import CutiReportFilter from "./components/CutiReportFilter";
 
 const CutiReportView = () => {
   const tableRef = useRef(null);
@@ -15,12 +14,12 @@ const CutiReportView = () => {
 
     const startScroll = () => {
       scrollInterval = setInterval(() => {
-        tableBody.scrollTop += 1; // scroll ke bawah perlahan
+        tableBody.scrollTop += 1;
         if (
           tableBody.scrollTop + tableBody.clientHeight >=
           tableBody.scrollHeight
         ) {
-          tableBody.scrollTop = 0; // jika sudah mencapai bawah, kembali ke atas
+          tableBody.scrollTop = 0;
         }
       }, 100); // kecepatan scroll
     };
@@ -51,7 +50,7 @@ const CutiReportView = () => {
   }, []);
   return (
     <div>
-      <Report report={report} />
+      <CutiReportFilter report={report} />
 
       <div className="md:col-span-4 col-span-6">
         <div className="overflow-x-auto max-h-96 no-scrollbar" ref={tableRef}>
@@ -69,7 +68,7 @@ const CutiReportView = () => {
                 <th>Total Hari</th>
               </tr>
             </thead>
-            {/* ada masalah pada whitespace-nowrap */}
+
             <tbody className="text-nowrap text-center">
               {cutis.map(
                 ({

@@ -121,7 +121,7 @@ const NewsDetail = () => {
             Post: {moment(convertLocalDateTimeToDate(createdAt)).fromNow()}
           </p>
         </div>
-        {isAdmin && (
+        {isAdmin && user.id === owner.id && (
           <>
             <div className="flex gap-2">
               <Link

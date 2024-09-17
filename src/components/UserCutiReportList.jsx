@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import SectionTitle from "./SectionTitle";
 import { checkCutiStatus } from "../data";
 import StatusBadge from "./StatusBadge";
-import CutiStatusBadge from "../pages/cuti/CutiStatusBadge";
+import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
 
 const UserCutiReportList = () => {
   const navigate = useNavigate();

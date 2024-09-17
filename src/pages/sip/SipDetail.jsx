@@ -25,7 +25,7 @@ import {
   errorHandleForFunction,
 } from "../../utils/exception";
 import Swal from "sweetalert2";
-import SipReport from "./SipReport";
+import SipReport from "./components/SipReport";
 
 export const action =
   (store) =>

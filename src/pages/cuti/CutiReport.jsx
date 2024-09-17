@@ -1,14 +1,16 @@
 import React from "react";
 
 import { toast } from "react-toastify";
-import { redirect, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import {
   PaginationContainer,
   SearchOnly,
   UserCutiReportList,
 } from "../../components";
-import { Report } from "../index";
+
 import { customFetch } from "../../utils";
+import CutiReportFilter from "./components/CutiReportFilter";
+import { errorHandleForAction } from "../../utils/exception";
 
 export const loader =
   (store) =>
@@ -33,10 +35,7 @@ export const loader =
         pagination: response.data.pagination,
       };
     } catch (error) {
-      console.log(error);
-      toast.warn("Terjadi error!");
-      return null;
-      // return redirect("/login");
+      return errorHandleForAction(error, "toastify");
     }
   };
 
@@ -44,7 +43,7 @@ const CutiReport = () => {
   const { report } = useLoaderData();
   return (
     <>
-      <Report report={report} />
+      <CutiReportFilter report={report} />
       <SearchOnly name="name" link="/cuti/report" />
       <UserCutiReportList />
       <PaginationContainer />

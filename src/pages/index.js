@@ -8,15 +8,9 @@ export { default as Exp } from "./Exp";
 export { default as Kop } from "./Kop";
 export { default as About } from "./About";
 export { default as Maintenance } from "./Maintenance";
-export { default as CreateCuti } from "./cuti/CreateCuti";
-export { default as EditCuti } from "./cuti/EditCuti";
-export { default as MyCuti } from "./cuti/MyCuti";
-export { default as CutiVerify } from "./cuti/CutiVerify";
-export { default as CutiDetail } from "./cuti/CutiDetail";
-export { default as CutiDecision } from "./cuti/CutiDecision";
-export { default as CutiReport } from "./cuti/CutiReport";
+
 export { default as KGBDetail } from "./kgb/KGBDetail";
-export { default as Report } from "./report/Report";
+export { default as Report } from "./cuti/components/CutiReportFilter";
 
 // admin
 export { default as Users } from "./min/Users";

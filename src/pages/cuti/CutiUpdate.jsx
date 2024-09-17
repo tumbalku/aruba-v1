@@ -15,6 +15,7 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { signedBy } from "../../data";
+import { errorHandleForAction } from "../../utils/exception";
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -64,13 +65,11 @@ export const loader =
         kops: resKopList.data.data,
       };
     } catch (error) {
-      console.log(error);
-      toast.warn("Terjadi error!");
-      return null;
+      return errorHandleForAction(error, "toastify");
     }
   };
 
-const EditCuti = () => {
+const CutiUpdate = () => {
   const [name, setName] = useState("");
 
   const { kops, cuti } = useLoaderData();
@@ -241,4 +240,4 @@ const EditCuti = () => {
   );
 };
 
-export default EditCuti;
+export default CutiUpdate;

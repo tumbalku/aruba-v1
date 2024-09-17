@@ -1,6 +1,7 @@
 import { Hero } from "../components";
 import TitleSection from "../components/TitleSection";
-import CutiReportView from "./report/CutiReportView";
+import { CutiReportView } from "./cuti";
+
 const Landing = () => {
   return (
     <section>

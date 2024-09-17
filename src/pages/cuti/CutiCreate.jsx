@@ -91,9 +91,7 @@ export const action =
       return errorHandleForAction(error, "toastify");
     }
   };
-export const loader = (store) => async () => {
-  const user = store.getState().userState.user;
-
+export const loader = async () => {
   try {
     const response = await customFetch.get("/kops");
 
@@ -104,7 +102,7 @@ export const loader = (store) => async () => {
     return errorHandleForAction(error, "toastify");
   }
 };
-const CreateCuti = () => {
+const CutiCreate = () => {
   const dispatch = useDispatch();
   const date = new Date().toISOString().split("T")[0];
   const [name, setName] = useState("");
@@ -312,4 +310,4 @@ const CreateCuti = () => {
   );
 };
 
-export default CreateCuti;
+export default CutiCreate;

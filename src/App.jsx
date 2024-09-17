@@ -8,12 +8,8 @@ import {
   About,
   Letter,
   Documents,
-  CreateCuti,
-  CutiDetail,
   Login,
-  MyCuti,
   Profile,
-  CutiDecision,
   Users,
   CreateUser,
   UserDetail,
@@ -23,67 +19,101 @@ import {
   ChangePassword,
   Sip,
   Kop,
-  CutiReport,
   Posts,
   SipUpload,
 } from "./pages";
 import { LoginRequireRoutes } from "./routes";
 
-// acitons
-import { action as createCutiAction } from "./pages/cuti/CreateCuti";
-import { action as loginAction } from "./pages/Login";
-import { action as cutiDecisionAction } from "./pages/cuti/CutiDecision";
-import { action as usersCreateAction } from "./pages/min/CreateUser";
-import { action as usersUpdateAction } from "./pages/min/UpdateUser";
-import { action as uploadDocumentAction } from "./pages/documents/UploadDocument";
-import { action as updateDocumentAction } from "./pages/documents/DocumentDetail";
-import { action as passwordAction } from "./pages/ChangePassword";
-import { action as profileAction } from "./pages/Profile";
-import { action as kopAction } from "./pages/Kop";
-import { action as expAction } from "./pages/cuti/EditCuti";
-import { action as sipUploadAction } from "./pages/sip/SipUpload";
-import { action as newsCreateAction } from "./pages/news/NewsCreate";
-import { action as newsUpdateAction } from "./pages/news/NewsUpdate";
-import { action as myCutiCreateAction } from "./pages/cuti/MyCutiCreate";
-import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
+// cuti ========
+import {
+  MyCuti,
+  MyCutiCreate,
+  CutiDetail,
+  CutiReport,
+  CutiUpdate,
+  CutiCreate,
+} from "./pages/cuti";
 
-// loader
-import { loader as loginLoader } from "./pages/Login";
-import { loader as postsLoader } from "./pages/posts/Posts";
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
+import { loader as cutiUpdateLoader } from "./pages/cuti/CutiUpdate";
 import { loader as myCutiCreateLoader } from "./pages/cuti/MyCutiCreate";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
-import { loader as cutiDecisionLoader } from "./pages/cuti/CutiDecision";
-import { loader as createCutiLoader } from "./pages/cuti/CreateCuti";
+import { loader as cutiCreateLoader } from "./pages/cuti/CutiCreate";
 import { loader as cutiReportLoader } from "./pages/cuti/CutiReport";
+
+import { action as cutiCreateAction } from "./pages/cuti/CutiCreate";
+import { action as cutiUpdateAction } from "./pages/cuti/CutiUpdate";
+import { action as myCutiCreateAction } from "./pages/cuti/MyCutiCreate";
+
+// =============
+
+// user ========
+
+import { loader as loginLoader } from "./pages/Login";
 import { loader as usersLoader } from "./pages/min/Users";
 import { loader as usersCreateLoader } from "./pages/min/CreateUser";
 import { loader as usersDetailLoader } from "./pages/min/UserDetail";
 import { loader as usersUpdateLoader } from "./pages/min/UpdateUser";
-import { loader as documentsLoader } from "./pages/Documents";
-import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail";
+
+import { action as loginAction } from "./pages/Login";
+import { action as profileAction } from "./pages/Profile";
+import { action as usersCreateAction } from "./pages/min/CreateUser";
+import { action as usersUpdateAction } from "./pages/min/UpdateUser";
+import { action as passwordAction } from "./pages/ChangePassword";
+// =============
+
+// sip =========
+import { action as sipUploadAction } from "./pages/sip/SipUpload";
+import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
 import { loader as sipLoader } from "./pages/sip/Sip";
 import { loader as sipDetailLoader } from "./pages/sip/SipDetail";
+// =============
+
+// Documents ===
+import { action as uploadDocumentAction } from "./pages/documents/UploadDocument";
+import { action as updateDocumentAction } from "./pages/documents/DocumentDetail";
+import { loader as documentsLoader } from "./pages/Documents";
+import { loader as documentDetailLoader } from "./pages/documents/DocumentDetail";
+// =============
+
+// kop =========
+import { action as kopAction } from "./pages/Kop";
 import { loader as kopLoader } from "./pages/Kop";
-import { loader as newsContainerLoader } from "./pages/news/NewsContainer";
-import { loader as newsDetailLoader } from "./pages/news/NewsDetail";
-import { loader as newsUpdateLoader } from "./pages/news/NewsUpdate";
+// =============
+
+// post ========
+import { loader as postsLoader } from "./pages/posts/Posts";
+// =============
 
 // exp
-import EditCuti, { loader as expLoader } from "./pages/cuti/EditCuti";
 import { First, links, Second } from "./pages/exp";
 import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
+
+// layout =========
 import NewsLayout from "./layout/NewsLayout";
+// ===============
+
+// news ===========
 import {
   NewsDetail,
   NewsCreate,
   NewsUpdate,
   NewsContainer,
 } from "./pages/news";
+
+import { loader as newsContainerLoader } from "./pages/news/NewsContainer";
+import { loader as newsDetailLoader } from "./pages/news/NewsDetail";
+import { loader as newsUpdateLoader } from "./pages/news/NewsUpdate";
+
+import { action as newsCreateAction } from "./pages/news/NewsCreate";
+import { action as newsUpdateAction } from "./pages/news/NewsUpdate";
+// ===================
+
+// independent
 import Kgb from "./pages/kgb/Kgb";
 import Spmt from "./pages/spmt/Spmt";
 import Akreditasi from "./pages/akreditasi/Akreditasi";
-import MyCutiCreate from "./pages/cuti/MyCutiCreate";
+// ===================
 
 const router = createBrowserRouter([
   {
@@ -204,10 +234,10 @@ const router = createBrowserRouter([
       },
       {
         path: "exp/:id",
-        element: <EditCuti />,
+        element: <CutiUpdate />,
         errorElement: <ErrorElement />,
-        loader: expLoader(store),
-        action: expAction(store),
+        loader: cutiUpdateLoader(store),
+        action: cutiUpdateAction(store),
       },
       {
         element: <LoginRequireRoutes />,
@@ -218,10 +248,10 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <CreateCuti />,
+                element: <CutiCreate />,
                 errorElement: <ErrorElement />,
-                action: createCutiAction(store),
-                loader: createCutiLoader(store),
+                loader: cutiCreateLoader,
+                action: cutiCreateAction(store),
               },
               {
                 path: "kop",
@@ -244,10 +274,10 @@ const router = createBrowserRouter([
               },
               {
                 path: "edit/:id",
-                element: <EditCuti />,
+                element: <CutiUpdate />,
                 errorElement: <ErrorElement />,
-                loader: expLoader(store),
-                action: expAction(store),
+                loader: cutiUpdateLoader(store),
+                action: cutiUpdateAction(store),
               },
             ],
             errorElement: <Error />,
@@ -264,13 +294,6 @@ const router = createBrowserRouter([
             errorElement: <ErrorElement />,
             loader: myCutiCreateLoader,
             action: myCutiCreateAction(store),
-          },
-          {
-            path: "letters/cuti/decision/:id",
-            element: <CutiDecision />,
-            errorElement: <ErrorElement />,
-            loader: cutiDecisionLoader(store),
-            action: cutiDecisionAction(store),
           },
           {
             path: "users",

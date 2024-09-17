@@ -8,7 +8,7 @@ import SectionTitle from "./SectionTitle";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { checkCutiStatus } from "../data";
-import CutiStatusBadge from "../pages/cuti/CutiStatusBadge";
+import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
 
 const CutiList = () => {
   const { cutis: initialCutis } = useLoaderData();

@@ -24,7 +24,7 @@ const Posts = () => {
     <>
       <div className="flex flex-col gap-24">
         {posts.map((post) => {
-          return <Post post={post} />;
+          return <Post key={post.id} post={post} />;
         })}
       </div>
       <PaginationContainer />

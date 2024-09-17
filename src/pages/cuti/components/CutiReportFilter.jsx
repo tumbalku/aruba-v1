@@ -1,7 +1,6 @@
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Report = ({ report }) => {
-  // const { report } = useLoaderData();
+const CutiReportFilter = ({ report }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -72,4 +71,4 @@ const Report = ({ report }) => {
   );
 };
 
-export default Report;
+export default CutiReportFilter;
