@@ -27,14 +27,6 @@ import {
 import Swal from "sweetalert2";
 import SipReport from "./SipReport";
 
-export const loader = async ({ params }) => {
-  try {
-    const response = await customFetch.get(`sip/${params.id}`);
-    return { documentDetail: response.data.data };
-  } catch (error) {
-    return errorHandleForAction(error, "toastify");
-  }
-};
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -57,12 +49,56 @@ export const action =
     }
   };
 
+export const loader = async ({ params }) => {
+  try {
+    const response = await customFetch.get(`sip/${params.id}`);
+    return { documentDetail: response.data.data };
+  } catch (error) {
+    return errorHandleForAction(error, "toastify");
+  }
+};
 const SipDetail = () => {
   const { documentDetail } = useLoaderData();
   const { user } = useSelector((state) => state.userState);
 
   console.log(documentDetail);
   const navigate = useNavigate();
+
+  async function handleWa(id) {
+    const message = `
+    *Kepada Yth:*
+
+    ${ownerName}
+    ${nip}
+
+    Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada *${convertDateArrayToString(
+      expiredAt
+    )}* . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
+
+    *Detail SIP:*
+    •	Nomor SIP: ${num ? num : "-"}
+    •	Tanggal Kadaluarsa: *${convertDateArrayToString(expiredAt)}*
+    `.trim();
+
+    const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    try {
+      const response = await customFetch.post("/sip/report/" + id, null, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      });
+      navigate("/sip");
+
+      toast.success(response.data.data.messge);
+
+      window.open(urlToWa, "_blank");
+    } catch (error) {
+      errorHandleForFunction(error, navigate, "toastify");
+    }
+  }
 
   const handleDownload = async (id, name) => {
     try {
@@ -112,50 +148,14 @@ const SipDetail = () => {
             text: response.data?.message,
             icon: "success",
           });
-          navigate("/sip");
         } catch (error) {
           errorHandleForFunction(error, navigate);
+        } finally {
+          navigate("/sip");
         }
-        navigate("/sip");
       }
     });
   }
-
-  async function handleWa(id) {
-    const message = `
-    *Kepada Yth:*
-
-    ${ownerName}
-    ${nip}
-
-    Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada *${convertDateArrayToString(
-      expiredAt
-    )}* . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
-
-    *Detail SIP:*
-    •	Nomor SIP: ${num ? num : "-"}
-    •	Tanggal Kadaluarsa: *${convertDateArrayToString(expiredAt)}*
-    `.trim();
-
-    const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
-      message
-    )}`;
-
-    console.log(user.token);
-    try {
-      const response = await customFetch.post("/sip/report/" + id, null, {
-        headers: {
-          "X-API-TOKEN": user.token,
-        },
-      });
-      window.open(urlToWa, "_blank");
-      toast.success(response.data.messge);
-    } catch (error) {
-      errorHandleForFunction(error, navigate, "toastify");
-    }
-  }
-  console.log("hallo");
-  useEffect(() => {}, [handleWa]);
 
   const {
     id,

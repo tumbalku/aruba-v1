@@ -4,6 +4,7 @@ import { checkCutiStatus } from "../../data";
 import { StatusBadge } from "../../components";
 import CutiStatusBadge from "../cuti/CutiStatusBadge";
 import { useSelector } from "react-redux";
+import Report from "./Report";
 
 const SipReportView = () => {
   const tableRef = useRef(null);
@@ -31,15 +32,20 @@ const SipReportView = () => {
   }, []);
 
   const [cutis, setCutis] = useState([]);
+  const [report, setReport] = useState([]);
   useEffect(() => {
     const fetchApi = async () => {
       try {
         const response = await customFetch("/cuti/search", {
+          params: {
+            size: 1000,
+          },
           headers: {
             "X-API-TOKEN": user.token,
           },
         });
         setCutis(response.data.data);
+        setReport(response.data.report);
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -48,31 +54,23 @@ const SipReportView = () => {
     fetchApi();
   }, []);
   return (
-    <div className="grid grid-cols-6 gap-4">
-      <div className="md:col-span-2 col-span-6 flex items-center justify-center">
-        <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-2 text-center">
-          <div className="px-8 py-4 bg-teal-400 rounded-lg">IZIN</div>
-          <div className="px-8 py-4 bg-teal-400 rounded-lg">TAHUNAN</div>
-          <div className="px-8 py-4 bg-teal-400 rounded-lg">SAKIT</div>
-          <div className="px-8 py-4 bg-teal-400 rounded-lg">BESAR</div>
-          <div className="px-8 py-4 bg-teal-400 rounded-lg">BERSALIN</div>
-          <div className="px-8 py-4 bg-teal-400 rounded-lg">PENTING</div>
-        </div>
-      </div>
+    <div>
+      <Report report={report} />
+
       <div className="md:col-span-4 col-span-6">
-        <div className="overflow-x-auto max-h-60 no-scrollbar" ref={tableRef}>
+        <div className="overflow-x-auto max-h-96 no-scrollbar" ref={tableRef}>
           <table className="table table-xs table-zebra table-pin-rows ">
             <thead>
               <tr className="text-center">
-                <th className="text-left">No</th>
-                <th className="text-left">Nama</th>
                 <th>Tipe</th>
+                <th>Nama</th>
+                <th>Proses Cuti</th>
+                <th>Status Permohonan</th>
                 <th>Unit Kerja</th>
+                <th>No Cuti</th>
                 <th>Dari Tanggal</th>
                 <th>Sampai Tanggal</th>
                 <th>Total Hari</th>
-                <th>Proses Cuti</th>
-                <th>Status Permohonan</th>
               </tr>
             </thead>
             {/* ada masalah pada whitespace-nowrap */}
@@ -89,13 +87,8 @@ const SipReportView = () => {
                 }) => {
                   return (
                     <tr key={id}>
-                      <th>{number}</th>
-                      <td>{owner.name}</td>
                       <td>{kop.name}</td>
-                      <td className="max-w-52 truncate">{owner.workUnit}</td>
-                      <td>{dateToFormat(dateStart)}</td>
-                      <td>{dateToFormat(dateEnd)}</td>
-                      <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                      <td>{owner.name}</td>
                       <td>
                         {status !== "Menunggu" && status !== "Dibatalkan" ? (
                           <StatusBadge
@@ -108,6 +101,11 @@ const SipReportView = () => {
                       <td>
                         <CutiStatusBadge status={status} />
                       </td>
+                      <td className="max-w-52 truncate">{owner.workUnit}</td>
+                      <th>{number}</th>
+                      <td>{dateToFormat(dateStart)}</td>
+                      <td>{dateToFormat(dateEnd)}</td>
+                      <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
                     </tr>
                   );
                 }

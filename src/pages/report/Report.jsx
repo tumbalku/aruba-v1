@@ -1,7 +1,7 @@
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
-const Report = () => {
-  const { report } = useLoaderData();
+const Report = ({ report }) => {
+  // const { report } = useLoaderData();
   const navigate = useNavigate();
   const location = useLocation();
   const {

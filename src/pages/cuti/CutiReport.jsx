@@ -1,7 +1,7 @@
 import React from "react";
 
 import { toast } from "react-toastify";
-import { redirect } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import {
   PaginationContainer,
   SearchOnly,
@@ -41,9 +41,10 @@ export const loader =
   };
 
 const CutiReport = () => {
+  const { report } = useLoaderData();
   return (
     <>
-      <Report />
+      <Report report={report} />
       <SearchOnly name="name" link="/cuti/report" />
       <UserCutiReportList />
       <PaginationContainer />
