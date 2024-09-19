@@ -4,24 +4,44 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { errorHandleForFunction } from "../../../utils/exception";
+import { useNavigate } from "react-router-dom";
 
 const SipReport = ({ reports }) => {
   const { user } = useSelector((state) => state.userState);
   const [reportList, setReportList] = useState(reports || []);
+  const navigate = useNavigate();
   async function handleDelete(id) {
-    try {
-      const response = await customFetch.delete("/sip/report/" + id, {
-        headers: {
-          "X-API-TOKEN": user.token,
-        },
-      });
-      toast.success(response.data.message);
-      setReportList((prevReport) =>
-        prevReport.filter((report) => report.id !== id)
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak akan bisa mengembalikan laporan SIP ini apabila sudah terlanjur dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Iya, hapus",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await customFetch.delete("/sip/report/" + id, {
+            headers: {
+              "X-API-TOKEN": user.token,
+            },
+          });
+          Swal.fire({
+            title: "Berhasil menghapus laporan SIP",
+            text: response.data?.message,
+            icon: "success",
+          });
+          setReportList((prevReport) =>
+            prevReport.filter((report) => report.id !== id)
+          );
+        } catch (error) {
+          errorHandleForFunction(error, navigate);
+        }
+      }
+    });
   }
   if (reportList.length === 0) {
     return null;

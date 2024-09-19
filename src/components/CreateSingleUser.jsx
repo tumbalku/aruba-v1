@@ -6,24 +6,27 @@ import SelectInputForId from "./SelectInputForId";
 import { Form, useLoaderData } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
 import { gologanPPPK, ranks, genders } from "../data";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const CreateSingleUser = () => {
-  const [isPegawai, setIsPegawai] = useState(true);
+  const [isPNS, setIsPNS] = useState(false);
   const [isPPPK, setIsPPPK] = useState(false);
 
   const handleCheckboxChange = (event) => {
-    setIsPegawai(event.target.checked);
-  };
-  const handleCheckboxChangePPPK = (event) => {
-    setIsPPPK(event.target.checked);
+    const { name, checked } = event.target;
+
+    if (name === "PNS") {
+      setIsPNS(checked);
+      if (checked) {
+        setIsPPPK(false); // Menonaktifkan PPPK jika PNS dicentang
+      }
+    } else if (name === "PPPK") {
+      setIsPPPK(checked);
+      if (checked) {
+        setIsPNS(false); // Menonaktifkan PNS jika PPPK dicentang
+      }
+    }
   };
 
-  useEffect(() => {
-    // Jika `isPegawai` adalah false, maka `isPPPK` otomatis menjadi false
-    if (!isPegawai) {
-      setIsPPPK(false);
-    }
-  }, [isPegawai]);
   const { addresses } = useLoaderData();
   return (
     <Form method="POST" className="bg-base-200 rounded-md px-8 py-4 shadow-lg">
@@ -66,27 +69,23 @@ const CreateSingleUser = () => {
             name="OFFICEHOLDER"
             size="checkbox-sm"
           />
-        </div>
-        <div className="flex justify-center items-center">
           <FormCheckbox
-            defaultChecked={true}
-            label="ASN"
-            name="isPegawai"
+            label="P3K"
+            name="PPPK"
             size="checkbox-sm"
+            checked={isPPPK}
             onChange={handleCheckboxChange}
           />
-
-          {isPegawai && (
-            <FormCheckbox
-              defaultChecked={false}
-              label="PPPK"
-              name="isPPPK"
-              size="checkbox-sm"
-              onChange={handleCheckboxChangePPPK}
-            />
-          )}
+          <FormCheckbox
+            label="PNS"
+            name="PNS"
+            size="checkbox-sm"
+            checked={isPNS}
+            onChange={handleCheckboxChange}
+          />
         </div>
-        {isPegawai && (
+
+        {isPNS || isPPPK ? (
           <>
             <FormInput name="nip" label="NIP" size="input-sm" type="text" />
             <FormInput
@@ -95,24 +94,27 @@ const CreateSingleUser = () => {
               size="input-sm"
               type="text"
             />
-            {isPPPK ? (
-              <SelectInput
-                label="Golongan"
-                name="golongan"
-                list={gologanPPPK}
-                defaultValue={gologanPPPK[0].name}
-                size="select-sm"
-              />
-            ) : (
-              <SelectInput
-                label="Pangkat"
-                name="rank"
-                list={ranks}
-                defaultValue={ranks[0].name}
-                size="select-sm"
-              />
-            )}
           </>
+        ) : null}
+
+        {isPPPK && (
+          <SelectInput
+            label="Golongan"
+            name="golongan"
+            list={gologanPPPK}
+            defaultValue={gologanPPPK[0].name}
+            size="select-sm"
+          />
+        )}
+
+        {isPNS && (
+          <SelectInput
+            label="Pangkat"
+            name="rank"
+            list={ranks}
+            defaultValue={ranks[0].name}
+            size="select-sm"
+          />
         )}
 
         <FormInput

@@ -28,7 +28,7 @@ export const action =
     const user = store.getState().userState.user;
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-
+    console.log("create data", data);
     const {
       username,
       name,
@@ -40,9 +40,6 @@ export const action =
       rank,
       nip,
       position,
-      PPPK,
-      isPegawai,
-      ASN,
       workUnit,
       ...roles
     } = data;
@@ -52,10 +49,10 @@ export const action =
 
     const selectedGender = genders.find((item) => item.name === jenisKelamin);
     const gender = selectedGender.desc;
-
+    console.log(selectedRank);
     if (selectedRank) {
       data.golongan = selectedRank.golongan;
-      data.pangkat = selectedRank.name;
+      data.pangkat = rank;
     }
     const newUser = {
       roles: rolesArray,
@@ -66,12 +63,12 @@ export const action =
       email,
       golongan: data.golongan,
       gender,
-      rank: data.pangkat,
+      pangkat: data.pangkat,
       nip,
       position,
       workUnit,
     };
-    console.log(newUser);
+    console.log("new user", newUser);
 
     try {
       const response = await customFetch.post(`/users`, newUser, {

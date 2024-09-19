@@ -293,7 +293,7 @@ const router = createBrowserRouter([
                     index: true,
                     element: <CutiCreate />,
                     errorElement: <ErrorElement />,
-                    loader: cutiCreateLoader,
+                    loader: cutiCreateLoader(store),
                     action: cutiCreateAction(store),
                   },
                   {

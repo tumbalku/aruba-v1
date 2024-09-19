@@ -1,11 +1,14 @@
 import React from "react";
-import { PaginationContainer, Post } from "../../components";
+import { PaginationContainer, SearchOnly } from "../../components";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
-import { useLoaderData } from "react-router-dom";
+import PostList from "./PostList";
 export const loader = async ({ request }) => {
+  const params = Object.fromEntries([
+    ...new URL(request.url).searchParams.entries(),
+  ]);
   try {
-    const response = await customFetch.get("/posts");
+    const response = await customFetch.get("/posts", { params });
 
     return {
       posts: response.data.data,
@@ -18,15 +21,15 @@ export const loader = async ({ request }) => {
   }
 };
 const Posts = () => {
-  const { posts } = useLoaderData();
-
   return (
     <>
-      <div className="flex flex-col gap-24">
+      <SearchOnly link="/posts" name="content" />
+      <PostList />
+      {/* <div className="flex flex-col gap-24">
         {posts.map((post) => {
           return <Post key={post.id} post={post} />;
         })}
-      </div>
+      </div> */}
       <PaginationContainer />
     </>
   );

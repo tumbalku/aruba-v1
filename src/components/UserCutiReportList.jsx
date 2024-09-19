@@ -21,10 +21,11 @@ import SectionTitle from "./SectionTitle";
 import { checkCutiStatus } from "../data";
 import StatusBadge from "./StatusBadge";
 import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
+import Swal from "sweetalert2";
 
 const UserCutiReportList = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+
   const { roles, user } = useSelector((state) => state.userState);
   const { cuti } = useLoaderData();
 
@@ -35,23 +36,33 @@ const UserCutiReportList = () => {
   const isAdmin = roles.includes("ADMIN");
 
   async function handleDelete(id) {
-    try {
-      const response = await customFetch.delete(`/cuti/${id}`, {
-        headers: {
-          "X-API-TOKEN": `${user.token}`,
-        },
-      });
-
-      toast.success(response?.data?.message || "Success delete");
-
-      setCutis(cutis.filter((cuti) => cuti.id !== id));
-      console.log(response);
-      return null;
-    } catch (error) {
-      const msg = error.response.data.message;
-      toast.error(msg || "Something error with the operation");
-      console.log(error);
-    }
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak akan bisa mengembalikan cuti ini apabila sudah terlanjur dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await customFetch.delete(`/cuti/${id}`, {
+            headers: {
+              "X-API-TOKEN": `${user.token}`,
+            },
+          });
+          setCutis(cutis.filter((cuti) => cuti.id !== id));
+          Swal.fire({
+            title: "Berhasil menghapus Cuti",
+            text: response.data.message,
+            icon: "success",
+          });
+        } catch (error) {
+          return errorHandleForFunction(error, navigate);
+        }
+      }
+    });
   }
 
   // getImage

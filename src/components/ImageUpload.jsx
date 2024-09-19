@@ -76,7 +76,7 @@ const ImageUpload = ({ imageUrl = "" }) => {
             name="image"
             id="image"
             multiple
-            accept="images/*"
+            accept="image/*"
             className="file-input w-full max-w-xs file-input-xs sm:file-input-sm"
           />
         </div>

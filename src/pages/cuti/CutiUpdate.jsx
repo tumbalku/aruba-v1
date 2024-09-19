@@ -28,6 +28,7 @@ export const action =
     data.people = tembusan;
     console.log(data);
 
+    console.log(params);
     try {
       const response = await customFetch.patch(`/cuti/${params.id}`, data, {
         headers: {
@@ -45,6 +46,7 @@ export const action =
       }
     }
   };
+
 export const loader =
   (store) =>
   async ({ params }) => {
@@ -71,7 +73,7 @@ export const loader =
 
 const CutiUpdate = () => {
   const [name, setName] = useState("");
-
+  const [isWa, setIsWa] = useState(false);
   const { kops, cuti } = useLoaderData();
   const [tembusan, setTembusan] = useState(cuti.people);
 
@@ -91,6 +93,10 @@ const CutiUpdate = () => {
     setTembusan(updatedTembusan);
   };
 
+  const handleCheckboxChange = (event) => {
+    setIsWa(event.target.checked);
+  };
+
   const {
     user: owner,
     kop,
@@ -107,16 +113,10 @@ const CutiUpdate = () => {
         <div className="col-span-4">
           <div className="grid place-items-center ">
             <UserInfoDetail {...owner} />
+            <input type="hidden" name="user" value={owner.id} />
           </div>
         </div>
-        {/* <div className="col-span-4 md:col-span-2">
-          <FormInput
-            name="user"
-            label="User ID"
-            size="input-sm"
-            defaultValue={owner.id}
-          />
-        </div> */}
+
         <div className="col-span-4 md:col-span-2">
           <SelectInputForId
             name="kop"
@@ -126,9 +126,7 @@ const CutiUpdate = () => {
             label="Type"
           />
         </div>
-        <div className="col-span-4 md:col-span-2">
-          <FormInput name="phone" label="Whatsapp" size="input-sm" />
-        </div>
+
         <div className="col-span-4 md:col-span-2">
           <FormInput
             name="number"
@@ -137,7 +135,14 @@ const CutiUpdate = () => {
             defaultValue={number}
           />
         </div>
-
+        <div className="col-span-4 md:col-span-2">
+          <FormInput
+            name="address"
+            label="Alamat selama cuti"
+            size="input-sm"
+            defaultValue={address || owner.address}
+          />
+        </div>
         <div className="col-span-4 md:col-span-2">
           <DateInput
             label="Dari Tanggal"
@@ -154,14 +159,7 @@ const CutiUpdate = () => {
             defaultValue={arrayToDate(dateEnd)}
           />
         </div>
-        <div className="col-span-4 md:col-span-2">
-          <FormInput
-            name="address"
-            label="Alamat selama cuti"
-            size="input-sm"
-            defaultValue={address || owner.address}
-          />
-        </div>
+
         <div className="col-span-4 md:col-span-2">
           <SelectInput
             label="Akan ditandatanganni oleh:"
@@ -171,6 +169,20 @@ const CutiUpdate = () => {
             defaultValue={sign}
           />
         </div>
+        <div className="col-span-4 md:col-span-2">
+          <FormCheckbox
+            defaultChecked={isWa}
+            label="Sent to"
+            name="isWa"
+            size="checkbox-sm"
+            onChange={handleCheckboxChange}
+          />
+        </div>
+        {isWa && (
+          <div className="col-span-4 md:col-span-2">
+            <FormInput name="phone" label="Whatsapp" size="input-sm" />
+          </div>
+        )}
         <div className="col-span-4">
           <div className="form-control mb-6">
             <label htmlFor="tembusan" className="label">

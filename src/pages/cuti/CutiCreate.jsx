@@ -91,12 +91,25 @@ export const action =
       return errorHandleForAction(error, "toastify");
     }
   };
-export const loader = async () => {
+export const loader = (store) => async () => {
+  const user = store.getState().userState.user;
   try {
-    const response = await customFetch.get("/kops");
+    const [resPejabat, resKop] = await Promise.all([
+      customFetch(`/users/search`, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      }),
+      customFetch(`/kops`, {
+        headers: {
+          "X-API-TOKEN": user.token,
+        },
+      }),
+    ]);
 
     return {
-      kops: response.data.data,
+      kops: resKop.data.data,
+      pejabat: resPejabat.data.data,
     };
   } catch (error) {
     return errorHandleForAction(error, "toastify");
@@ -112,7 +125,8 @@ const CutiCreate = () => {
   const chooseUser = useSelector((state) => state?.tempState?.chooseUser);
   console.log(chooseUser);
 
-  const { kops } = useLoaderData();
+  const { kops, pejabat } = useLoaderData();
+  console.log(pejabat);
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -135,12 +149,6 @@ const CutiCreate = () => {
   const handleCheckboxChange = (event) => {
     setIsWa(event.target.checked);
   };
-
-  // useEffect(() => {
-  //   if (!isWa) {
-  //     setIsCurrentWa(false);
-  //   }
-  // }, [isWa]);
 
   console.log(kops);
   const [kopData, setKopData] = useState(kops[0]);
@@ -216,9 +224,9 @@ const CutiCreate = () => {
         </div>
 
         <div className="col-span-4 md:col-span-2">
-          <SelectInput
+          <SelectInputForId
             label="Akan ditandatanganni oleh:"
-            list={signedBy}
+            list={pejabat}
             name="signedBy"
             size="select-sm"
           />

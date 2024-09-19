@@ -15,7 +15,7 @@ import {
   UserInfoDetail,
 } from "../../components";
 import noFile from "/icons/no.svg";
-
+import { sipMessage } from "../../utils/message";
 import { GoDownload } from "react-icons/go";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -64,22 +64,23 @@ const SipDetail = () => {
   console.log(documentDetail);
   const navigate = useNavigate();
 
+  const {
+    id,
+    type,
+    num,
+    size,
+    fileType,
+    name,
+    uploadedAt,
+    updatedAt,
+    expiredAt,
+    reports,
+    user: owner,
+  } = documentDetail;
+  const { name: ownerName, nip, phone, workUnit } = owner;
+
+  const message = sipMessage(ownerName, nip, num, expiredAt);
   async function handleWa(id) {
-    const message = `
-    *Kepada Yth:*
-
-    ${ownerName}
-    ${nip}
-
-    Kami ingin mengingatkan bahwa masa berlaku SIP (Surat Izin Praktek ) Anda akan segera berakhir pada *${convertDateArrayToString(
-      expiredAt
-    )}* . Agar Anda dapat menjalankan praktek sesuai ketentuan, mohon segera lakukan perpanjangan sebelum tanggal tersebut. Terima Kasih
-
-    *Detail SIP:*
-    •	Nomor SIP: ${num ? num : "-"}
-    •	Tanggal Kadaluarsa: *${convertDateArrayToString(expiredAt)}*
-    `.trim();
-
     const urlToWa = `https://wa.me/${phone}?text=${encodeURIComponent(
       message
     )}`;
@@ -148,29 +149,13 @@ const SipDetail = () => {
             text: response.data?.message,
             icon: "success",
           });
+          navigate("/sip");
         } catch (error) {
           errorHandleForFunction(error, navigate);
-        } finally {
-          navigate("/sip");
         }
       }
     });
   }
-
-  const {
-    id,
-    type,
-    num,
-    size,
-    fileType,
-    name,
-    uploadedAt,
-    updatedAt,
-    expiredAt,
-    reports,
-    user: owner,
-  } = documentDetail;
-  const { name: ownerName, nip, phone, workUnit } = owner;
 
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
@@ -217,7 +202,7 @@ const SipDetail = () => {
       <div className="md:col-span-2 md:row-span-3 p-4 border rounded-md bg-base-200 ">
         <div className="flex flex-col sm:flex-row justify-between">
           <SectionInfo
-            title="Surat Izin Penelitian"
+            title="Surat Izin Peraktek"
             info="Detail informasi surat"
           />
 
@@ -243,6 +228,14 @@ const SipDetail = () => {
               label="File name"
               name="name"
               defaultValue={name}
+            />
+            <FormInput
+              size="md:input-sm input-xs"
+              labelSize="text-xs"
+              type="text"
+              label="nomor SIP"
+              name="num"
+              defaultValue={num}
             />
             <div className="grid grid-cols-1 md:grid-cols-3 col-span-2">
               <UnmodifiedField

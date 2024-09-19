@@ -2,6 +2,7 @@ const FormCheckbox = ({
   name,
   label,
   defaultChecked,
+  checked,
   onChange,
   size,
   disabled,
@@ -14,6 +15,7 @@ const FormCheckbox = ({
       <input
         type="checkbox"
         name={name}
+        checked={checked}
         defaultChecked={defaultChecked}
         className={`checkbox checkbox-primary ${size}`}
         onChange={onChange}

@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import CarouseView from "../report/CarouseView";
+import PostList from "../posts/PostList";
 
 const First = () => {
   return (
     <>
       {/* <SipReportView /> */}
-      <CarouseView />
+      {/* <CarouseView /> */}
+      <PostList />
     </>
   );
 };
