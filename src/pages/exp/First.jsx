@@ -13,7 +13,7 @@ const First = () => {
     <>
       {/* <SipReportView /> */}
       {/* <CarouseView /> */}
-      <PostList />
+      {/* <PostList /> */}
     </>
   );
 };

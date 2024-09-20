@@ -4,14 +4,19 @@
 
 # belum ada user detail untuk melihat detail info
 
-#! update cascade untuk post ke users
-#! update user, namenya belum di buat
-#! pangkat pada update user, jika memilih pppk maka pagkatnya harus null
-#! tambahkan find by roles pejabat pada controller, service users
-#! pangkat tidak terbaca di pdf serivce, hanya gologan
-#! tambahkan service untuk priority
+# buat penkondisian, bahwa user tidak bisa mengajuka 2 kali cuti, apabila masa berlakunya belum selesai (cuti service)
+
+s
+
 ###########
 #complete
+
+#! update cascade untuk post ke users V
+#! update user, namenya belum di buat V
+#! pangkat pada update user, jika memilih pppk maka pagkatnya harus null V
+#! tambahkan find by roles pejabat pada controller, service users V
+#! pangkat tidak terbaca di pdf serivce, hanya gologan V
+#! tambahkan service untuk priority V
 
 ## user create cuti (belum dibuat)
 

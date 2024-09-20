@@ -45,7 +45,7 @@ export const action =
       toast.success(response.data.message || "Berhasil melalukan update");
       return null;
     } catch (error) {
-      return errorHandleForAction(error);
+      return errorHandleForAction(error, "toastify");
     }
   };
 

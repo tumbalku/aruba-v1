@@ -53,18 +53,27 @@ export const loader =
     const user = store.getState().userState.user;
 
     try {
-      const [cutiDetail, resKopList] = await Promise.all([
+      const [cutiDetail, resKopList, resPejabat] = await Promise.all([
         customFetch.get(`/cuti/${params.id}`, {
           headers: {
             "X-API-TOKEN": `${user.token}`,
           },
         }),
         customFetch.get(`/kops`),
+        customFetch.get(`/users/search`, {
+          params: {
+            roles: "OFFICEHOLDER",
+          },
+          headers: {
+            "X-API-TOKEN": user.token,
+          },
+        }),
       ]);
 
       return {
         cuti: cutiDetail.data.data,
         kops: resKopList.data.data,
+        pejabat: resPejabat.data.data,
       };
     } catch (error) {
       return errorHandleForAction(error, "toastify");
@@ -74,7 +83,7 @@ export const loader =
 const CutiUpdate = () => {
   const [name, setName] = useState("");
   const [isWa, setIsWa] = useState(false);
-  const { kops, cuti } = useLoaderData();
+  const { kops, cuti, pejabat } = useLoaderData();
   const [tembusan, setTembusan] = useState(cuti.people);
 
   const handleAdd = (e) => {
@@ -161,12 +170,12 @@ const CutiUpdate = () => {
         </div>
 
         <div className="col-span-4 md:col-span-2">
-          <SelectInput
+          <SelectInputForId
             label="Akan ditandatanganni oleh:"
-            list={signedBy}
+            list={pejabat}
+            defaultValue={sign}
             name="signedBy"
             size="select-sm"
-            defaultValue={sign}
           />
         </div>
         <div className="col-span-4 md:col-span-2">

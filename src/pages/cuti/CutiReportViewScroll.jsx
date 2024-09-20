@@ -1,14 +1,12 @@
+import React from "react";
+import TitleSection from "../../components/TitleSection";
+import CutiReportView from "./CutiReportView";
 import { Link } from "react-router-dom";
-import { Hero } from "../components";
-import TitleSection from "../components/TitleSection";
-import { CutiReportView } from "./cuti";
 
-const Landing = () => {
+const CutiReportViewScroll = () => {
   return (
-    <section>
-      <Hero />
-
-      <div className="mt-24 mb-12">
+    <div className="px-16">
+      <div className="my-14">
         <TitleSection
           title={"Laporan Cuti Pegawai"}
           desc={
@@ -18,11 +16,12 @@ const Landing = () => {
       </div>
       <CutiReportView />
       <div className="flex justify-end my-10">
-        <Link to="/view/report/cuti" className="btn btn-primary btn-xs">
-          Lihat detail
+        <Link to="/" className="btn btn-primary btn-xs">
+          Kembali
         </Link>
       </div>
-    </section>
+    </div>
   );
 };
-export default Landing;
+
+export default CutiReportViewScroll;

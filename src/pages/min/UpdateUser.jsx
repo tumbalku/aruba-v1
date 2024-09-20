@@ -87,7 +87,7 @@ export const action =
         email,
         golongan: data.golongan,
         gender,
-        pangkat: data.pangkat,
+        pangkat: data.pangkat ? data.pangkat : null,
         nip,
         position,
         workUnit,

@@ -12,6 +12,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { errorHandleForFunction } from "../../utils/exception";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const PostList = () => {
   const { posts } = useLoaderData();
@@ -55,14 +56,29 @@ const PostList = () => {
 
   async function handlePriority(id, isChecked) {
     try {
+      let response;
       if (isChecked) {
-        // await api.setPriority(id);
-        console.log(`Priority for post ${id} is set to true.`);
+        response = await customFetch.patch(
+          "/posts/priority/" + id,
+          { priority: 1 },
+          {
+            headers: {
+              "X-API-TOKEN": user.token,
+            },
+          }
+        );
       } else {
-        // API untuk menandai prioritas sebagai false
-        // await api.removePriority(id);
-        console.log(`Priority for post ${id} is set to false.`);
+        response = await customFetch.patch(
+          "/posts/priority/" + id,
+          { priority: 0 },
+          {
+            headers: {
+              "X-API-TOKEN": user.token,
+            },
+          }
+        );
       }
+      toast.success(response?.data?.message || "update okk");
     } catch (error) {
       console.error("Error updating priority:", error);
     }

@@ -6,6 +6,7 @@ export { default as CutiVerify } from "./CutiVerify";
 export { default as CutiDetail } from "./CutiDetail";
 export { default as CutiReport } from "./CutiReport";
 export { default as CutiReportView } from "./CutiReportView";
+export { default as CutiReportViewScroll } from "./CutiReportViewScroll";
 
 // komponents
 export { default as CutiStatusBadge } from "./components/CutiStatusBadge";

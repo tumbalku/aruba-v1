@@ -32,6 +32,7 @@ import {
   CutiReport,
   CutiUpdate,
   CutiCreate,
+  CutiReportViewScroll,
 } from "./pages/cuti";
 
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
@@ -363,6 +364,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorElement />,
       },
     ],
+  },
+  {
+    path: "view/report/cuti",
+    element: <CutiReportViewScroll />,
+    errorElement: <ErrorElement />,
   },
   {
     path: "login",

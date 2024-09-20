@@ -96,6 +96,9 @@ export const loader = (store) => async () => {
   try {
     const [resPejabat, resKop] = await Promise.all([
       customFetch(`/users/search`, {
+        params: {
+          roles: "OFFICEHOLDER",
+        },
         headers: {
           "X-API-TOKEN": user.token,
         },
