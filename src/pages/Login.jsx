@@ -4,7 +4,7 @@ import { customFetch } from "../utils";
 import { toast } from "react-toastify";
 import { loginUser } from "../features/user/userSlice";
 import { errorHandleForAction } from "../utils/exception";
-
+import gambar from "/image/hero1.jpg";
 export const loader = (store) => () => {
   const user = store.getState().userState.user;
   if (user) {
@@ -34,7 +34,15 @@ const Login = () => {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/";
   return (
-    <section className="grid place-items-center h-screen">
+    <section
+      className="grid place-items-center h-screen"
+      style={{
+        backgroundImage: "url('/image/hero1.jpg')",
+        backgroundSize: "cover", // Ini menggantikan objectFit
+        backgroundPosition: "center", // Menjaga posisi tengah gambar
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <Form
         method="POST"
         action={`/login?redirect=${redirectTo}`}

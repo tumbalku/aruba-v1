@@ -159,7 +159,7 @@ const SipDetail = () => {
 
   return (
     <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
-      <div className="flex items-center justify-center p-2 border rounded-md bg-base-200 h-fit">
+      <div className="flex items-center justify-center p-2 border rounded-md bg-base-300 h-fit">
         {fileType ? (
           <img
             src={fileTypeIcons[fileType].url}
@@ -199,7 +199,7 @@ const SipDetail = () => {
           </div>
         </div>
       </div>
-      <div className="md:col-span-2 md:row-span-3 p-4 border rounded-md bg-base-200 ">
+      <div className="md:col-span-2 md:row-span-3 p-4 border rounded-md bg-base-300 ">
         <div className="flex flex-col sm:flex-row justify-between">
           <SectionInfo
             title="Surat Izin Peraktek"

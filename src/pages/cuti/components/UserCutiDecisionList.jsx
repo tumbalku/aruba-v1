@@ -1,29 +1,23 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-  Link,
-  useLoaderData,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import profile from "/image/single.png";
 import {
   calculateDaysBetween,
   customFetch,
   dateToFormat,
   getImage,
-  translateGender,
-} from "../utils";
+} from "../../../utils";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
-import { toast } from "react-toastify";
-import SectionTitle from "./SectionTitle";
-import { checkCutiStatus } from "../data";
-import StatusBadge from "./StatusBadge";
-import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
+
+import SectionTitle from "../../../components/SectionTitle";
+import { checkCutiStatus } from "../../../data";
+import StatusBadge from "../../../components/StatusBadge";
+import CutiStatusBadge from "./CutiStatusBadge";
 import Swal from "sweetalert2";
 
-const UserCutiReportList = () => {
+const UserCutiDecisionList = () => {
   const navigate = useNavigate();
 
   const { roles, user } = useSelector((state) => state.userState);
@@ -101,7 +95,7 @@ const UserCutiReportList = () => {
 
   return (
     <div className="overflow-x-auto mt-12 mb-8">
-      <table className="table table-xs table-zebra">
+      <table className="table table-xs">
         <thead>
           <tr className="text-center">
             <th className="text-left">No</th>
@@ -111,7 +105,7 @@ const UserCutiReportList = () => {
             <th>Dari Tanggal</th>
             <th>Sampai Tanggal</th>
             <th>Total Hari</th>
-            <th>Proses Cuti</th>
+
             <th>Status Permohonan</th>
             <th>Action</th>
           </tr>
@@ -147,39 +141,16 @@ const UserCutiReportList = () => {
                   <td>{dateToFormat(dateEnd)}</td>
                   <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
                   <td>
-                    {status !== "Menunggu" && status !== "Dibatalkan" ? (
-                      <StatusBadge
-                        status={checkCutiStatus(dateStart, dateEnd)}
-                      />
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-                  <td>
                     <CutiStatusBadge status={status} />
                   </td>
                   <td>
                     <div className="flex justify-evenly gap-1">
-                      <Link to={`/cuti/${id}`} className="btn btn-info btn-xs">
+                      <Link
+                        to={`/cuti/decision/${id}`}
+                        className="btn btn-info btn-xs"
+                      >
                         <HiOutlineDocumentSearch />
                       </Link>
-                      {isAdmin && (
-                        <>
-                          <Link
-                            to={`/cuti/edit/${id}`}
-                            className="btn btn-warning btn-xs"
-                          >
-                            <AiOutlineEdit />
-                          </Link>
-
-                          <button
-                            onClick={() => handleDelete(id)}
-                            className="btn btn-error btn-xs"
-                          >
-                            <AiOutlineDelete />
-                          </button>
-                        </>
-                      )}
                     </div>
                   </td>
                 </tr>
@@ -192,4 +163,4 @@ const UserCutiReportList = () => {
   );
 };
 
-export default UserCutiReportList;
+export default UserCutiDecisionList;

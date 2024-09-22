@@ -13,11 +13,12 @@ import { customFetch, daysBetween } from "../../utils";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
-import { signedBy } from "../../data";
+import { sign } from "../../data";
 import { useDispatch, useSelector } from "react-redux";
 import { clearChooseUser } from "../../features/user/tempSlice";
 import SelectUser from "../min/SelectUser";
 import { errorHandleForAction } from "../../utils/exception";
+import SelectInputForIdCuti from "./components/SelectInputForIdCuti";
 export const action =
   (store) =>
   async ({ request }) => {
@@ -209,15 +210,14 @@ const CutiCreate = () => {
             size="input-sm"
           />
         </div>
-        <div className="col-span-4 md:col-span-2">
+        <div className="col-span-4 md:col-span-2 grid md:grid-cols-2 gap-2 grid-cols-1">
           <DateInput
             label="Dari Tanggal"
             name="dateStart"
             size="date-sm"
             defaultValue={date}
           />
-        </div>
-        <div className="col-span-4 md:col-span-2">
+
           <DateInput
             label="Sampai Tanggal"
             name="dateEnd"
@@ -226,11 +226,17 @@ const CutiCreate = () => {
           />
         </div>
 
-        <div className="col-span-4 md:col-span-2">
-          <SelectInputForId
+        <div className="col-span-4 md:col-span-2 grid md:grid-cols-2  gap-2 grid-cols-1">
+          <SelectInputForIdCuti
             label="Akan ditandatanganni oleh:"
             list={pejabat}
             name="signedBy"
+            size="select-sm"
+          />
+          <SelectInput
+            label="Jababatan"
+            list={sign}
+            name="sign"
             size="select-sm"
           />
         </div>

@@ -14,8 +14,9 @@ import { arrayToDate, customFetch, isAuthenticate } from "../../utils";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
-import { signedBy } from "../../data";
 import { errorHandleForAction } from "../../utils/exception";
+import SelectInputForIdCuti from "./components/SelectInputForIdCuti";
+import { sign } from "../../data";
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -40,10 +41,7 @@ export const action =
       // window.open(urlToWa, "_blank");
       return null;
     } catch (error) {
-      if (error) {
-        toast.error(error.response.data.message);
-        return null;
-      }
+      return errorHandleForAction(error, "toastify");
     }
   };
 
@@ -111,7 +109,7 @@ const CutiUpdate = () => {
     kop,
     dateStart,
     dateEnd,
-    signedBy: sign,
+    signedBy,
     number,
     address,
   } = cuti;
@@ -152,15 +150,14 @@ const CutiUpdate = () => {
             defaultValue={address || owner.address}
           />
         </div>
-        <div className="col-span-4 md:col-span-2">
+        <div className="col-span-4 md:col-span-2 grid md:grid-cols-2 gap-2 grid-cols-1">
           <DateInput
             label="Dari Tanggal"
             name="dateStart"
             size="date-sm"
             defaultValue={arrayToDate(dateStart)}
           />
-        </div>
-        <div className="col-span-4 md:col-span-2">
+
           <DateInput
             label="Sampai Tanggal"
             name="dateEnd"
@@ -169,15 +166,22 @@ const CutiUpdate = () => {
           />
         </div>
 
-        <div className="col-span-4 md:col-span-2">
-          <SelectInputForId
+        <div className="col-span-4 md:col-span-2 grid md:grid-cols-2  gap-2 grid-cols-1">
+          <SelectInputForIdCuti
             label="Akan ditandatanganni oleh:"
             list={pejabat}
-            defaultValue={sign}
+            defaultValue={signedBy}
             name="signedBy"
             size="select-sm"
           />
+          <SelectInput
+            label="Jababatan"
+            list={sign}
+            name="sign"
+            size="select-sm"
+          />
         </div>
+
         <div className="col-span-4 md:col-span-2">
           <FormCheckbox
             defaultChecked={isWa}

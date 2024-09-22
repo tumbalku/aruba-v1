@@ -32,9 +32,9 @@ export const fileTypeIcons = {
 };
 
 export const cutiStatus = [
-  { name: "APPROVED" },
-  { name: "PENDING" },
-  { name: "REJECTED" },
+  { id: "APPROVE", name: "Disetujui" },
+  { id: "PENDING", name: "Menunggu" },
+  { id: "REJECT", name: "Dibatalkan" },
 ];
 
 export const docTypes = [
@@ -44,10 +44,12 @@ export const docTypes = [
   { name: "AKREDITASI" },
 ];
 
-export const signedBy = [
+export const sign = [
   { name: "Direktur" },
-  { name: "Wakil Direktur" },
-  { name: "PLH" },
+  { name: "Plt (Pelaksana Tugas)" },
+  { name: "Plh (Pelaksana Harian)" },
+  { name: "Pj (Pejabat)" },
+  { name: "Pjs (Pejabat Sementara)" },
 ];
 
 export const gologanPPPK = [
@@ -59,6 +61,7 @@ export const gologanPPPK = [
   { name: "Golologan VI" },
   { name: "Golologan VII" },
   { name: "Golologan VIII" },
+  { name: "Golologan IX" },
   { name: "Golologan X" },
   { name: "Golologan XI" },
   { name: "Golologan XII" },
@@ -70,23 +73,23 @@ export const gologanPPPK = [
 ];
 
 export const ranks = [
-  { name: "JURU MUDA", golongan: "I/a" },
-  { name: "JURU MUDA TK I", golongan: "I/b" },
-  { name: "JURU", golongan: "I/c" },
-  { name: "JURU TK I", golongan: "I/d" },
-  { name: "PENGATUR MUDA", golongan: "II/a" },
-  { name: "PENGATUR MUDA TK I", golongan: "II/b" },
-  { name: "PENGATUR", golongan: "II/c" },
-  { name: "PENGATUR TK I", golongan: "II/d" },
-  { name: "PENATA MUDA", golongan: "III/a" },
-  { name: "PENATA MUDA TK I", golongan: "III/b" },
-  { name: "PENATA", golongan: "III/c" },
-  { name: "PENATA TK I", golongan: "III/d" },
-  { name: "PEMBINA", golongan: "IV/a" },
-  { name: "PEMBINA TK I", golongan: "IV/b" },
-  { name: "PEMBINA UTAMA MUDA", golongan: "IV/c" },
-  { name: "PEMBINA UTAMA MADYA", golongan: "IV/d" },
-  { name: "PEMBINA UTAMA", golongan: "IV/e" },
+  { name: "Juru Muda", golongan: "I/a" },
+  { name: "Juru Muda Tk I", golongan: "I/b" },
+  { name: "Juru", golongan: "I/c" },
+  { name: "Juru Tk I", golongan: "I/d" },
+  { name: "Pengatur Muda", golongan: "II/a" },
+  { name: "Pengatur Muda Tk I", golongan: "II/b" },
+  { name: "Pengatur", golongan: "II/c" },
+  { name: "Pengatur Tk I", golongan: "II/d" },
+  { name: "Penata Muda", golongan: "III/a" },
+  { name: "Penata Muda Tk I", golongan: "III/b" },
+  { name: "Penata", golongan: "III/c" },
+  { name: "Penata Tk I", golongan: "III/d" },
+  { name: "Pembina", golongan: "IV/a" },
+  { name: "Pembina Tk I", golongan: "IV/b" },
+  { name: "Pembina Utama Muda", golongan: "IV/c" },
+  { name: "Pembina Utama Madya", golongan: "IV/d" },
+  { name: "Pembina Utama", golongan: "IV/e" },
 ];
 
 export const gologanPNS = [

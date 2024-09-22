@@ -33,17 +33,22 @@ import {
   CutiUpdate,
   CutiCreate,
   CutiReportViewScroll,
+  CutiDecisionReport,
+  CutiDecision,
 } from "./pages/cuti";
 
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
-import { loader as cutiUpdateLoader } from "./pages/cuti/CutiUpdate";
 import { loader as myCutiCreateLoader } from "./pages/cuti/MyCutiCreate";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
 import { loader as cutiCreateLoader } from "./pages/cuti/CutiCreate";
 import { loader as cutiReportLoader } from "./pages/cuti/CutiReport";
+import { loader as cutiDecisionReportLoader } from "./pages/cuti/CutiDecisionReport";
+import { loader as cutiUpdateLoader } from "./pages/cuti/CutiUpdate";
+import { loader as cutiDecisionLoader } from "./pages/cuti/CutiDecision";
 
-import { action as cutiCreateAction } from "./pages/cuti/CutiCreate";
+import { action as cutiDecisionAction } from "./pages/cuti/CutiDecision";
 import { action as cutiUpdateAction } from "./pages/cuti/CutiUpdate";
+import { action as cutiCreateAction } from "./pages/cuti/CutiCreate";
 import { action as myCutiCreateAction } from "./pages/cuti/MyCutiCreate";
 
 // =============
@@ -106,8 +111,8 @@ import { loader as newsContainerLoader } from "./pages/news/NewsContainer";
 import { loader as newsDetailLoader } from "./pages/news/NewsDetail";
 import { loader as newsUpdateLoader } from "./pages/news/NewsUpdate";
 
-import { action as newsCreateAction } from "./pages/news/NewsCreate";
 import { action as newsUpdateAction } from "./pages/news/NewsUpdate";
+import { action as newsCreateAction } from "./pages/news/NewsCreate";
 // ===================
 
 // independent
@@ -322,6 +327,19 @@ const router = createBrowserRouter([
                     errorElement: <ErrorElement />,
                     loader: cutiUpdateLoader(store),
                     action: cutiUpdateAction(store),
+                  },
+                  {
+                    path: "decision",
+                    element: <CutiDecisionReport />,
+                    errorElement: <ErrorElement />,
+                    loader: cutiDecisionReportLoader(store),
+                  },
+                  {
+                    path: "decision/:id",
+                    element: <CutiDecision />,
+                    errorElement: <ErrorElement />,
+                    loader: cutiDecisionLoader(store),
+                    action: cutiDecisionAction(store),
                   },
                 ],
                 errorElement: <Error />,

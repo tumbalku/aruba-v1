@@ -2,17 +2,13 @@ import React from "react";
 import TitleSection from "../../components/TitleSection";
 import CutiReportView from "./CutiReportView";
 import { Link } from "react-router-dom";
+import Kop from "../report/Kop";
 
 const CutiReportViewScroll = () => {
   return (
-    <div className="px-16">
-      <div className="my-14">
-        <TitleSection
-          title={"Laporan Cuti Pegawai"}
-          desc={
-            "Pantau status dan riwayat cuti pegawai secara lengkap dan akurat melalui laporan ini."
-          }
-        />
+    <div className="md:px-16 px-4">
+      <div className="my-5">
+        <Kop />
       </div>
       <CutiReportView />
       <div className="flex justify-end my-10">

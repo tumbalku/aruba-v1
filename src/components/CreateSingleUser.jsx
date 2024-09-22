@@ -84,7 +84,6 @@ const CreateSingleUser = () => {
             onChange={handleCheckboxChange}
           />
         </div>
-
         {isPNS || isPPPK ? (
           <>
             <FormInput name="nip" label="NIP" size="input-sm" type="text" />

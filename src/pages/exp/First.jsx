@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 
 import CarouseView from "../report/CarouseView";
 import PostList from "../posts/PostList";
+import LoginTest from "../LoginTest";
+import gambar from "/image/sultra.png";
 
 const First = () => {
   return (
@@ -14,6 +16,7 @@ const First = () => {
       {/* <SipReportView /> */}
       {/* <CarouseView /> */}
       {/* <PostList /> */}
+      {/* <LoginTest /> */}
     </>
   );
 };
