@@ -46,10 +46,10 @@ export const docTypes = [
 
 export const sign = [
   { name: "Direktur" },
-  { name: "Plt (Pelaksana Tugas)" },
-  { name: "Plh (Pelaksana Harian)" },
-  { name: "Pj (Pejabat)" },
-  { name: "Pjs (Pejabat Sementara)" },
+  { name: "Plt" },
+  { name: "Plh" },
+  { name: "Pj" },
+  { name: "Pjs" },
 ];
 
 export const gologanPPPK = [

@@ -236,7 +236,7 @@ const CutiCreate = () => {
           <SelectInput
             label="Jababatan"
             list={sign}
-            name="sign"
+            name="mark"
             size="select-sm"
           />
         </div>

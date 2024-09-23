@@ -114,6 +114,7 @@ const CutiDecision = () => {
     dateStart,
     dateEnd,
     signedBy,
+    mark,
     number,
     address,
     reason,
@@ -199,7 +200,8 @@ const CutiDecision = () => {
             <SelectInput
               label="Jababatan"
               list={sign}
-              name="sign"
+              name="mark"
+              defaultValue={mark}
               size="select-sm"
             />
           </div>

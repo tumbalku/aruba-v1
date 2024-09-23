@@ -110,6 +110,7 @@ const CutiUpdate = () => {
     dateStart,
     dateEnd,
     signedBy,
+    mark,
     number,
     address,
   } = cuti;
@@ -177,7 +178,8 @@ const CutiUpdate = () => {
           <SelectInput
             label="Jababatan"
             list={sign}
-            name="sign"
+            defaultValue={mark}
+            name="mark"
             size="select-sm"
           />
         </div>
