@@ -39,7 +39,7 @@ export const action =
 
       toast.success(response.data.message || "Update cuti");
       // window.open(urlToWa, "_blank");
-      return null;
+      return redirect("/cuti/report");
     } catch (error) {
       return errorHandleForAction(error, "toastify");
     }

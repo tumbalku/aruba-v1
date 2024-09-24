@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, redirect, useLoaderData } from "react-router-dom";
 import {
   DateInput,
   FormCheckbox,
@@ -87,7 +87,7 @@ export const action =
         window.open(urlToWa, "_blank");
       }
       store.dispatch(clearChooseUser());
-      return null;
+      return redirect("/cuti/report");
     } catch (error) {
       return errorHandleForAction(error, "toastify");
     }

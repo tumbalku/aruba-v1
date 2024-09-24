@@ -76,7 +76,7 @@ export const action =
       );
 
       toast.success(response.data.message || "Update cuti");
-      return redirect("/cuti/decision");
+      return redirect("/cuti/report");
     } catch (error) {
       return errorHandleForAction(error, "toastify");
     }
