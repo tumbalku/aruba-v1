@@ -51,7 +51,7 @@ const SipList = () => {
           key={id}
           className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
         >
-          <div className="flex justify-items-center items-center">
+          <div className="flex justify-items-center items-center  overflow-hidden">
             {fileType ? (
               <img
                 src={fileTypeIcons[fileType].url}
@@ -62,7 +62,7 @@ const SipList = () => {
               <img src={noFile} alt={name} className="w-24 h-24" />
             )}
 
-            <div className="ml-2 md:ml-5 md:w-72 w-full ">
+            <div className="ml-2 md:ml-5 md:w-72 w-full overflow-hidden">
               <p className="font-semibold truncate text-xs sm:text-base">
                 {name}
               </p>

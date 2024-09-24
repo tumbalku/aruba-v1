@@ -158,7 +158,7 @@ const SipDetail = () => {
   }
 
   return (
-    <div className="grid md:grid-cols-3 md:grid-rows-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4">
       <div className="flex items-center justify-center p-2 border rounded-md bg-base-300 h-fit">
         {fileType ? (
           <img
@@ -178,7 +178,7 @@ const SipDetail = () => {
               {formatFileSize(size)}
             </p>
           )}
-          <div className="mt-4 flex space-x-1">
+          <div className="mt-4 flex gap-1">
             {fileType && (
               <button
                 className="btn btn-xs md:btn-sm btn-success"
@@ -220,7 +220,7 @@ const SipDetail = () => {
         </div>
 
         <Form method="post">
-          <div className="grid md:grid-cols-2 gap-2 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-8">
             <FormInput
               size="md:input-sm input-xs"
               labelSize="text-xs"
@@ -237,7 +237,7 @@ const SipDetail = () => {
               name="num"
               defaultValue={num}
             />
-            <div className="grid grid-cols-1 md:grid-cols-3 col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 md:col-span-2">
               <UnmodifiedField
                 value={convertDateArrayToString(uploadedAt)}
                 label="Dibuat pada"
