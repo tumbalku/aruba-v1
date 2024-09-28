@@ -53,7 +53,7 @@ export function calculateDaysBetween(startArray, endArray) {
   const endDate = moment([endArray[0], endArray[1] - 1, endArray[2]]);
 
   // Menghitung selisih hari antara dua tanggal
-  return endDate.diff(startDate, "days");
+  return endDate.diff(startDate, "days") + 1;
 }
 
 const prodURL = import.meta.env.VITE_SPRING_API_URL;

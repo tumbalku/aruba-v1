@@ -66,13 +66,15 @@ const UserInfoDetail = ({ name, nip, workUnit, id, address, avatar }) => {
                 <td className="px-2">:</td>
                 <td>{address}</td>
               </tr>
-              <tr>
-                <th className="text-nowrap text-left line-clamp-2">
-                  Unit Kerja
-                </th>
-                <td className="px-2">:</td>
-                <td className="line-clamp-1">{workUnit}</td>
-              </tr>
+              {workUnit && (
+                <tr>
+                  <th className="text-nowrap text-left line-clamp-2">
+                    Unit Kerja
+                  </th>
+                  <td className="px-2">:</td>
+                  <td className="line-clamp-1">{workUnit}</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

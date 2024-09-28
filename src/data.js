@@ -73,23 +73,23 @@ export const gologanPPPK = [
 ];
 
 export const ranks = [
-  { name: "Juru Muda", golongan: "I/a" },
-  { name: "Juru Muda Tk I", golongan: "I/b" },
-  { name: "Juru", golongan: "I/c" },
-  { name: "Juru Tk I", golongan: "I/d" },
-  { name: "Pengatur Muda", golongan: "II/a" },
-  { name: "Pengatur Muda Tk I", golongan: "II/b" },
-  { name: "Pengatur", golongan: "II/c" },
-  { name: "Pengatur Tk I", golongan: "II/d" },
-  { name: "Penata Muda", golongan: "III/a" },
-  { name: "Penata Muda Tk I", golongan: "III/b" },
-  { name: "Penata", golongan: "III/c" },
-  { name: "Penata Tk I", golongan: "III/d" },
-  { name: "Pembina", golongan: "IV/a" },
-  { name: "Pembina Tk I", golongan: "IV/b" },
-  { name: "Pembina Utama Muda", golongan: "IV/c" },
-  { name: "Pembina Utama Madya", golongan: "IV/d" },
-  { name: "Pembina Utama", golongan: "IV/e" },
+  { name: "Juru Muda", golongan: "Gol.I/a" },
+  { name: "Juru Muda Tk I", golongan: "Gol.I/b" },
+  { name: "Juru", golongan: "Gol.I/c" },
+  { name: "Juru Tk I", golongan: "Gol.I/d" },
+  { name: "Pengatur Muda", golongan: "Gol.II/a" },
+  { name: "Pengatur Muda Tk I", golongan: "Gol.II/b" },
+  { name: "Pengatur", golongan: "Gol.II/c" },
+  { name: "Pengatur Tk I", golongan: "Gol.II/d" },
+  { name: "Penata Muda", golongan: "Gol.III/a" },
+  { name: "Penata Muda Tk I", golongan: "Gol.III/b" },
+  { name: "Penata", golongan: "Gol.III/c" },
+  { name: "Penata Tk I", golongan: "Gol.III/d" },
+  { name: "Pembina", golongan: "Gol.IV/a" },
+  { name: "Pembina Tk I", golongan: "Gol.IV/b" },
+  { name: "Pembina Utama Muda", golongan: "Gol.IV/c" },
+  { name: "Pembina Utama Madya", golongan: "Gol.IV/d" },
+  { name: "Pembina Utama", golongan: "Gol.IV/e" },
 ];
 
 export const gologanPNS = [
@@ -113,7 +113,7 @@ export const gologanPNS = [
 ];
 
 export const years = Array.from({ length: 71 }, (_, i) => ({
-  name: (2020 + i).toString(),
+  name: (2023 + i).toString(),
 }));
 
 const toRoman = (num) => {

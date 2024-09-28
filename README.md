@@ -1,16 +1,26 @@
-# desain berjalan (belum di buat) khusus
-
-# belum ada cuti detail khusus untuk user
+# saat di print detail cutinya (unit kerja belum sesuai) dan kartu kontrol
 
 # belum ada user detail untuk melihat detail info
 
-# buat penkondisian, bahwa user tidak bisa mengajuka 2 kali cuti, apabila masa berlakunya belum selesai (cuti service)
+# buat wa message setiap perubahan (cuti update, cuti ...)
 
-s
+# check wa, perubahan typo yang diinginkan
+
+# tambahkan sertifika cuti berupa halaman website
+
+# bersihkan konsole dari dev logs
+
+# tambahkan upload file pada user create cuti request
+
+# tambahkan ketika hover muncul title
 
 ###########
 #complete
-
+#! rapihkan beberapa baris paragraf di laporan detail cuti
+#! tambahkan laporan cuti berupa pdf
+#! buat penkondisian, bahwa user tidak bisa mengajuka 2 kali cuti, apabila masa berlakunya belum selesai (cuti service)
+#! belum ada cuti detail khusus untuk user
+#! desain berjalan (belum di buat) khusus
 #! update cascade untuk post ke users V
 #! update user, namenya belum di buat V
 #! pangkat pada update user, jika memilih pppk maka pagkatnya harus null V

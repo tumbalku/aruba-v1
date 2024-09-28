@@ -210,6 +210,14 @@ const CutiCreate = () => {
             size="input-sm"
           />
         </div>
+        <div className="col-span-4 md:col-span-2">
+          <FormInput
+            name="workUnit"
+            label="Unit Kerja"
+            size="input-sm"
+            type="text"
+          />
+        </div>
         <div className="col-span-4 md:col-span-2 grid md:grid-cols-2 gap-2 grid-cols-1">
           <DateInput
             label="Dari Tanggal"
@@ -234,7 +242,7 @@ const CutiCreate = () => {
             size="select-sm"
           />
           <SelectInput
-            label="Jababatan"
+            label="Jabatan"
             list={sign}
             name="mark"
             size="select-sm"

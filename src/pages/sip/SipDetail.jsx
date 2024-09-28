@@ -202,7 +202,7 @@ const SipDetail = () => {
       <div className="md:col-span-2 md:row-span-3 p-4 border rounded-md bg-base-300 ">
         <div className="flex flex-col sm:flex-row justify-between">
           <SectionInfo
-            title="Surat Izin Peraktek"
+            title="Surat Izin Praktek"
             info="Detail informasi surat"
           />
 

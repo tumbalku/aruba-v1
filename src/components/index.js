@@ -10,6 +10,7 @@ export { default as FormRange } from "./FormRange";
 export { default as FormTextArea } from "./FormTextArea";
 export { default as FormTimeInput } from "./FormTimeInput";
 export { default as SelectInput } from "./SelectInput";
+export { default as SelectInputPangkatGolongan } from "./SelectInputPangkatGolongan";
 export { default as SelectInputForId } from "./SelectInputForId";
 export { default as SelectInputForIdByType } from "./SelectInputForIdByType";
 export { default as SelectInputForEmail } from "./SelectInputForEmail";
@@ -28,14 +29,15 @@ export { default as UpdateSingleUser } from "./UpdateSingleUser";
 export { default as CreateSingleUser } from "./CreateSingleUser";
 export { default as PrevLinks } from "./PrevLinks";
 export { default as FileInput } from "./FileInput";
-export { default as UnmodifiedField } from "./input-v2/UnmodifiedField";
-export { default as InputField } from "./input-v2/InputField";
 export { default as SipList } from "./SipList";
 export { default as UserInfoDetail } from "./UserInfoDetail";
 export { default as Maintain } from "./Maintain";
 export { default as NetworkError } from "./NetworkError";
 // commponent v2
 export { default as SectionInfo } from "./SectionInfo";
+export { default as UnmodifiedField } from "./input-v2/UnmodifiedField";
+export { default as InputField } from "./input-v2/InputField";
+export { default as UnmodifiedTextArea } from "./input-v2/UnmodifiedTextArea";
 
 // post
 

@@ -11,32 +11,7 @@ import { checkCutiStatus } from "../data";
 import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
 
 const CutiList = () => {
-  const { cutis: initialCutis } = useLoaderData();
-  const { user } = useSelector((state) => state.userState);
-
-  const [cutis, setCutis] = useState(initialCutis);
-  console.log(cutis);
-
-  // function
-  async function handleDelete(id) {
-    try {
-      const response = await customFetch.delete(`/cuti/${id}`, {
-        headers: {
-          "X-API-TOKEN": `${user.token}`,
-        },
-      });
-      const msg = response.data.message;
-      toast.success(msg || "Success delete");
-      console.log(location.search);
-      setCutis(cutis.filter((user) => user.id !== id));
-
-      console.log(response);
-    } catch (error) {
-      const msg = error.response.data.message;
-      toast.error(msg || "Something error with the operation");
-      console.log(error);
-    }
-  }
+  const { cutis } = useLoaderData();
 
   if (cutis.length == 0) {
     return <SectionTitle text="Belum ada cuti yang diajukan" size="text-sm" />;
@@ -65,7 +40,7 @@ const CutiList = () => {
                 const type = kop.name;
                 return (
                   <tr key={id}>
-                    <td className="max-w-2">{number}</td>
+                    <th>{number}</th>
                     <td>{type}</td>
                     <td>{dateToFormat(dateStart)}</td>
                     <td>{dateToFormat(dateEnd)}</td>
@@ -85,7 +60,7 @@ const CutiList = () => {
                     <td className="flex space-x-2 justify-center">
                       {status !== "Menunggu" && (
                         <Link
-                          to={`/cuti/${id}`}
+                          to={`/my-cuti/${id}`}
                           className="btn btn-outline btn-sm btn-info"
                         >
                           <HiOutlineDocumentSearch />

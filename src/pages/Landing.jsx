@@ -16,10 +16,12 @@ const Landing = () => {
           }
         />
       </div>
-      <CutiReportView />
       <div className="flex justify-end my-10">
         <Link to="/view/report/cuti" className="btn btn-primary btn-xs">
-          Lihat detail
+          Lihat detail cuti
+        </Link>
+        <Link to="/view/report/sip" className="btn btn-primary btn-xs">
+          Lihat detail sip
         </Link>
       </div>
     </section>

@@ -10,6 +10,7 @@ const PrevLinks = () => {
       path !== "view" &&
       // path !== "create" &&
       path !== "kop" &&
+      path !== "user" &&
       path !== "report"
   );
 

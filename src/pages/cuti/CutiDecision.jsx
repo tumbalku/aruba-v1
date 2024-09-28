@@ -198,7 +198,7 @@ const CutiDecision = () => {
               size="select-sm"
             />
             <SelectInput
-              label="Jababatan"
+              label="Jabatan"
               list={sign}
               name="mark"
               defaultValue={mark}

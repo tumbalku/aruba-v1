@@ -7,6 +7,8 @@ import { Form, useLoaderData } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
 import { gologanPPPK, ranks, genders } from "../data";
 import { useState } from "react";
+import SelectInputForIdByType from "./SelectInputForIdByType";
+import SelectInputPangkatGolongan from "./SelectInputPangkatGolongan";
 const CreateSingleUser = () => {
   const [isPNS, setIsPNS] = useState(false);
   const [isPPPK, setIsPPPK] = useState(false);
@@ -87,15 +89,14 @@ const CreateSingleUser = () => {
         {isPNS || isPPPK ? (
           <>
             <FormInput name="nip" label="NIP" size="input-sm" type="text" />
-            <FormInput
-              name="position"
-              label="Jabatan"
-              size="input-sm"
-              type="text"
-            />
           </>
         ) : null}
-
+        <FormInput
+          name="position"
+          label="Jabatan"
+          size="input-sm"
+          type="text"
+        />
         {isPPPK && (
           <SelectInput
             label="Golongan"
@@ -107,11 +108,11 @@ const CreateSingleUser = () => {
         )}
 
         {isPNS && (
-          <SelectInput
+          <SelectInputPangkatGolongan
             label="Pangkat"
             name="rank"
             list={ranks}
-            defaultValue={ranks[0].name}
+            defaultValue={ranks[0]}
             size="select-sm"
           />
         )}

@@ -35,9 +35,11 @@ import {
   CutiReportViewScroll,
   CutiDecisionReport,
   CutiDecision,
+  MyCutiDetail,
 } from "./pages/cuti";
 
 import { loader as myCutiLoader } from "./pages/cuti/MyCuti";
+import { loader as myCutiDetailLoader } from "./pages/cuti/MyCutiDetail";
 import { loader as myCutiCreateLoader } from "./pages/cuti/MyCutiCreate";
 import { loader as cutiDetailLoader } from "./pages/cuti/CutiDetail";
 import { loader as cutiCreateLoader } from "./pages/cuti/CutiCreate";
@@ -69,8 +71,9 @@ import { action as passwordAction } from "./pages/ChangePassword";
 // =============
 
 // sip =========
+import { SipDetail, SipReportContainer } from "./pages/sip";
 import { action as sipUploadAction } from "./pages/sip/SipUpload";
-import SipDetail, { action as sipDetailAction } from "./pages/sip/SipDetail";
+import { action as sipDetailAction } from "./pages/sip/SipDetail";
 import { loader as sipLoader } from "./pages/sip/Sip";
 import { loader as sipDetailLoader } from "./pages/sip/SipDetail";
 // =============
@@ -119,6 +122,7 @@ import { action as newsCreateAction } from "./pages/news/NewsCreate";
 import Kgb from "./pages/kgb/Kgb";
 import Spmt from "./pages/spmt/Spmt";
 import Akreditasi from "./pages/akreditasi/Akreditasi";
+import { PublicUserInfo } from "./pages/users";
 // ===================
 
 const router = createBrowserRouter([
@@ -132,7 +136,11 @@ const router = createBrowserRouter([
         element: <Landing />,
         errorElement: <ErrorElement />,
       },
-
+      {
+        path: "view/user/:id",
+        element: <PublicUserInfo />,
+        errorElement: <ErrorElement />,
+      },
       {
         path: "news",
         element: <NewsLayout />,
@@ -353,6 +361,12 @@ const router = createBrowserRouter([
             loader: myCutiLoader(store),
           },
           {
+            path: "my-cuti/:id",
+            element: <MyCutiDetail />,
+            errorElement: <ErrorElement />,
+            loader: myCutiDetailLoader(store),
+          },
+          {
             path: "my-cuti/create",
             element: <MyCutiCreate />,
             errorElement: <ErrorElement />,
@@ -386,6 +400,11 @@ const router = createBrowserRouter([
   {
     path: "view/report/cuti",
     element: <CutiReportViewScroll />,
+    errorElement: <ErrorElement />,
+  },
+  {
+    path: "view/report/sip",
+    element: <SipReportContainer />,
     errorElement: <ErrorElement />,
   },
   {

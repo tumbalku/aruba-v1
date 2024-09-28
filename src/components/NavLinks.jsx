@@ -9,7 +9,6 @@ const links = [
   { id: 5, url: "about", text: "tentang" },
   { id: 6, url: "users", text: "pengguna", role: "ADMIN" },
   { id: 7, url: "documents", text: "Dokumen", role: "ADMIN" },
-  { id: 8, url: "exp", text: "experiment" },
 ];
 
 const NavLinks = () => {

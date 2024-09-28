@@ -5,14 +5,14 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import { LiaKeySolid } from "react-icons/lia";
 
 export const cutiLinks = [
-  { name: "Cuti", url: "/cuti", icon: <CgBandAid /> },
+  { name: "Buat Cuti", url: "/cuti", icon: <CgBandAid /> },
   { name: "Kop", url: "kop", icon: <IoAlbumsOutline /> },
   { name: "Report", url: "report", icon: <HiOutlineDocumentReport /> },
   { name: "Permohonan", url: "decision", icon: <HiOutlineDocumentReport /> },
 ];
 
 export const profileLinks = [
-  { name: "Info", url: "/profile", icon: <BiSolidUserDetail /> },
+  { name: "Akun", url: "/profile", icon: <BiSolidUserDetail /> },
   { name: "Ubah password", url: "password", icon: <LiaKeySolid /> },
 ];
 

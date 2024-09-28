@@ -53,7 +53,10 @@ const CutiReportView = () => {
       <CutiReportFilter report={report} />
 
       <div className="md:col-span-4 col-span-6 mt-10">
-        <div className="overflow-x-auto h-[55vh] no-scrollbar" ref={tableRef}>
+        <div
+          className="overflow-x-auto max-h-[60vh] no-scrollbar"
+          ref={tableRef}
+        >
           <table className="table table-xs table-zebra table-pin-rows border-[1px] border-base-300">
             <thead>
               <tr className="text-center">

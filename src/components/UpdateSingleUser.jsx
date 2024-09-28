@@ -11,6 +11,7 @@ import { customFetch } from "../utils";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import SelectInputPangkatGolongan from "./SelectInputPangkatGolongan";
 
 const UpdateSingleUser = () => {
   const { addresses, userDetail } = useLoaderData();
@@ -35,6 +36,7 @@ const UpdateSingleUser = () => {
     updatedAt,
   } = userDetail;
   const selectedGender = genders.find((item) => item.desc === gender);
+  const selectedRanks = ranks.find((item) => item.name === pangkat);
 
   console.log(userDetail);
   const [isPNS, setIsPNS] = useState(roles.includes("PNS"));
@@ -181,15 +183,15 @@ const UpdateSingleUser = () => {
               type="text"
               defaultValue={nip}
             />
-            <FormInput
-              name="position"
-              label="Jabatan"
-              size="input-sm"
-              type="text"
-              defaultValue={position}
-            />
           </>
         ) : null}
+        <FormInput
+          name="position"
+          label="Jabatan"
+          size="input-sm"
+          type="text"
+          defaultValue={position}
+        />
 
         {isPPPK && (
           <SelectInput
@@ -202,13 +204,20 @@ const UpdateSingleUser = () => {
         )}
 
         {isPNS && (
-          <SelectInput
+          <SelectInputPangkatGolongan
             label="Pangkat"
             name="rank"
             list={ranks}
-            defaultValue={pangkat}
+            defaultValue={selectedRanks}
             size="select-sm"
           />
+          // <SelectInput
+          //   label="Pangkat"
+          //   name="rank"
+          //   list={ranks}
+          //   defaultValue={pangkat}
+          //   size="select-sm"
+          // />
         )}
         <FormInput
           name="workUnit"

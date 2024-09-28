@@ -16,7 +16,7 @@ import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { errorHandleForAction } from "../../utils/exception";
 import SelectInputForIdCuti from "./components/SelectInputForIdCuti";
-import { sign } from "../../data";
+import { cutiStatus, sign } from "../../data";
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -25,7 +25,8 @@ export const action =
 
     const user = store.getState().userState.user;
     const tembusan = JSON.parse(data.tembusan);
-
+    const selectStatus = cutiStatus.find((item) => item.name === data.status);
+    data.status = selectStatus.id;
     data.people = tembusan;
     console.log(data);
 
@@ -107,6 +108,9 @@ const CutiUpdate = () => {
   const {
     user: owner,
     kop,
+    workUnit,
+    status,
+    message,
     dateStart,
     dateEnd,
     signedBy,
@@ -151,6 +155,15 @@ const CutiUpdate = () => {
             defaultValue={address || owner.address}
           />
         </div>
+        <div className="col-span-4 md:col-span-2">
+          <FormInput
+            name="workUnit"
+            label="Unit Kerja"
+            size="input-sm"
+            type="text"
+            defaultValue={workUnit}
+          />
+        </div>
         <div className="col-span-4 md:col-span-2 grid md:grid-cols-2 gap-2 grid-cols-1">
           <DateInput
             label="Dari Tanggal"
@@ -176,14 +189,30 @@ const CutiUpdate = () => {
             size="select-sm"
           />
           <SelectInput
-            label="Jababatan"
+            label="Jabatan"
             list={sign}
             defaultValue={mark}
             name="mark"
             size="select-sm"
           />
         </div>
-
+        <div className="col-span-4 md:col-span-2">
+          <SelectInput
+            label="Status"
+            list={cutiStatus}
+            name="status"
+            defaultValue={status}
+            size="select-sm"
+          />
+        </div>
+        <div className="col-span-4">
+          <FormTextArea
+            label="Pesan"
+            name="message"
+            size="textarea-sm"
+            defaultValue={message}
+          />
+        </div>
         <div className="col-span-4 md:col-span-2">
           <FormCheckbox
             defaultChecked={isWa}
@@ -193,6 +222,7 @@ const CutiUpdate = () => {
             onChange={handleCheckboxChange}
           />
         </div>
+
         {isWa && (
           <div className="col-span-4 md:col-span-2">
             <FormInput name="phone" label="Whatsapp" size="input-sm" />

@@ -52,6 +52,7 @@ const Profile = () => {
     avatar,
     status,
     workUnit,
+    jabatan,
   } = user;
 
   const handleExecute = async () => {
@@ -165,6 +166,7 @@ const Profile = () => {
 
           <UnmodifiedField value={address} label="Alamat" />
           <UnmodifiedField value={workUnit} label="Unit kerja" />
+          <UnmodifiedField value={jabatan} label="Jabatan" />
         </div>
         <div className="text-right my-4">
           <button type="submit" className="small-btn btn-primary mb-1">
