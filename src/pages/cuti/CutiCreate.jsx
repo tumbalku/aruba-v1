@@ -1,16 +1,18 @@
 import { Form, redirect, useLoaderData } from "react-router-dom";
 import {
   DateInput,
+  FileInput,
   FormCheckbox,
   FormInput,
+  FormTextArea,
   SelectInput,
   SelectInputForId,
   SubmitButton,
   UserInfoDetail,
 } from "../../components";
 import { toast } from "react-toastify";
-import { customFetch, daysBetween } from "../../utils";
-import { useState } from "react";
+import { calculateDaysBetween, customFetch, daysBetween } from "../../utils";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { sign } from "../../data";
@@ -19,6 +21,8 @@ import { clearChooseUser } from "../../features/user/tempSlice";
 import SelectUser from "../min/SelectUser";
 import { errorHandleForAction } from "../../utils/exception";
 import SelectInputForIdCuti from "./components/SelectInputForIdCuti";
+import LocalPdfPreview from "../documents/LocalPdfPreview";
+import InputNumber from "../../components/input-v2/InputNumber";
 export const action =
   (store) =>
   async ({ request }) => {
@@ -30,7 +34,8 @@ export const action =
     console.log(chooseUser);
     data.people = JSON.parse(data.tembusan);
     data.kopData = JSON.parse(data.kopData || "{}");
-    data.user = chooseUser.id;
+    data.userId = chooseUser.id;
+    data.file = data.file.size !== 0 ? data.file : null;
     console.log(data);
 
     function formatPhoneNumber(phone) {
@@ -78,6 +83,7 @@ export const action =
     try {
       const response = await customFetch.post("/cuti", data, {
         headers: {
+          "Content-Type": "multipart/form-data",
           "X-API-TOKEN": user.token,
         },
       });
@@ -125,9 +131,29 @@ const CutiCreate = () => {
   const [name, setName] = useState("");
   const [tembusan, setTembusan] = useState([]);
   const [isWa, setIsWa] = useState(false);
+  const [file, setFile] = useState(null);
   // const [isCurrentWa, setIsCurrentWa] = useState(false);
+
+  const [dateStart, setDateStart] = useState(date);
+  const [dateEnd, setDateEnd] = useState(date);
+  const [dateBetween, setDateBetween] = useState(1);
+
+  const handleDateChange = (name, value) => {
+    let newDateStart = dateStart;
+    let newDateEnd = dateEnd;
+
+    if (name === "dateStart") {
+      newDateStart = value;
+      setDateStart(value);
+    } else if (name === "dateEnd") {
+      newDateEnd = value;
+      setDateEnd(value);
+    }
+
+    setDateBetween(calculateDaysBetween(newDateStart, newDateEnd));
+  };
+
   const chooseUser = useSelector((state) => state?.tempState?.chooseUser);
-  console.log(chooseUser);
 
   const { kops, pejabat } = useLoaderData();
   console.log(pejabat);
@@ -163,8 +189,21 @@ const CutiCreate = () => {
     setKopData(selectedKop || {});
   };
 
+  const constHandleFileChange = (e) => {
+    const doc = e.target.files[0];
+    setFile(doc);
+  };
+  const [manualDateBetween, setManualDateBetween] = useState(1);
+
+  useEffect(() => {
+    setManualDateBetween(dateBetween);
+  }, [dateBetween]);
+
+  const handleManualChange = (e) => {
+    setManualDateBetween(e.target.value); // Mengizinkan pengguna mengubah nilai secara manual
+  };
   return (
-    <Form method="POST">
+    <Form method="POST" encType="multipart/form-data">
       <div className="grid grid-cols-4 gap-5 ">
         <div className="col-span-4">
           {chooseUser ? (
@@ -201,7 +240,7 @@ const CutiCreate = () => {
         </div>
 
         <div className="col-span-4 md:col-span-2">
-          <FormInput name="number" label="nomor" size="input-sm" />
+          <FormInput name="number" label="nomor cuti" size="input-sm" />
         </div>
         <div className="col-span-4 md:col-span-2">
           <FormInput
@@ -218,22 +257,36 @@ const CutiCreate = () => {
             type="text"
           />
         </div>
-        <div className="col-span-4 md:col-span-2 grid md:grid-cols-2 gap-2 grid-cols-1">
+        <div className="col-span-4 md:col-span-2">
+          <FormTextArea label="Alasan" name="reason" size="textarea-sm" />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <FormTextArea label="Pesan" name="message" size="textarea-sm" />
+        </div>
+        <div className="col-span-4 md:col-span-2 grid md:grid-cols-3 gap-2 grid-cols-1">
           <DateInput
             label="Dari Tanggal"
             name="dateStart"
             size="date-sm"
-            defaultValue={date}
+            value={dateStart}
+            onChange={handleDateChange}
           />
 
           <DateInput
             label="Sampai Tanggal"
             name="dateEnd"
             size="date-sm"
-            defaultValue={date}
+            onChange={handleDateChange}
+            value={dateEnd}
+          />
+          <InputNumber
+            name="total"
+            label="total hari"
+            size="input-sm"
+            value={manualDateBetween}
+            onChange={handleManualChange}
           />
         </div>
-
         <div className="col-span-4 md:col-span-2 grid md:grid-cols-2  gap-2 grid-cols-1">
           <SelectInputForIdCuti
             label="Akan ditandatanganni oleh:"
@@ -248,6 +301,7 @@ const CutiCreate = () => {
             size="select-sm"
           />
         </div>
+
         <div className="col-span-4 md:col-span-2">
           <FormCheckbox
             defaultChecked={isWa}
@@ -323,6 +377,23 @@ const CutiCreate = () => {
           />
         </div>
       </div>
+      <div className="flex justify-center items-center">
+        <FileInput
+          color="file-input-success"
+          size="file-input-sm w-full"
+          label="Pilih File"
+          name="file"
+          onChange={constHandleFileChange}
+        />
+      </div>
+      <div>
+        {file && file.type === "application/pdf" && (
+          <div className="py-5">
+            <LocalPdfPreview file={file} />
+          </div>
+        )}
+      </div>
+
       <div className="text-center md:text-right mt-5">
         <SubmitButton
           disabled={!chooseUser}

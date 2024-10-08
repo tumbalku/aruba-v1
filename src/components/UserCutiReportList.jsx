@@ -1,27 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-  Link,
-  useLoaderData,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import profile from "/image/single.png";
-import {
-  calculateDaysBetween,
-  customFetch,
-  dateToFormat,
-  getImage,
-  translateGender,
-} from "../utils";
+import { customFetch, dateToFormat, getImage } from "../utils";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
-import { toast } from "react-toastify";
 import SectionTitle from "./SectionTitle";
 import { checkCutiStatus } from "../data";
 import StatusBadge from "./StatusBadge";
 import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
 import Swal from "sweetalert2";
+import { errorHandleForFunction } from "../utils/exception";
 
 const UserCutiReportList = () => {
   const navigate = useNavigate();
@@ -119,7 +108,17 @@ const UserCutiReportList = () => {
         {/* ada masalah pada whitespace-nowrap */}
         <tbody className="text-nowrap text-center">
           {cutis.map(
-            ({ dateStart, dateEnd, id, kop, number, status, user: owner }) => {
+            ({
+              dateStart,
+              dateEnd,
+              id,
+              kop,
+              number,
+              status,
+              total,
+              workUnit,
+              user: owner,
+            }) => {
               return (
                 <tr key={id}>
                   <th>{number}</th>
@@ -142,10 +141,12 @@ const UserCutiReportList = () => {
                     </div>
                   </td>
                   <td>{kop.name}</td>
-                  <td className="max-w-52 truncate">{owner.workUnit}</td>
+                  <td className="max-w-52 truncate">
+                    {workUnit || owner.workUnit}
+                  </td>
                   <td>{dateToFormat(dateStart)}</td>
                   <td>{dateToFormat(dateEnd)}</td>
-                  <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                  <td>{total}</td>
                   <td>
                     {status !== "Menunggu" && status !== "Dibatalkan" ? (
                       <StatusBadge
@@ -161,7 +162,9 @@ const UserCutiReportList = () => {
                   <td>
                     <div className="flex justify-evenly gap-1">
                       <Link to={`/cuti/${id}`} className="btn btn-info btn-xs">
-                        <HiOutlineDocumentSearch />
+                        <div className="lg:tooltip" data-tip="Detail">
+                          <HiOutlineDocumentSearch />
+                        </div>
                       </Link>
                       {isAdmin && (
                         <>
@@ -169,14 +172,18 @@ const UserCutiReportList = () => {
                             to={`/cuti/edit/${id}`}
                             className="btn btn-warning btn-xs"
                           >
-                            <AiOutlineEdit />
+                            <div className="lg:tooltip" data-tip="Edit">
+                              <AiOutlineEdit />
+                            </div>
                           </Link>
 
                           <button
                             onClick={() => handleDelete(id)}
                             className="btn btn-error btn-xs"
                           >
-                            <AiOutlineDelete />
+                            <div className="lg:tooltip" data-tip="Hapus">
+                              <AiOutlineDelete />
+                            </div>
                           </button>
                         </>
                       )}

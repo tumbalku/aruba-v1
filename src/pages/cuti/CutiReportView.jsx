@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { calculateDaysBetween, customFetch, dateToFormat } from "../../utils";
+import { useEffect, useRef, useState } from "react";
+import { customFetch, dateToFormat } from "../../utils";
 import { checkCutiStatus } from "../../data";
 import { StatusBadge } from "../../components";
 import CutiStatusBadge from "./components/CutiStatusBadge";
@@ -81,6 +81,7 @@ const CutiReportView = () => {
                   kop,
                   number,
                   status,
+                  total,
                   user: owner,
                 }) => {
                   return (
@@ -100,10 +101,10 @@ const CutiReportView = () => {
                         <CutiStatusBadge status={status} />
                       </td>
                       <td className="max-w-52 truncate">{owner.workUnit}</td>
-                      <th>{number}</th>
+                      <th>{number ? number : "-"}</th>
                       <td>{dateToFormat(dateStart)}</td>
                       <td>{dateToFormat(dateEnd)}</td>
-                      <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                      <td>{total}</td>
                     </tr>
                   );
                 }

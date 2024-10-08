@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import {
   convertDateArrayToString,
@@ -103,7 +102,7 @@ const SipDetail = () => {
 
   const handleDownload = async (id, name) => {
     try {
-      const response = await customFetch.get(`sip/download/${id}`, {
+      const response = await customFetch.get(`file/download/${id}`, {
         responseType: "blob",
       });
       console.log(response);

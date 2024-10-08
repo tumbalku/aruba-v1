@@ -1,10 +1,8 @@
-# saat di print detail cutinya (unit kerja belum sesuai) dan kartu kontrol
+# ! mycuti create belum bisa untuk dioperasikan (periska service di intelij dan vscode)
 
 # belum ada user detail untuk melihat detail info
 
 # buat wa message setiap perubahan (cuti update, cuti ...)
-
-# check wa, perubahan typo yang diinginkan
 
 # tambahkan sertifika cuti berupa halaman website
 
@@ -16,6 +14,17 @@
 
 ###########
 #complete
+
+# check wa, perubahan typo yang diinginkan
+
+# saat di print detail cutinya (unit kerja belum sesuai) dan kartu kontrol
+
+# ! perbaiki laporan pada cuti izin, (reason dan unit kerjanya berlum terbaca) dan juga total harinya
+
+# ! tambahkan margin top untuk print laporan cuti tahunan pdfnya
+
+# ! saat di print cutinya, total harinya belum menyesuaikan tengan total, masih mengikuti calcluate date between
+
 #! rapihkan beberapa baris paragraf di laporan detail cuti
 #! tambahkan laporan cuti berupa pdf
 #! buat penkondisian, bahwa user tidak bisa mengajuka 2 kali cuti, apabila masa berlakunya belum selesai (cuti service)

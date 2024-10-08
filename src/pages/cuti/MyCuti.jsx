@@ -2,9 +2,8 @@ import CutiList from "../../components/CutiList";
 import { customFetch } from "../../utils";
 import {
   errorHandleForAction,
-  errorHandleForFunction,
 } from "../../utils/exception";
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { MdPostAdd } from "react-icons/md";
 import { GrPrint } from "react-icons/gr";
 import { useSelector } from "react-redux";
@@ -67,6 +66,7 @@ const MyCuti = () => {
     }
   };
   const { cutis } = useLoaderData();
+  console.log(cutis);
   return (
     <div>
       <div className="flex justify-center mb-5 gap-4">

@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { arrayToDate, customFetch } from "../../utils";
 import { errorHandleForAction } from "../../utils/exception";
 import { toast } from "react-toastify";
 import { Form, redirect, useLoaderData } from "react-router-dom";
 import {
-  DateInput,
   FormCheckbox,
   FormInput,
   FormTextArea,
   SelectInput,
-  SelectInputForId,
   SubmitButton,
   UserInfoDetail,
 } from "../../components";
@@ -17,6 +15,8 @@ import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
 import { cutiStatus, sign } from "../../data";
 import SelectInputForIdCuti from "./components/SelectInputForIdCuti";
+import FetchPdfPreview from "../documents/FetchPdfPreview";
+import InputNumber from "../../components/input-v2/InputNumber";
 export const loader =
   (store) =>
   async ({ params }) => {
@@ -117,11 +117,20 @@ const CutiDecision = () => {
     mark,
     number,
     address,
+    message,
     reason,
     status,
+    workUnit,
+    total,
+    document,
   } = cuti;
   console.log(cuti);
 
+  const [manualDateBetween, setManualDateBetween] = useState(total);
+
+  const handleManualChange = (e) => {
+    setManualDateBetween(e.target.value);
+  };
   return (
     <div>
       <Form method="POST">
@@ -133,14 +142,13 @@ const CutiDecision = () => {
             </div>
           </div>
           <div className="col-span-4">
-            <FormTextArea
-              label="Alasan Mengajuka Cuti"
-              name="reason"
-              size="textarea-sm"
-              defaultValue={reason}
-              disabled
-            />
+            {document && (
+              <div className="py-5">
+                <FetchPdfPreview fileId={document} />
+              </div>
+            )}
           </div>
+
           <div className="col-span-4 md:col-span-2">
             <FormInput
               name="kop"
@@ -150,7 +158,14 @@ const CutiDecision = () => {
               disabled
             />
           </div>
-
+          <div className="col-span-4 md:col-span-2">
+            <FormInput
+              name="number"
+              label="nomor"
+              size="input-sm"
+              defaultValue={number}
+            />
+          </div>
           <div className="col-span-4 md:col-span-2">
             <FormInput
               name="address"
@@ -162,14 +177,39 @@ const CutiDecision = () => {
           </div>
           <div className="col-span-4 md:col-span-2">
             <FormInput
+              name="workUnit"
+              label="Unit Kerja"
+              size="input-sm"
+              type="text"
+              defaultValue={workUnit}
+            />
+          </div>
+
+          <div className="col-span-4 md:col-span-2">
+            <FormTextArea
+              label="Alasan"
+              name="reason"
+              defaultValue={reason}
+              size="textarea-sm"
+              disabled
+            />
+          </div>
+          <div className="col-span-4 md:col-span-2">
+            <FormTextArea
+              label="Pesan"
+              name="message"
+              size="textarea-sm"
+              defaultValue={message}
+            />
+          </div>
+          <div className="col-span-4 md:col-span-2 grid md:grid-cols-3 gap-2 grid-cols-1">
+            <FormInput
               label="Dari Tanggal"
               name="dateStart"
               size="input-sm"
               defaultValue={arrayToDate(dateStart)}
               disabled
             />
-          </div>
-          <div className="col-span-4 md:col-span-2">
             <FormInput
               label="Sampai Tanggal"
               name="dateEnd"
@@ -177,18 +217,15 @@ const CutiDecision = () => {
               defaultValue={arrayToDate(dateEnd)}
               disabled
             />
-          </div>
-          <div className="col-span-4">
-            <FormTextArea label="Pesan" name="message" size="textarea-sm" />
-          </div>
-          <div className="col-span-4 md:col-span-2">
-            <FormInput
-              name="number"
-              label="nomor"
+            <InputNumber
+              name="total"
+              label="total hari"
               size="input-sm"
-              defaultValue={number}
+              value={manualDateBetween}
+              onChange={handleManualChange}
             />
           </div>
+
           <div className="col-span-4 md:col-span-2 grid md:grid-cols-2  gap-2 grid-cols-1">
             <SelectInputForIdCuti
               label="Akan ditandatanganni oleh:"
@@ -205,8 +242,7 @@ const CutiDecision = () => {
               size="select-sm"
             />
           </div>
-
-          <div className="col-span-4 md:col-span-2">
+          <div className="col-span-4">
             <SelectInput
               label="Status"
               list={cutiStatus}

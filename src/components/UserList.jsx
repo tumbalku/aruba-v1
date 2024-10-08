@@ -106,7 +106,7 @@ const UserList = () => {
 
   return (
     <div className="overflow-x-auto mt-8">
-      <table className="table">
+      <table className="table table-xs">
         {/* head */}
         <thead>
           <tr className="text-center">
@@ -166,23 +166,29 @@ const UserList = () => {
                   </td>
                   <td>
                     <div className="flex justify-evenly gap-1">
-                      <Link to={`${id}`} className="btn btn-info btn-sm">
-                        <HiOutlineDocumentSearch />
+                      <Link to={`${id}`} className="btn btn-info btn-xs">
+                        <div className="lg:tooltip" data-tip="Detail">
+                          <HiOutlineDocumentSearch />
+                        </div>
                       </Link>
                       {isAdmin && (
                         <>
                           <Link
                             to={`edit/${id}`}
-                            className="btn btn-warning btn-sm"
+                            className="btn btn-warning btn-xs"
                           >
-                            <AiOutlineEdit />
+                            <div className="lg:tooltip" data-tip="Edit">
+                              <AiOutlineEdit />
+                            </div>
                           </Link>
 
                           <button
                             onClick={() => handleDelete(id)}
-                            className="btn btn-error btn-sm"
+                            className="btn btn-error btn-xs"
                           >
-                            <AiOutlineDelete />
+                            <div className="lg:tooltip" data-tip="Hapus">
+                              <AiOutlineDelete />
+                            </div>
                           </button>
                         </>
                       )}

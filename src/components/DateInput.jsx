@@ -1,6 +1,10 @@
-import React from "react";
+const DateInput = ({ label, name, defaultValue, value, size, onChange }) => {
+  const handleChange = (e) => {
+    if (onChange) {
+      onChange(name, e.target.value); // Memastikan onChange hanya dipanggil jika ada
+    }
+  };
 
-const DateInput = ({ label, name, defaultValue, size }) => {
   return (
     <div className="form-control">
       <label className="label">
@@ -11,6 +15,8 @@ const DateInput = ({ label, name, defaultValue, size }) => {
         name={name}
         className={`w-full p-1 rounded-lg ${size}`}
         defaultValue={defaultValue}
+        value={value}
+        onChange={handleChange}
       />
     </div>
   );

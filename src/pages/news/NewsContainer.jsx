@@ -36,9 +36,11 @@ const NewsContainer = () => {
           <div className="flex justify-center items-center">
             <Link
               to="/news/create"
-              className="rounded-full btn w-20 h-20 btn-primary flex justify-center items-center"
+              className="rounded-full btn w-20 h-20 btn-primary flex justify-center items-center "
             >
-              <MdPostAdd className=" w-20 h-20" />
+              <div className="lg:tooltip" data-tip="Tambah info">
+                <MdPostAdd className=" w-12 h-12" />
+              </div>
             </Link>
           </div>
         )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
 import { redirect } from "react-router-dom";
@@ -14,6 +14,7 @@ import { errorHandleForAction } from "../../utils/exception";
 import { useDispatch, useSelector } from "react-redux";
 import { clearChooseUser } from "../../features/user/tempSlice";
 import SelectUser from "../min/SelectUser";
+import LocalPdfPreview from "../documents/LocalPdfPreview";
 
 export const action =
   (store) =>
@@ -116,6 +117,11 @@ const SipUpload = () => {
             onChange={handleInputChange}
           />
         </div>
+        {form.file && form.file.type === "application/pdf" && (
+          <div className="py-5">
+            <LocalPdfPreview file={form.file} />
+          </div>
+        )}
         <div className="text-right mt-5">
           <SubmitButton
             color="btn-primary btn-sm btn"

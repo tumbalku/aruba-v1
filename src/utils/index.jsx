@@ -46,18 +46,56 @@ export function daysBetween(dateStart, dateEnd) {
   return diffInDays;
 }
 
+// export function calculateDaysBetween(startArray, endArray) {
+//   console.log("utils/index.js => calculateDaysBetween");
+//   // Konversi array menjadi objek moment dengan memperbaiki bulan (bulan dimulai dari 0)
+
+//   if (typeof startArray === "string") {
+//     startArray = startArray.split("-").map(Number);
+//   }
+//   if (typeof endArray === "string") {
+//     endArray = endArray.split("-").map(Number);
+//   }
+
+//   const startDate = moment([startArray[0], startArray[1] - 1, startArray[2]]);
+//   const endDate = moment([endArray[0], endArray[1] - 1, endArray[2]]);
+
+//   // Menghitung selisih hari antara dua tanggal
+//   return endDate.diff(startDate, "days") + 1;
+// }
+
 export function calculateDaysBetween(startArray, endArray) {
   console.log("utils/index.js => calculateDaysBetween");
+
   // Konversi array menjadi objek moment dengan memperbaiki bulan (bulan dimulai dari 0)
+  if (typeof startArray === "string") {
+    startArray = startArray.split("-").map(Number);
+  }
+  if (typeof endArray === "string") {
+    endArray = endArray.split("-").map(Number);
+  }
+
   const startDate = moment([startArray[0], startArray[1] - 1, startArray[2]]);
   const endDate = moment([endArray[0], endArray[1] - 1, endArray[2]]);
 
-  // Menghitung selisih hari antara dua tanggal
-  return endDate.diff(startDate, "days") + 1;
+  let totalDays = 0;
+
+  // Loop dari tanggal mulai hingga tanggal akhir
+  let currentDate = startDate.clone();
+  while (currentDate.isSameOrBefore(endDate)) {
+    // Jika hari ini bukan Sabtu (6) atau Minggu (0), tambahkan ke totalDays
+    const dayOfWeek = currentDate.day();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+      totalDays++;
+    }
+    // Tambah hari
+    currentDate.add(1, "day");
+  }
+
+  return totalDays;
 }
 
 const prodURL = import.meta.env.VITE_SPRING_API_URL;
-const devURL = "http://localhost:8080/api/v1";
 
 export const getImage = async (imageName) => {
   try {

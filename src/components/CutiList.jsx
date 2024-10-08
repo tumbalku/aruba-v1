@@ -1,12 +1,8 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
 import StatusBadge from "./StatusBadge";
-import { calculateDaysBetween, customFetch, dateToFormat } from "../utils";
-import { toast } from "react-toastify";
+import { dateToFormat } from "../utils";
 import SectionTitle from "./SectionTitle";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 import { checkCutiStatus } from "../data";
 import CutiStatusBadge from "../pages/cuti/components/CutiStatusBadge";
 
@@ -35,16 +31,17 @@ const CutiList = () => {
           <tbody className="text-nowrap ">
             {cutis.length > 0 &&
               cutis.map((cuti) => {
-                const { id, kop, status, dateStart, dateEnd, number } = cuti;
+                const { id, kop, status, dateStart, dateEnd, number, total } =
+                  cuti;
 
                 const type = kop.name;
                 return (
                   <tr key={id}>
-                    <th>{number}</th>
+                    <th>{number ? number : "-"}</th>
                     <td>{type}</td>
                     <td>{dateToFormat(dateStart)}</td>
                     <td>{dateToFormat(dateEnd)}</td>
-                    <td>{calculateDaysBetween(dateStart, dateEnd)}</td>
+                    <td>{total}</td>
                     <td>
                       {status !== "Menunggu" && status !== "Dibatalkan" ? (
                         <StatusBadge
@@ -58,13 +55,15 @@ const CutiList = () => {
                       <CutiStatusBadge status={status} />
                     </td>
                     <td className="flex space-x-2 justify-center">
-                      {status !== "Menunggu" && (
+                      {status !== "Menunggu" ? (
                         <Link
                           to={`/my-cuti/${id}`}
                           className="btn btn-outline btn-sm btn-info"
                         >
                           <HiOutlineDocumentSearch />
                         </Link>
+                      ) : (
+                        "-"
                       )}
                     </td>
                   </tr>

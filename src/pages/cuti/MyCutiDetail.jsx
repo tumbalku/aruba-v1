@@ -68,6 +68,7 @@ const MyCutiDetail = () => {
       }, 1 * 60 * 1000); // 5 menit
     }
   };
+
   return (
     <div className="w-full bg-base-300 p-4">
       {cuti.status === "Disetujui" && (

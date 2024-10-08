@@ -1,5 +1,3 @@
-import React from "react";
-import TitleSection from "../../components/TitleSection";
 import CutiReportView from "./CutiReportView";
 import { Link } from "react-router-dom";
 import Kop from "../report/Kop";

@@ -1,6 +1,7 @@
-import { Form, redirect, useLoaderData } from "react-router-dom";
+import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import {
   DateInput,
+  FileInput,
   FormCheckbox,
   FormInput,
   FormTextArea,
@@ -10,13 +11,20 @@ import {
   UserInfoDetail,
 } from "../../components";
 import { toast } from "react-toastify";
-import { arrayToDate, customFetch, isAuthenticate } from "../../utils";
-import { useState } from "react";
+import { arrayToDate, calculateDaysBetween, customFetch } from "../../utils";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { AiOutlineDelete } from "react-icons/ai";
-import { errorHandleForAction } from "../../utils/exception";
+import {
+  errorHandleForAction,
+  errorHandleForFunction,
+} from "../../utils/exception";
 import SelectInputForIdCuti from "./components/SelectInputForIdCuti";
 import { cutiStatus, sign } from "../../data";
+import InputNumber from "../../components/input-v2/InputNumber";
+import FetchPdfPreview from "../documents/FetchPdfPreview";
+import LocalPdfPreview from "../documents/LocalPdfPreview";
+import { useSelector } from "react-redux";
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -29,11 +37,12 @@ export const action =
     data.status = selectStatus.id;
     data.people = tembusan;
     console.log(data);
-
+    data.userId = data.user;
     console.log(params);
     try {
       const response = await customFetch.patch(`/cuti/${params.id}`, data, {
         headers: {
+          "Content-Type": "multipart/form-data",
           "X-API-TOKEN": user.token,
         },
       });
@@ -42,6 +51,7 @@ export const action =
       // window.open(urlToWa, "_blank");
       return redirect("/cuti/report");
     } catch (error) {
+      console.log(error);
       return errorHandleForAction(error, "toastify");
     }
   };
@@ -84,6 +94,9 @@ const CutiUpdate = () => {
   const [isWa, setIsWa] = useState(false);
   const { kops, cuti, pejabat } = useLoaderData();
   const [tembusan, setTembusan] = useState(cuti.people);
+  const { token } = useSelector((state) => state.userState.user);
+  console.log(token);
+  const navigate = useNavigate();
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -115,18 +128,105 @@ const CutiUpdate = () => {
     dateEnd,
     signedBy,
     mark,
+    total,
     number,
+    reason,
     address,
+    document,
   } = cuti;
 
+  const [startDate, setDateStart] = useState(arrayToDate(dateStart));
+  const [endDate, setDateEnd] = useState(arrayToDate(dateEnd));
+  const [dateBetween, setDateBetween] = useState(total);
+
+  const handleDateChange = (name, value) => {
+    let newDateStart = startDate;
+    let newDateEnd = endDate;
+
+    if (name === "dateStart") {
+      newDateStart = value;
+      setDateStart(value);
+    } else if (name === "dateEnd") {
+      newDateEnd = value;
+      setDateEnd(value);
+    }
+
+    setDateBetween(calculateDaysBetween(newDateStart, newDateEnd));
+  };
+  const [manualDateBetween, setManualDateBetween] = useState(total);
+
+  useEffect(() => {
+    setManualDateBetween(dateBetween);
+  }, [dateBetween]);
+
+  const handleManualChange = (e) => {
+    setManualDateBetween(e.target.value);
+  };
+
+  const [file, setFile] = useState(null);
+  const constHandleFileChange = (e) => {
+    const doc = e.target.files[0];
+    setFile(doc);
+  };
+
+  const [fileDoc, setFileDoc] = useState(document);
+  async function handleFileRemove(path) {
+    try {
+      const response = await customFetch.delete(`/cuti/remove/doc/${cuti.id}`, {
+        headers: {
+          "X-API-TOKEN": `${token}`,
+        },
+        data: { path: path },
+      });
+      toast.success(response.data.message);
+      setFileDoc(null);
+    } catch (error) {
+      errorHandleForFunction(error, navigate, "toastify");
+    }
+  }
   return (
-    <Form method="POST">
+    <Form method="POST" encType="multipart/form-data">
       <div className="grid grid-cols-4 gap-5 ">
         <div className="col-span-4">
           <div className="grid place-items-center ">
             <UserInfoDetail {...owner} />
             <input type="hidden" name="user" value={owner.id} />
           </div>
+        </div>
+        <div className="col-span-4">
+          {fileDoc ? (
+            <div className="py-5">
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => handleFileRemove(fileDoc)}
+                >
+                  Hapus File
+                </button>
+              </div>
+              <FetchPdfPreview fileId={fileDoc} />
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-center items-center">
+                <FileInput
+                  color="file-input-success"
+                  size="file-input-sm w-full"
+                  label="Pilih File"
+                  name="file"
+                  onChange={constHandleFileChange}
+                />
+              </div>
+              <div>
+                {file && file.type === "application/pdf" && (
+                  <div className="py-5">
+                    <LocalPdfPreview file={file} />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="col-span-4 md:col-span-2">
@@ -142,7 +242,7 @@ const CutiUpdate = () => {
         <div className="col-span-4 md:col-span-2">
           <FormInput
             name="number"
-            label="nomor"
+            label="nomor cuti"
             size="input-sm"
             defaultValue={number}
           />
@@ -164,19 +264,46 @@ const CutiUpdate = () => {
             defaultValue={workUnit}
           />
         </div>
-        <div className="col-span-4 md:col-span-2 grid md:grid-cols-2 gap-2 grid-cols-1">
+        <div className="col-span-4 md:col-span-2">
+          <FormTextArea
+            label="Alasan"
+            name="reason"
+            defaultValue={reason}
+            size="textarea-sm"
+            disabled
+          />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <FormTextArea
+            label="Pesan"
+            name="message"
+            size="textarea-sm"
+            defaultValue={message}
+          />
+        </div>
+
+        <div className="col-span-4 md:col-span-2 grid md:grid-cols-3 gap-2 grid-cols-1">
           <DateInput
             label="Dari Tanggal"
             name="dateStart"
             size="date-sm"
-            defaultValue={arrayToDate(dateStart)}
+            value={startDate}
+            onChange={handleDateChange}
           />
 
           <DateInput
             label="Sampai Tanggal"
             name="dateEnd"
             size="date-sm"
-            defaultValue={arrayToDate(dateEnd)}
+            onChange={handleDateChange}
+            value={endDate}
+          />
+          <InputNumber
+            name="total"
+            label="total hari"
+            size="input-sm"
+            value={manualDateBetween}
+            onChange={handleManualChange}
           />
         </div>
 
@@ -196,7 +323,7 @@ const CutiUpdate = () => {
             size="select-sm"
           />
         </div>
-        <div className="col-span-4 md:col-span-2">
+        <div className="col-span-4">
           <SelectInput
             label="Status"
             list={cutiStatus}
@@ -205,14 +332,7 @@ const CutiUpdate = () => {
             size="select-sm"
           />
         </div>
-        <div className="col-span-4">
-          <FormTextArea
-            label="Pesan"
-            name="message"
-            size="textarea-sm"
-            defaultValue={message}
-          />
-        </div>
+
         <div className="col-span-4 md:col-span-2">
           <FormCheckbox
             defaultChecked={isWa}

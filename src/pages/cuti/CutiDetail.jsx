@@ -1,20 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaFilePdf } from "react-icons/fa6";
-import {
-  convertDateArrayToString,
-  customFetch,
-  translateGender,
-} from "../../utils";
+import { convertDateArrayToString, customFetch } from "../../utils";
 import { useLoaderData } from "react-router-dom";
-import {
-  FormInput,
-  FormTextArea,
-  PrevLinks,
-  StatusBadge,
-  UserInfoDetail,
-} from "../../components";
+import { FormInput, UserInfoDetail } from "../../components";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import FetchPdfPreview from "../documents/FetchPdfPreview";
 
 export const loader = async ({ params }) => {
   try {
@@ -30,15 +21,20 @@ const CutiDetail = () => {
   const { cutiDetail } = useLoaderData();
   console.log(cutiDetail);
   const { user } = useSelector((state) => state.userState);
-
-  const { dateStart, dateEnd, id, kop, number, user: owner } = cutiDetail;
-
+  const {
+    dateStart,
+    dateEnd,
+    id,
+    kop,
+    document: file,
+    user: owner,
+  } = cutiDetail;
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleDownload = async () => {
     setIsDisabled(true);
     try {
-      const response = await customFetch(`/cuti/download/${id}`, {
+      const response = await customFetch.get(`/cuti/download/${id}`, {
         responseType: "blob",
         headers: {
           "X-API-TOKEN": user.token,
@@ -75,6 +71,7 @@ const CutiDetail = () => {
       <div className="flex md:justify-end">
         <button
           className="btn btn-outline btn-secondary btn-sm"
+          type="button"
           onClick={handleDownload}
           disabled={isDisabled}
         >
@@ -116,6 +113,11 @@ const CutiDetail = () => {
           </div>
         </div>
       </div>
+      {file && (
+        <div className="py-5">
+          <FetchPdfPreview fileId={file} />
+        </div>
+      )}
     </>
   );
 };

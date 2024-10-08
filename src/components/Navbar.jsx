@@ -1,4 +1,4 @@
-import { BsCart3, BsMoonFill, BsSunFill } from "react-icons/bs";
+import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import NavLinks from "./NavLinks";
@@ -36,7 +36,7 @@ const Navbar = () => {
   // function
   const handleLogout = async () => {
     try {
-      const response = await customFetch.delete("/auth/logout", {
+      await customFetch.delete("/auth/logout", {
         headers: {
           "X-API-TOKEN": user.token,
         },
