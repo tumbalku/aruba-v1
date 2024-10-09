@@ -20,14 +20,13 @@ const LocalPdfPreview = ({ file }) => {
 
   return (
     <div>
-      {pdfUrl && (
-        <embed
-          src={pdfUrl}
-          type="application/pdf"
-          width="100%"
-          height="600px"
-        />
-      )}
+      <iframe
+        src={pdfUrl}
+        type="application/pdf"
+        width="100%"
+        height="600px"
+        title="PDF Preview"
+      />
     </div>
   );
 };
