@@ -196,3 +196,21 @@ export const isAuthenticate = (user) => {
   }
   return true;
 };
+
+//  animated
+export function animateCounter(start, end, duration, setCount) {
+  return new Promise((resolve) => {
+    const stepTime = Math.abs(Math.floor(duration / (end - start))); // waktu per langkah
+    let current = start;
+
+    const timer = setInterval(() => {
+      if (current >= end) {
+        clearInterval(timer); // Hentikan interval saat mencapai batas akhir
+        resolve(current); // Selesaikan promise
+      } else {
+        current += 1;
+        setCount(current); // Perbarui count pada setiap iterasi
+      }
+    }, stepTime);
+  });
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   convertLocalDateTimeToDate,
   customFetch,
@@ -95,7 +95,7 @@ const PostList = () => {
           {/* head */}
           <thead>
             <tr>
-              <th></th>
+              <th>Pin</th>
               <th>Title</th>
               <th>CreatedBy</th>
               <th>CreatedAt</th>

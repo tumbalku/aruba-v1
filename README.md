@@ -1,4 +1,4 @@
-# ! mycuti create belum bisa untuk dioperasikan (periska service di intelij dan vscode)
+# ! Document
 
 # belum ada user detail untuk melihat detail info
 
@@ -14,6 +14,8 @@
 
 ###########
 #complete
+
+# ! mycuti create belum bisa untuk dioperasikan (periska service di intelij dan vscode)
 
 # check wa, perubahan typo yang diinginkan
 

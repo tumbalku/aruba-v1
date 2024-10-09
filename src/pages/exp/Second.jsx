@@ -1,41 +1,24 @@
-import { useEffect, useState } from "react";
-import { customFetch } from "../../utils";
+import React, { useState, useEffect } from "react";
+import { animateCounter } from "../../utils";
 
-const Second = () => {
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const fileId = "335231d6-4f5a-45d0-a1cb-20b60f047a24";
+function Second() {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const fetchPDF = async () => {
-      try {
-        const response = await customFetch.get(`/sip/pdf/${fileId}`, {
-          responseType: "blob", // meminta respons dalam bentuk blob
-        });
-
-        const url = URL.createObjectURL(response.data); // buat URL dari blob
-        setPdfUrl(url); // simpan URL ke state
-      } catch (error) {
-        console.error("Error fetching PDF:", error);
-      }
+    const runCounter = async () => {
+      await animateCounter(0, 100, 5000, setCount); // Hitung dengan durasi 5 detik
     };
 
-    fetchPDF();
-  }, [fileId]);
+    runCounter(); // Jalankan animasi saat komponen dimount
+  }, []);
+
+  console.log("hola");
 
   return (
     <div>
-      {pdfUrl ? (
-        <embed
-          src={pdfUrl}
-          type="application/pdf"
-          width="100%"
-          height="600px"
-        />
-      ) : (
-        <p>Loading PDF...</p>
-      )}
+      <h1>Hitungan: {count}</h1>
     </div>
   );
-};
+}
 
 export default Second;

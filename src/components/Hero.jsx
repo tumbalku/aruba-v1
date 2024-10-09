@@ -5,7 +5,6 @@ import hero3 from "/image/hero3.jpg";
 import hero4 from "/image/hero4.jpg";
 const carouselImageList = [hero1, hero2, hero4, hero3];
 import CarouseView from "../pages/report/CarouseView";
-import Carousel from "./Carousel";
 
 const Hero = () => {
   return (
@@ -30,19 +29,6 @@ const Hero = () => {
       </div>
 
       <CarouseView />
-      {/* <Carousel carouselImageList={carouselImageList} /> */}
-      {/* <div className="hidden h-[28rem] lg:carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">
-        {carouselImageList.map((image) => {
-          return (
-            <div key={image} className="carousel-item">
-              <img
-                src={image}
-                className="object-cover rounded-box h-full w-80"
-              />
-            </div>
-          );
-        })}
-      </div> */}
     </div>
   );
 };
