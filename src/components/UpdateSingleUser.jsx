@@ -38,7 +38,6 @@ const UpdateSingleUser = () => {
   const selectedGender = genders.find((item) => item.desc === gender);
   const selectedRanks = ranks.find((item) => item.name === pangkat);
 
-  console.log(userDetail);
   const [isPNS, setIsPNS] = useState(roles.includes("PNS"));
   const [isPPPK, setIsPPPK] = useState(roles.includes("PPPK"));
 
@@ -208,7 +207,7 @@ const UpdateSingleUser = () => {
             label="Pangkat"
             name="rank"
             list={ranks}
-            defaultValue={selectedRanks}
+            defaultValue={selectedRanks.name}
             size="select-sm"
           />
           // <SelectInput

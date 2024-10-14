@@ -8,7 +8,7 @@ const links = [
   { id: 4, url: "posts", text: "post", role: "ADMIN" },
   { id: 5, url: "about", text: "tentang" },
   { id: 6, url: "users", text: "pengguna", role: "ADMIN" },
-  // { id: 7, url: "documents", text: "Dokumen" },
+  { id: 7, url: "documents", text: "Dokumen" },
 ];
 
 const NavLinks = () => {

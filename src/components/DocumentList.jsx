@@ -5,7 +5,6 @@ import {
   formatFileSize,
 } from "../utils";
 import { FaRegEye } from "react-icons/fa";
-import { LuUpload } from "react-icons/lu";
 import { fileTypeIcons } from "../data";
 import { GoDownload } from "react-icons/go";
 import { useSelector } from "react-redux";
@@ -20,9 +19,10 @@ const DocumentList = () => {
     isADMIN = roles.includes("ADMIN");
   }
   const { documents } = useLoaderData();
-  const handleDownload = async (id, name) => {
+  console.log(documents);
+  const handleDownload = async (path, name) => {
     try {
-      const response = await customFetch.get(`letter/download/${id}`, {
+      const response = await customFetch.get(`/file/download/${path}`, {
         responseType: "blob",
       });
 
@@ -47,74 +47,64 @@ const DocumentList = () => {
 
   return (
     <div>
-      {documents.map(({ id, size, fileType, name, uploadedAt, expiredAt }) => (
-        <div
-          key={id}
-          className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
-        >
-          <div className="flex justify-items-center items-center">
-            {fileType ? (
-              <img
-                src={fileTypeIcons[fileType].url}
-                alt={name}
-                className="w-24 h-24"
-              />
-            ) : (
-              <img src={noFile} alt={name} className="w-24 h-24" />
-            )}
+      {documents.map(
+        ({ id, size, type, name, uploadedAt, description, path }) => (
+          <div
+            key={id}
+            className="mt-8 flex justify-items-center items-center justify-between gap-5 mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
+          >
+            <div className="flex justify-items-center items-center">
+              {type ? (
+                <img
+                  src={fileTypeIcons[type].url}
+                  alt={name}
+                  className="w-24 h-24"
+                />
+              ) : (
+                <img src={noFile} alt={name} className="w-24 h-24" />
+              )}
 
-            <div className="ml-2 md:ml-5 md:w-72 w-full ">
-              <p className="font-semibold truncate text-xs sm:text-base">
-                {name}
-              </p>
-
-              {size ? (
-                <p className="mb-5 font-semibold badge badge-primary badge-xs md:badge-sm">
-                  {formatFileSize(size)}
+              <div className="ml-2 md:ml-5 w-full flex flex-col gap-1">
+                <p className="font-semibold line-clamp-2 md:line-clamp-1 text-xs sm:text-base">
+                  {name}
                 </p>
-              ) : null}
 
-              <div className="hidden md:flex gap-2 flex-col mt-2">
-                {expiredAt && (
-                  <p className="text-xs opacity-70">
-                    Expried At: {convertDateArrayToString(expiredAt)}
+                {size ? (
+                  <p className="font-semibold badge badge-primary badge-xs md:badge-sm">
+                    {formatFileSize(size)}
+                  </p>
+                ) : null}
+
+                {description && (
+                  <p className="text-xs opacity-70 line-clamp-5 md:line-clamp-none">
+                    {description}
                   </p>
                 )}
 
-                <p className="text-xs opacity-70">
-                  Created At: {convertDateArrayToString(uploadedAt)}
+                <p className="text-[9px] md:text-xs opacity-70">
+                  Di buat: {convertDateArrayToString(uploadedAt)}
                 </p>
               </div>
             </div>
-          </div>
-          {fileType && (
-            <div className="hidden sm:flex justify-items-center items-center">
-              <p className="text-xs font-semibold badge badge-ghost opacity-70">
-                Type: {fileTypeIcons[fileType].docType}
-              </p>
-              <p className="text-xs font-semibold badge badge-ghost opacity-70">
-                Raw Size: {size} bytes
-              </p>
-            </div>
-          )}
 
-          <div className="mr-2 sm:mr-5 -mt-16">
-            {!isADMIN ? (
-              <button
-                className="btn btn-xs btn-success"
-                onClick={() => handleDownload(id, name)}
-              >
-                <GoDownload />
-                <span className="hidden md:flex">Download</span>
-              </button>
-            ) : (
-              <Link to={`/documents/${id}`} className="btn btn-xs btn-ghost">
-                <FaRegEye className="opacity-70 hover:opacity-100 transition duration-200 w-5 h-5" />
-              </Link>
-            )}
+            <div className="mr-2 sm:mr-5 -mt-16">
+              {!isADMIN ? (
+                <button
+                  className="btn btn-xs btn-success flex flex-row items-center space-x-1 flex-nowrap"
+                  onClick={() => handleDownload(path, name)}
+                >
+                  <GoDownload />
+                  <span className="hidden md:flex">Download</span>
+                </button>
+              ) : (
+                <Link to={`/documents/${id}`} className="btn btn-xs btn-ghost">
+                  <FaRegEye className="opacity-70 hover:opacity-100 transition duration-200 w-5 h-5" />
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 };

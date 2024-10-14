@@ -9,6 +9,7 @@ const CutiReportViewScroll = () => {
         <Kop />
       </div>
       <CutiReportView />
+
       <div className="flex justify-end my-10">
         <Link to="/" className="btn btn-primary btn-xs">
           Kembali

@@ -53,8 +53,6 @@ export const action =
         phone,
         address,
         email,
-        golongan,
-        jenisKelamin,
         rank,
         nip,
         position,

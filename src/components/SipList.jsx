@@ -51,7 +51,10 @@ const SipList = () => {
           key={id}
           className="mt-8 flex justify-items-center items-center justify-between mb-6 bg-base-200 rounded-md py-4 pl-4 hover:shadow-xl transition duration-500"
         >
-          <div className="flex justify-items-center items-center  overflow-hidden">
+          <Link
+            to={`/sip/${id}`}
+            className="flex justify-items-center items-center overflow-hidden"
+          >
             {fileType ? (
               <img
                 src={fileTypeIcons[fileType].url}
@@ -73,19 +76,19 @@ const SipList = () => {
                 </p>
               )}
 
-              <div className="hidden md:flex gap-2 flex-col mt-2">
+              <div className="hidden md:flex gap-2 flex-col">
                 {expiredAt && (
-                  <p className="text-xs opacity-70">
+                  <p className="text-[9px] md:text-xs opacity-70">
                     Expried At: {convertDateArrayToString(expiredAt)}
                   </p>
                 )}
 
-                <p className="text-xs opacity-70">
+                <p className="text-[9px] md:text-xs opacity-70">
                   Created At: {convertDateArrayToString(uploadedAt)}
                 </p>
               </div>
             </div>
-          </div>
+          </Link>
           {fileType && (
             <div className="hidden sm:flex justify-items-center items-center">
               <p className="text-xs font-semibold badge badge-ghost opacity-70">

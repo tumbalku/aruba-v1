@@ -25,6 +25,7 @@ import InputNumber from "../../components/input-v2/InputNumber";
 import FetchPdfPreview from "../documents/FetchPdfPreview";
 import LocalPdfPreview from "../documents/LocalPdfPreview";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -171,19 +172,39 @@ const CutiUpdate = () => {
 
   const [fileDoc, setFileDoc] = useState(document);
   async function handleFileRemove(path) {
-    try {
-      const response = await customFetch.delete(`/cuti/remove/doc/${cuti.id}`, {
-        headers: {
-          "X-API-TOKEN": `${token}`,
-        },
-        data: { path: path },
-      });
-      toast.success(response.data.message);
-      setFileDoc(null);
-    } catch (error) {
-      errorHandleForFunction(error, navigate, "toastify");
-    }
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak akan bisa mengembalikan dokumen ini apabila sudah terlanjur dihapus.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Iya, hapus",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await customFetch.delete(
+            `/cuti/remove/doc/${cuti.id}`,
+            {
+              headers: {
+                "X-API-TOKEN": `${token}`,
+              },
+              data: { path: path },
+            }
+          );
+          Swal.fire({
+            title: "Berhasil menghapus document",
+            text: response.data?.message,
+            icon: "success",
+          });
+          setFileDoc(null);
+        } catch (error) {
+          errorHandleForFunction(error, navigate);
+        }
+      }
+    });
   }
+
   return (
     <Form method="POST" encType="multipart/form-data">
       <div className="grid grid-cols-4 gap-5 ">

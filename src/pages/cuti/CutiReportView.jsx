@@ -51,7 +51,9 @@ const CutiReportView = () => {
   return (
     <div>
       <CutiReportFilter report={report} />
-
+      <h1 className="text-lg lg:text-2xl font-semibold text-center my-5">
+        Laporan Cuti RSUD Bahteramas
+      </h1>
       <div className="md:col-span-4 col-span-6 mt-10">
         <div
           className="overflow-x-auto max-h-[60vh] no-scrollbar"

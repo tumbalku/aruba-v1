@@ -55,7 +55,7 @@ const NewsDetail = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await customFetch.delete(`/posts/${id}`, {
+          await customFetch.delete(`/posts/${id}`, {
             headers: {
               "X-API-TOKEN": user.token,
             },

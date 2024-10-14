@@ -1,4 +1,3 @@
-import React from "react";
 import { PaginationContainer, SearchOnly } from "../../components";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
@@ -7,6 +6,7 @@ export const loader = async ({ request }) => {
   const params = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
   ]);
+  params.size = 10;
   try {
     const response = await customFetch.get("/posts", { params });
 

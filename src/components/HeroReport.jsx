@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "./section/SectionHeader";
 import pic from "/image/hero1.jpg";
 import { useEffect, useRef, useState } from "react";
 import { animateCounter } from "../utils";
+import SectionTitle from "./section/SectionTitle";
 
 const HeroReport = () => {
   const [count, setCount] = useState(0);
@@ -53,12 +54,11 @@ const HeroReport = () => {
   return (
     <div className="grid md:grid-cols-2 gap-24" ref={sectionRef}>
       <div className="flex flex-col">
-        <div className="max-w-[350px]">
-          <SectionHeader
-            header="Laporan Real-time"
-            title="Kami memberikan informasi secara real-time"
-          />
+        <div className="flex flex-col gap-4 max-w-[350px]">
+          <SectionHeader text="Laporan Real-time" />
+          <SectionTitle text="Kami memberikan informasi secara real-time" />
         </div>
+
         <div className="mt-2 mb-4">
           <p className="text-sm opacity-75">
             Pantau dan kelola informasi Cuti serta Surat Izin Peraktek Anda
@@ -70,7 +70,7 @@ const HeroReport = () => {
         <div className="flex flex-row gap-5 h-full">
           <Link
             to="/view/report/cuti"
-            className="bg-teal-500 flex justify-center items-center flex-[1] rounded-lg min-h-[100px] hover:bg-teal-600 transition duration-500"
+            className="bg-teal-500 flex justify-center items-center flex-[1] rounded-lg min-h-[150px] hover:bg-teal-600 transition duration-500"
           >
             <div className="text-center">
               <h1 className="font-bold text-5xl">{count2}</h1>
@@ -79,7 +79,7 @@ const HeroReport = () => {
           </Link>
           <Link
             to="/view/report/sip"
-            className="bg-purple-500 flex justify-center items-center flex-[1] rounded-lg min-h-[100px] hover:bg-purple-600 transition duration-500"
+            className="bg-purple-500 flex justify-center items-center flex-[1] rounded-lg min-h-[150px] hover:bg-purple-600 transition duration-500"
           >
             <div className="text-center">
               <h1 className="font-bold text-5xl">{count}</h1>

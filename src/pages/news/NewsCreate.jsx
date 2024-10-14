@@ -49,7 +49,7 @@ const NewsCreate = () => {
 
           <div>
             <p className="text-xs capitalize p-2">Content</p>
-            <div className={`h-[350px] overflow-y-scroll text-wrap`}>
+            <div className={`h-[280px] overflow-y-scroll text-wrap`}>
               <ReactQuill
                 theme="snow"
                 value={value}

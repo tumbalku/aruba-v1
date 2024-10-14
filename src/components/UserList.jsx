@@ -13,6 +13,7 @@ import { HiOutlineDocumentSearch } from "react-icons/hi";
 import SectionTitle from "./SectionTitle";
 import Swal from "sweetalert2";
 import { errorHandleForFunction } from "../utils/exception";
+import { toast } from "react-toastify";
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -79,10 +80,6 @@ const UserList = () => {
     }
   }
 
-  if (users.length < 1) {
-    return <SectionTitle text="Kami tidak menemukan hasil pencarian anda" />;
-  }
-
   useEffect(() => {
     const fetchUserImages = async () => {
       const images = {};
@@ -104,15 +101,49 @@ const UserList = () => {
     fetchUserImages();
   }, []);
 
+  async function handlePriority(id, isChecked) {
+    try {
+      let response;
+      if (isChecked) {
+        response = await customFetch.patch(
+          "/users/priority/" + id,
+          { priority: 1 },
+          {
+            headers: {
+              "X-API-TOKEN": user.token,
+            },
+          }
+        );
+      } else {
+        response = await customFetch.patch(
+          "/users/priority/" + id,
+          { priority: 0 },
+          {
+            headers: {
+              "X-API-TOKEN": user.token,
+            },
+          }
+        );
+      }
+      toast.success(response?.data?.message || "update okk");
+    } catch (error) {
+      console.error("Error updating priority:", error);
+    }
+  }
+
+  if (users.length < 1) {
+    return <SectionTitle text="Kami tidak menemukan hasil pencarian anda" />;
+  }
   return (
     <div className="overflow-x-auto mt-8">
       <table className="table table-xs">
         {/* head */}
         <thead>
           <tr className="text-center">
+            <th>Pin</th>
             <th>Nama</th>
             <th>Jenis Kelamin</th>
-            {/* <th>Peran</th> */}
+            <th>Peran</th>
             <th>Status</th>
             <th>Aksi</th>
           </tr>
@@ -121,9 +152,20 @@ const UserList = () => {
           {/* row 1 */}
           {users &&
             users.map((user) => {
-              const { id, name, gender, status, roles } = user;
+              const { id, name, gender, status, roles, priority, workUnit } =
+                user;
               return (
                 <tr key={id}>
+                  <th>
+                    <label className="flex justify-center items-center">
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                        defaultChecked={priority}
+                        onChange={(e) => handlePriority(id, e.target.checked)}
+                      />
+                    </label>
+                  </th>
                   <td>
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
@@ -134,7 +176,9 @@ const UserList = () => {
                       </div>
                       <div>
                         <div className="font-bold capitalize">{name}</div>
-                        <div className="text-sm opacity-50">{id}</div>
+                        <div className="text-sm opacity-50">
+                          {workUnit || "-"}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -143,7 +187,7 @@ const UserList = () => {
                       {translateGender(gender)}
                     </p>
                   </td>
-                  {/* <td>
+                  <td>
                     <div className="flex flex-col gap-y-1 items-center">
                       {roles.map((role) => {
                         return (
@@ -156,7 +200,7 @@ const UserList = () => {
                         );
                       })}
                     </div>
-                  </td> */}
+                  </td>
                   <td className="text-center ">
                     {status ? (
                       <div className="badge badge-success">Aktif</div>

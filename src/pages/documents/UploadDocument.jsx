@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { customFetch } from "../../utils";
 import { toast } from "react-toastify";
-import { redirect, useNavigate } from "react-router-dom";
-import { docTypes } from "../../data";
+import { redirect } from "react-router-dom";
 import { Form } from "react-router-dom";
 import {
-  DateInput,
   FileInput,
   FormInput,
-  SelectInput,
+  FormTextArea,
   SubmitButton,
 } from "../../components";
+import { errorHandleForAction } from "../../utils/exception";
 
 export const action =
   (store) =>
@@ -18,11 +17,9 @@ export const action =
     const formData = await request.formData();
     const user = store.getState().userState.user;
 
-    const userNip = formData.get("nip") || user.id;
-    formData.set("nip", userNip);
     console.log(formData);
     try {
-      const response = await customFetch.post("/letter/upload", formData, {
+      const response = await customFetch.post("/documents", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "X-API-TOKEN": user.token,
@@ -33,9 +30,7 @@ export const action =
       toast.success("Success upload file");
       return redirect("/documents");
     } catch (error) {
-      console.error(error);
-      toast.warn("Terjadi error!");
-      return null;
+      errorHandleForAction(error, "toastfiy");
     }
   };
 const UploadDocument = () => {
@@ -43,16 +38,14 @@ const UploadDocument = () => {
     file: null,
     details: {
       name: "",
-      num: "",
-      nip: "",
-      docType: "SIP",
+      description: "",
     },
   });
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     const { file, details } = form;
-    setIsFormValid(file && details.name && details.docType);
+    setIsFormValid(file && details.name);
   }, [form]);
 
   const handleInputChange = (e) => {
@@ -72,49 +65,28 @@ const UploadDocument = () => {
       }));
     }
   };
-  const date = new Date().toISOString().split("T")[0];
+
   return (
     <div className="bg-base-300 p-4 rounded-md shadow-md">
       <Form method="post" encType="multipart/form-data">
         <FormInput
           size="input-sm"
           type="text"
-          label="Name"
+          label="Nama"
           name="name"
           defaultValue={form.details.name}
           onChange={handleInputChange}
         />
-        <FormInput
-          size="input-sm"
-          type="text"
-          label="Nomor"
-          name="num"
-          defaultValue={form.details.num}
+        <FormTextArea
+          size="textarea-sm"
+          placeholder="informasi tentang file"
+          label="Deskripsi"
+          name="description"
+          defaultValue={form.details.description}
           onChange={handleInputChange}
         />
-        <DateInput
-          label="Tanggal Expired"
-          name="expiredAt"
-          size="date-sm"
-          defaultValue={date}
-        />
-        <FormInput
-          size="input-sm"
-          type="text"
-          label="NIP"
-          name="nip"
-          defaultValue={form.details.nip}
-          onChange={handleInputChange}
-        />
-        <div className="grid grid-cols-2 gap-5">
-          <SelectInput
-            label="Jenis Dokumen"
-            size="select-sm"
-            list={docTypes}
-            name="docType"
-            defaultValue={form.details.docType}
-            onChange={handleInputChange}
-          />
+
+        <div className="grid grid-cols-2 gap-5 items-end">
           <FileInput
             color="file-input-success"
             size="file-input-sm w-full"
@@ -122,10 +94,10 @@ const UploadDocument = () => {
             name="file"
             onChange={handleInputChange}
           />
-        </div>
-        <div className="text-right mt-5">
+
           <SubmitButton
             color="btn-primary"
+            size="btn-sm"
             disabled={!isFormValid}
             text="Upload"
           />

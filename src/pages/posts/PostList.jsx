@@ -160,21 +160,27 @@ const PostList = () => {
                           to={`/news/${id}`}
                           className="btn btn-info btn-xs"
                         >
-                          <HiOutlineDocumentSearch />
+                          <div className="lg:tooltip" data-tip="Detail">
+                            <HiOutlineDocumentSearch />
+                          </div>
                         </Link>
 
                         <Link
                           to={`/news/edit/${id}`}
                           className="btn btn-warning btn-xs"
                         >
-                          <AiOutlineEdit />
+                          <div className="lg:tooltip" data-tip="Edit">
+                            <AiOutlineEdit />
+                          </div>
                         </Link>
 
                         <button
                           onClick={() => handleDelete(id)}
                           className="btn btn-error btn-xs"
                         >
-                          <AiOutlineDelete />
+                          <div className="lg:tooltip" data-tip="Hapus">
+                            <AiOutlineDelete />
+                          </div>
                         </button>
                       </div>
                     </td>

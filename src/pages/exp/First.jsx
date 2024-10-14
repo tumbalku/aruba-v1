@@ -1,8 +1,11 @@
-import Counter from "../../components/Counter";
+import HeroFeatures from "../../components/hero/HeroFeatures";
 
 const First = () => {
-  console.log("first");
-  return <Counter limit={1000} />;
+  return (
+    <div>
+      <HeroFeatures />
+    </div>
+  );
 };
 
 export default First;

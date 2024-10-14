@@ -65,11 +65,11 @@ const SipDetail = () => {
 
   const {
     id,
-    type,
     num,
     size,
     fileType,
     name,
+    path,
     uploadedAt,
     updatedAt,
     expiredAt,
@@ -100,9 +100,9 @@ const SipDetail = () => {
     }
   }
 
-  const handleDownload = async (id, name) => {
+  const handleDownload = async (path, name) => {
     try {
-      const response = await customFetch.get(`file/download/${id}`, {
+      const response = await customFetch.get(`file/download/${path}`, {
         responseType: "blob",
       });
       console.log(response);
@@ -181,7 +181,7 @@ const SipDetail = () => {
             {fileType && (
               <button
                 className="btn btn-xs md:btn-sm btn-success"
-                onClick={() => handleDownload(id, name)}
+                onClick={() => handleDownload(path, name)}
               >
                 <GoDownload />
                 Download

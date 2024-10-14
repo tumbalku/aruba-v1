@@ -1,10 +1,10 @@
-import React from "react";
 import { customFetch } from "../utils";
-import { toast } from "react-toastify";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DocumentList from "../components/DocumentList";
 import { PaginationContainer, SearchOnly } from "../components";
 import { LuUpload } from "react-icons/lu";
+import { errorHandleForAction } from "../utils/exception";
+import { useSelector } from "react-redux";
 
 export const loader = async ({ request }) => {
   const params = Object.fromEntries([
@@ -12,7 +12,7 @@ export const loader = async ({ request }) => {
   ]);
 
   try {
-    const response = await customFetch.get("/letter", {
+    const response = await customFetch.get("/documents", {
       params,
     });
 
@@ -21,22 +21,29 @@ export const loader = async ({ request }) => {
       pagination: response.data.pagination,
     };
   } catch (error) {
-    console.log(error);
-    toast.warn("Terjadi error!");
-    // return redirect("/login");
-    return null;
+    return errorHandleForAction(error, "toastfiy");
   }
 };
 const Documents = () => {
+  const { roles } = useSelector((state) => state.userState);
+
+  let isADMIN = false;
+
+  if (roles && Array.isArray(roles)) {
+    isADMIN = roles.includes("ADMIN");
+  }
+
   return (
     <div>
-      <div className="flex justify-center sm:justify-end sm:mr-8 my-8">
-        <Link to="upload" className="btn btn-sm btn-primary">
-          <span>Upload</span>
-          <LuUpload className="w-4 h-4" />
-        </Link>
-      </div>
-      <SearchOnly name="filename" link="/documents" />
+      {isADMIN && (
+        <div className="flex justify-center sm:justify-end sm:mr-8 my-8">
+          <Link to="upload" className="btn btn-sm btn-primary">
+            <span>Upload</span>
+            <LuUpload className="w-4 h-4" />
+          </Link>
+        </div>
+      )}
+      <SearchOnly name="content" link="/documents" />
       <DocumentList />
       <PaginationContainer />
     </div>

@@ -95,7 +95,7 @@ import { loader as postsLoader } from "./pages/posts/Posts";
 // =============
 
 // exp
-import { First, links, Second } from "./pages/exp";
+import { First, Second } from "./pages/exp";
 import { cutiLinks, postsLinks, profileLinks } from "./layout/Links";
 
 // layout =========
@@ -165,23 +165,22 @@ const router = createBrowserRouter([
         element: <About />,
         errorElement: <ErrorElement />,
       },
+      {
+        path: "documents",
+        element: <Documents />,
+        errorElement: <ErrorElement />,
+        loader: documentsLoader,
+      },
 
       {
         path: "exp",
-        element: <FeatureLayout links={links} />,
+        element: <First />,
         errorElement: <ErrorElement />,
-        children: [
-          {
-            index: true,
-            element: <First />,
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: "second",
-            element: <Second />,
-            errorElement: <ErrorElement />,
-          },
-        ],
+      },
+      {
+        path: "exp2",
+        element: <Second />,
+        errorElement: <ErrorElement />,
       },
       {
         element: <LoginRequireRoutes />,
@@ -281,10 +280,10 @@ const router = createBrowserRouter([
                 errorElement: <ErrorElement />,
               },
               {
-                path: "documents",
-                element: <Documents />,
+                path: "documents/upload",
+                element: <UploadDocument />,
+                action: uploadDocumentAction(store),
                 errorElement: <ErrorElement />,
-                loader: documentsLoader,
               },
               {
                 path: "documents/:id",
@@ -292,12 +291,6 @@ const router = createBrowserRouter([
                 errorElement: <ErrorElement />,
                 loader: documentDetailLoader,
                 action: updateDocumentAction(store),
-              },
-              {
-                path: "documents/upload",
-                element: <UploadDocument />,
-                action: uploadDocumentAction(store),
-                errorElement: <ErrorElement />,
               },
               {
                 path: "cuti",
