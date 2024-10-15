@@ -89,20 +89,22 @@ const HeroUsers = () => {
           <SectionHeader text="Sumber Daya Manusia" />
           <SectionTitle text="Pegawai SDM RSUD Bahteramas " />
         </div>
-        <div className="flex flex-row gap-2">
-          <button
-            className="btn btn-primary btn-sm btn-circle"
-            onClick={scrollLeft}
-          >
-            <MdKeyboardDoubleArrowLeft className="text-xl" />
-          </button>
-          <button
-            className="btn btn-primary btn-sm btn-circle"
-            onClick={scrollRight}
-          >
-            <MdKeyboardDoubleArrowRight className="text-xl" />
-          </button>
-        </div>
+        {users.length > 2 && (
+          <div className="flex flex-row gap-2">
+            <button
+              className="btn btn-primary btn-sm btn-circle"
+              onClick={scrollLeft}
+            >
+              <MdKeyboardDoubleArrowLeft className="text-xl" />
+            </button>
+            <button
+              className="btn btn-primary btn-sm btn-circle"
+              onClick={scrollRight}
+            >
+              <MdKeyboardDoubleArrowRight className="text-xl" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="flex justify-center items-center">
         <div
@@ -114,8 +116,8 @@ const HeroUsers = () => {
               const { id, name, position } = user;
               return (
                 <Link
+                  to={`view/public/user/${id}`}
                   key={id}
-                  to="exp2"
                   className="group group-hover:shadow-md transition-all duration-500"
                 >
                   <div className="h-[200px] w-[195px] relative overflow-hidden">

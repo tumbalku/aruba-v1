@@ -88,20 +88,22 @@ const HeroDirection = () => {
           <SectionHeader text="Direksi" />
           <SectionTitle text="Dewan Direksi RSUD Bahteramas" />
         </div>
-        <div className="flex flex-row gap-2">
-          <button
-            className="btn btn-primary btn-sm btn-circle"
-            onClick={scrollLeft}
-          >
-            <MdKeyboardDoubleArrowLeft className="text-xl" />
-          </button>
-          <button
-            className="btn btn-primary btn-sm btn-circle"
-            onClick={scrollRight}
-          >
-            <MdKeyboardDoubleArrowRight className="text-xl" />
-          </button>
-        </div>
+        {users.length > 2 && (
+          <div className="flex flex-row gap-2">
+            <button
+              className="btn btn-primary btn-sm btn-circle"
+              onClick={scrollLeft}
+            >
+              <MdKeyboardDoubleArrowLeft className="text-xl" />
+            </button>
+            <button
+              className="btn btn-primary btn-sm btn-circle"
+              onClick={scrollRight}
+            >
+              <MdKeyboardDoubleArrowRight className="text-xl" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="flex justify-center items-center">
         <div
@@ -114,7 +116,7 @@ const HeroDirection = () => {
               return (
                 <Link
                   key={id}
-                  to="exp2"
+                  to={`view/public/user/${id}`}
                   className="group group-hover:shadow-md transition-all duration-500"
                 >
                   <div className="h-[200px] w-[195px] relative overflow-hidden">

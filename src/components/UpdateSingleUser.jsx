@@ -146,7 +146,7 @@ const UpdateSingleUser = () => {
             defaultChecked={roles.includes("ADMIN")}
           />
           <FormCheckbox
-            label="Karyawan"
+            label="Pegawai"
             name="EMPLOYEE"
             size="checkbox-sm"
             defaultChecked={roles.includes("EMPLOYEE")}
@@ -158,7 +158,7 @@ const UpdateSingleUser = () => {
             defaultChecked={roles.includes("OFFICEHOLDER")}
           />
           <FormCheckbox
-            label="P3K"
+            label="PPPK"
             name="PPPK"
             size="checkbox-sm"
             checked={isPPPK}

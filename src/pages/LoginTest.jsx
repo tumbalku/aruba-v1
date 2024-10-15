@@ -1,4 +1,3 @@
-import React from "react";
 import gambar from "/image/hero1.jpg";
 import Login from "./Login";
 const LoginTest = () => {

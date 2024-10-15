@@ -27,6 +27,9 @@ const HeroBlogs = () => {
     fetchNews();
   }, []);
 
+  if (posts.length === 0) {
+    return <></>;
+  }
   return (
     <div>
       <div className="space-y-4">

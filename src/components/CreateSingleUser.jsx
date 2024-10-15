@@ -1,13 +1,11 @@
 import FormCheckbox from "./FormCheckbox";
 import FormInput from "./FormInput";
 import SelectInput from "./SelectInput";
-import SelectInputForId from "./SelectInputForId";
 
 import { Form, useLoaderData } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
 import { gologanPPPK, ranks, genders } from "../data";
 import { useState } from "react";
-import SelectInputForIdByType from "./SelectInputForIdByType";
 import SelectInputPangkatGolongan from "./SelectInputPangkatGolongan";
 const CreateSingleUser = () => {
   const [isPNS, setIsPNS] = useState(false);
@@ -61,7 +59,7 @@ const CreateSingleUser = () => {
         <div className="flex justify-center items-center">
           <FormCheckbox label="Admin" name="ADMIN" size="checkbox-sm" />
           <FormCheckbox
-            label="Karyawan"
+            label="Pegawai"
             name="EMPLOYEE"
             size="checkbox-sm"
             defaultChecked={true}
@@ -72,7 +70,7 @@ const CreateSingleUser = () => {
             size="checkbox-sm"
           />
           <FormCheckbox
-            label="P3K"
+            label="PPPK"
             name="PPPK"
             size="checkbox-sm"
             checked={isPPPK}

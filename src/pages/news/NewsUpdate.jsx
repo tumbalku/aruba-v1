@@ -15,11 +15,9 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
-    console.log(store.getState());
     const user = store.getState().userState.user;
     const image = store.getState().tempState.imageUrl;
     data.imageUrl = image ? image : null;
-    console.log(data);
 
     try {
       const response = await customFetch.patch(`/posts/${params.id}`, data, {
@@ -56,7 +54,7 @@ const NewsUpdate = () => {
   const { post } = useLoaderData();
   const { content, title, imageUrl } = post;
   const [value, setValue] = useState(content);
-  console.log(value);
+
   return (
     <Form method="POST">
       <div className="flex flex-col sm:flex-row-reverse gap-6">

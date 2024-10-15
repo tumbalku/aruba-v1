@@ -11,6 +11,7 @@ const PrevLinks = () => {
       // path !== "create" &&
       path !== "kop" &&
       path !== "user" &&
+      path !== "public" &&
       path !== "report"
   );
 

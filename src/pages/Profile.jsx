@@ -41,7 +41,6 @@ const Profile = () => {
   const fileRef = useRef(null);
   const [avatarImage, setAvatarImage] = useState(user.avatar);
   const {
-    id,
     username,
     nip,
     name,
@@ -52,7 +51,7 @@ const Profile = () => {
     avatar,
     status,
     workUnit,
-    jabatan,
+    position,
   } = user;
 
   const handleExecute = async () => {
@@ -166,7 +165,7 @@ const Profile = () => {
 
           <UnmodifiedField value={address} label="Alamat" />
           <UnmodifiedField value={workUnit} label="Unit kerja" />
-          <UnmodifiedField value={jabatan} label="Jabatan" />
+          <UnmodifiedField value={position} label="Jabatan" />
         </div>
         <div className="text-right my-4">
           <button type="submit" className="small-btn btn-primary mb-1">

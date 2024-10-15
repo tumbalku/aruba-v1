@@ -1,11 +1,5 @@
-import HeroFeatures from "../../components/hero/HeroFeatures";
-
 const First = () => {
-  return (
-    <div>
-      <HeroFeatures />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default First;

@@ -123,6 +123,7 @@ import Kgb from "./pages/kgb/Kgb";
 import Spmt from "./pages/spmt/Spmt";
 import Akreditasi from "./pages/akreditasi/Akreditasi";
 import { PublicUserInfo } from "./pages/users";
+import PublicProfile from "./components/public-view/PublicProfile";
 // ===================
 
 const router = createBrowserRouter([
@@ -134,6 +135,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: "view/public/user/:id",
+        element: <PublicProfile />,
         errorElement: <ErrorElement />,
       },
       {

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import SectionHeader from "./section/SectionHeader";
 import pic from "/image/hero1.jpg";
 import { useEffect, useRef, useState } from "react";
-import { animateCounter } from "../utils";
+import { animateCounter, customFetch } from "../utils";
 import SectionTitle from "./section/SectionTitle";
 
 const HeroReport = () => {
@@ -11,6 +11,21 @@ const HeroReport = () => {
   // const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await customFetch("/stats/count/cuti-and-sip");
+        const sipCount = response.data.data.sip;
+        const cutiCount = response.data.data.cuti;
+        setCount(sipCount);
+        setCount2(cutiCount);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,10 +55,10 @@ const HeroReport = () => {
       const second = 50;
       const detik = first + second > 100 ? 1000 : 5000;
       const runCounter = async () => {
-        await animateCounter(0, 20, detik, setCount); // Hitung dengan durasi 5 detik
+        await animateCounter(0, count, detik, setCount); // Hitung dengan durasi 5 detik
       };
       const runCounter2 = async () => {
-        await animateCounter(0, 50, detik, setCount2); // Hitung dengan durasi 5 detik
+        await animateCounter(0, count2, detik, setCount2); // Hitung dengan durasi 5 detik
       };
 
       runCounter();

@@ -142,6 +142,8 @@ const UserList = () => {
           <tr className="text-center">
             <th>Pin</th>
             <th>Nama</th>
+            <th>Unit Kerja</th>
+            <th>No Hp</th>
             <th>Jenis Kelamin</th>
             <th>Peran</th>
             <th>Status</th>
@@ -152,8 +154,17 @@ const UserList = () => {
           {/* row 1 */}
           {users &&
             users.map((user) => {
-              const { id, name, gender, status, roles, priority, workUnit } =
-                user;
+              const {
+                id,
+                name,
+                gender,
+                status,
+                roles,
+                priority,
+                workUnit,
+                phone,
+                position,
+              } = user;
               return (
                 <tr key={id}>
                   <th>
@@ -176,10 +187,20 @@ const UserList = () => {
                       </div>
                       <div>
                         <div className="font-bold capitalize">{name}</div>
-                        <div className="text-sm opacity-50">
-                          {workUnit || "-"}
+                        <div className="text-xs opacity-50">
+                          {position || "-"}
                         </div>
                       </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p className="text-center text-xs">{workUnit || "-"}</p>
+                  </td>
+                  <td>
+                    <div className="flex items-center justify-center">
+                      <span className="capitalize badge badge-ghost badge-sm">
+                        {phone || "-"}
+                      </span>
                     </div>
                   </td>
                   <td>
