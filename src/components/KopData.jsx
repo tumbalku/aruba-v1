@@ -19,7 +19,7 @@ const KopData = ({ name, romawi, year, id, nomor }) => {
             label="Nomor"
             name="uniKop"
             extClass="md:input-sm input-xs"
-            type="number"
+            type="text"
             value={nomor}
           />
           <SelectInput
