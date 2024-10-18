@@ -96,7 +96,16 @@ const CutiUpdate = () => {
   const { kops, cuti, pejabat } = useLoaderData();
   const [tembusan, setTembusan] = useState(cuti.people);
   const { token } = useSelector((state) => state.userState.user);
-  console.log(token);
+  const [kopData, setKopData] = useState(
+    kops.find((kop) => kop.id === cuti.kop.id)
+  );
+  const handleKopChange = (event) => {
+    const selectedKop = kops.find(
+      (kop) => kop.id === parseInt(event.target.value)
+    );
+    setKopData(selectedKop || {});
+  };
+
   const navigate = useNavigate();
 
   const handleAdd = (e) => {
@@ -134,6 +143,7 @@ const CutiUpdate = () => {
     reason,
     address,
     document,
+    forYear,
   } = cuti;
 
   const [startDate, setDateStart] = useState(arrayToDate(dateStart));
@@ -255,6 +265,7 @@ const CutiUpdate = () => {
             name="kop"
             list={kops}
             defaultValue={kop.id}
+            extFun={handleKopChange}
             size="select-sm"
             label="Type"
           />
@@ -268,6 +279,16 @@ const CutiUpdate = () => {
             defaultValue={number}
           />
         </div>
+        {kopData.type === "TAHUNAN" && (
+          <div className="col-span-4">
+            <FormInput
+              name="forYear"
+              label="Untuk Tahun"
+              size="input-sm"
+              defaultValue={forYear}
+            />
+          </div>
+        )}
         <div className="col-span-4 md:col-span-2">
           <FormInput
             name="address"

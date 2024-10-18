@@ -242,6 +242,12 @@ const CutiCreate = () => {
         <div className="col-span-4 md:col-span-2">
           <FormInput name="number" label="nomor cuti" size="input-sm" />
         </div>
+        {kopData.type === "TAHUNAN" && (
+          <div className="col-span-4">
+            <FormInput name="forYear" label="Untuk Tahun" size="input-sm" />
+          </div>
+        )}
+
         <div className="col-span-4 md:col-span-2">
           <FormInput
             name="address"
@@ -249,6 +255,7 @@ const CutiCreate = () => {
             size="input-sm"
           />
         </div>
+
         <div className="col-span-4 md:col-span-2">
           <FormInput
             name="workUnit"
